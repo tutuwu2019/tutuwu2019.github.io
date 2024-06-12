@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>面试 on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/%E9%9D%A2%E8%AF%95/</link>
+    <description>Recent content in 面试 on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Sun, 19 May 2024 11:43:21 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/%E9%9D%A2%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cpp面试题_自用</title>
+      <link>https://tutuwu2019.github.io/cpp%E9%9D%A2%E8%AF%95%E9%A2%98_%E8%87%AA%E7%94%A8/</link>
+      <pubDate>Sun, 19 May 2024 11:43:21 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/cpp%E9%9D%A2%E8%AF%95%E9%A2%98_%E8%87%AA%E7%94%A8/</guid>
+      <description>This is a page about »Cpp面试题_自用«.
+cpp 面试题_自用 cpp 专栏 试着思考，有深度
+一、关键字
+static 有三种作用
+final 和 override？为什么final 能提高代码执行效率
+thread_local 变量作用、存放位置、生命周期
+一个变量可以既是const又是volatile吗？
+null和nullptr，为什么要引入nullptr
+为什么noexcept能提高性能？
+delete[] 是怎么知道数组长度的？
+new、placement new ,operator new 的区别,怎么把对象new在栈上
+__cdecl 和 __stdcall
+重载类的delete运算符，delete这个对象时会发生什么？
+函数调用压栈流程？
+生命和定义的作用，从编译角度说？
+现代大部分编程语言都没有头文件，c++为什么要有头文件？头文件和模块的优劣比较?
+c++11为什么引用枚举类
+程是从main 函数开始执行的吗？
+虚函数怎么实现的，性能真的更慢吗？
+构造函数、西沟函数、重载运算符函数可以是虚函数吗？类成员函数模版可以是虚函数</description>
+    </item>
+    
+    <item>
+      <title>Http_vs_https_and_get_vs_post</title>
+      <link>https://tutuwu2019.github.io/http_vs_https_and_get_vs_post/</link>
+      <pubDate>Sun, 19 May 2024 03:38:47 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/http_vs_https_and_get_vs_post/</guid>
+      <description>This is a page about »Http_vs_https_and_get_vs_post«.
+Http_vs_https_and_get_vs_post Http_vs_https get_vs_post RFC2616中没有对url 长度有限制，但是浏览器会有长度限制。还有浏览器会有url缓存记录
+GET 只允许 ASCII格式编码，而POST则没有要求。
+GET 只采用 url 传入信息，不安全，所以把数据裸露在url 使用GET 方法传输不是明智的选择。
+POST 不仅可以通过参数传递信息，还能通过 body 传递消息，通常通过表单上产消息给服务器就是采用post 方法
+注意：这两个只是规范，是在http协议层定义的两个方法，所以本质上都是通过tcp 传递数据，没有实质性差别
+V2EX 上看到一个大哥说，GET 和 POST 的区别就是，一个的方法是’GET’，一个的方法是’POST’。我觉得这个答案很有哲理性.. 很有佛教性空的味道。 就是说：在 http 这个应用层协议上来说，两种被定义为不同的方法，但是从 TCP 这个传输层上说，他们并没有什么区别。给 GET 加上 request body，给 POST 带上 url 参数？完全可以。
+参考 引用01</description>
+    </item>
+    
+    <item>
+      <title>计网</title>
+      <link>https://tutuwu2019.github.io/%E8%AE%A1%E7%BD%91/</link>
+      <pubDate>Mon, 13 May 2024 23:30:49 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E8%AE%A1%E7%BD%91/</guid>
+      <description>This is a page about »计网«.
+计算机网络&amp;ndash;面试常见问题(自用) 网络结构 七层模型&amp;amp;协议 物理层，传输单位bit，IEE802.3、CLOCK、RJ45 数据链路层，传输单位帧，MAC、VLAN、PPP 网络层，传输单位包，IP、ARP、ICMP 传输层，传输单位报文，TCP、UDP 会话层，输出单位SPDU，RPC、NFS 建立、管理、终止会话 表示层，传输单位PPDU，JPEG、ASII 对数据翻译、加密、压缩 应用层，传输单位APDU，FTP、HTTP、DNS
+TCP/IP 4层模型 网络接口层，MAC、VLAN 网络层，IP、ARP、ICMP 传输层，TCP、UDP 应用层，HTTP、DNS、SMTP
+常见的网络协议 tcp、udp 特点： tcp 三次握手/四次挥手 常见 专有名词，TIME_WAIT(作用、弊端、如何优化) tcp 可靠传输 数据包校验 对失序数据包重排 丢弃重复数据 应答机制 超时重发 流量控制 拥塞控制（满开始、拥塞避免、快重传、快恢复） 流量控制 发送方控制发送速率
+滑动窗口 什么是滑动窗口 tcp 采用滑动窗口进行流量控制
+拥塞控制 什么事拥塞控制 tcp 拥塞控制
+tcp 粘包 发送方粘包
+发送方与接收方保持长连接（短连接不存在粘包问题） 过小数据合并发送，这个合并的过程再发送缓冲区进行，数据发送出来就已经是粘包状态
+接收方产生粘包
+read、recv 无法一次全部读出，然后下一个数据又到放入缓冲区末尾，等读取的数据就是一个粘包
+如何解决粘包问题
+分包机制，特殊字符控制、在包头首部添加数据包的长度
+注意使用netty框架就会有专门的编码器和解码器解决拆包和粘包问题
+基于tcp&amp;amp;udp 常见的协议 tcp
+http 80 https 443 ftp 21 telnet 23 smtp 25 udp</description>
+    </item>
+    
+    <item>
+      <title>面试基础算法c&#43;&#43;_go</title>
+      <link>https://tutuwu2019.github.io/%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95c-_go/</link>
+      <pubDate>Thu, 09 May 2024 02:58:29 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95c-_go/</guid>
+      <description>列举一些算法 杂序（c++和go 实现） 链表反转 链表反转的核心思想就是每次遍历 head 链表的时候把当前节点充当newHead 的头节点，在把上轮的newHead 接到 newHead 的屁股上
+c++ struct ListNode{ int val; struct ListNode* next; ListNode(int x):val(x),next(nullptr){}; }; class solution{ ListNode* ReverseList(ListNode* head){ ListNode* nhead; while(head != nullptr){ ListNode* tmp; tmp = nhead; nhead = head; head = head-&amp;gt;next; nhead-&amp;gt;next = tmp; } return nHead; } } go package main import( &amp;#34;fmt&amp;#34; ) type ListNode struct{ Val int Next *ListNode } func ReverseList(head *ListNode)*ListNode{ var newHead *ListNode = nil for head !</description>
+    </item>
+    
+  </channel>
+</rss>

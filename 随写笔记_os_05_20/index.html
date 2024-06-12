@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
+<title>随写笔记_OS_05_20 | 张不大的博客</title>
+<meta name="title" content="随写笔记_OS_05_20" />
+<meta name="description" content="This is a page about »随写笔记_OS_05_20«.
+一些关键字 进程 进程：一个正在运行的程序的实例，是操作系统进程资源分配和调度的基本单位。每个进程都有自己的地址空间、内存、文件描述符、全局变量等资源。
+特点：
+独立性：进程拥有自己独立的地址空间，进程之间相互隔离 资源拥有：每个进程有自己独立的内存空间、文件描述符、进程控制块 并发性：多个进程可以并发执行，每个进程可以独立运行 生命周期：进程的生命周期包括创建、就绪、运行、等待和终止 组成：
+代码段：存储可执行的代码 数据段：存储全局变量和静态变量 堆：用于动态内存分配 栈：存储函数调用的返回地址、本地变量、函数局部变量 进程控制块(PCB)：存储进程的状态、程序计数器、寄存器信息、调度信息、内存管理信息 linux 进程内核结构
+进程控制块（Process Control Block, PCB）： 任务结构（task_struct）：是每个进程的主要数据结构，包含了进程的所有信息，如进程 ID、状态、优先级、程序计数器、内存管理信息、打开的文件描述符等。 进程地址空间： 代码段：存储可执行代码。 数据段：存储全局变量和静态变量。 堆（Heap）：用于动态内存分配。 栈（Stack）：存储函数调用的返回地址、本地变量等。 内存管理： 页表（Page Table）：映射虚拟地址到物理地址。 内存区域描述符（vm_area_struct）：描述进程地址空间中的各个区域。 文件描述符表：存储进程打开的文件描述符，每个文件描述符对应一个文件结构（file struct）。
+信号处理：与进程相关的信号处理信息。
+调度信息：进程的调度优先级和调度策略。
+linux线程内核结构 在 Linux 中，线程被视为一种轻量级进程，它们共享同一个进程的某些资源，但每个线程都有自己的执行上下文。线程的内核结构也包含在 task_struct 中，但有一些共享和独立的部分：
+共享部分：
+进程地址空间：同一进程的线程共享相同的地址空间，包括代码段、数据段、堆和全局变量。 文件描述符表：所有线程共享相同的文件描述符表。 信号处理：线程共享信号处理设置。 用户 ID 和组 ID：同一进程的线程共享相同的用户 ID 和组 ID。 独立部分：
+线程控制块（Thread Control Block, TCB）：每个线程有自己的 TCB，存储线程的执行上下文，如寄存器状态、程序计数器和栈指针。 内核栈：每个线程有自己的内核栈，用于处理内核态的函数调用和中断处理。 线程局部存储（Thread Local Storage, TLS）：用于存储线程特有的数据。 进程的生命周期" />
+<meta name="keywords" content="操作系统,随写," />
+
+
+<meta property="og:title" content="随写笔记_OS_05_20" />
+<meta property="og:description" content="This is a page about »随写笔记_OS_05_20«.
+一些关键字 进程 进程：一个正在运行的程序的实例，是操作系统进程资源分配和调度的基本单位。每个进程都有自己的地址空间、内存、文件描述符、全局变量等资源。
+特点：
+独立性：进程拥有自己独立的地址空间，进程之间相互隔离 资源拥有：每个进程有自己独立的内存空间、文件描述符、进程控制块 并发性：多个进程可以并发执行，每个进程可以独立运行 生命周期：进程的生命周期包括创建、就绪、运行、等待和终止 组成：
+代码段：存储可执行的代码 数据段：存储全局变量和静态变量 堆：用于动态内存分配 栈：存储函数调用的返回地址、本地变量、函数局部变量 进程控制块(PCB)：存储进程的状态、程序计数器、寄存器信息、调度信息、内存管理信息 linux 进程内核结构
+进程控制块（Process Control Block, PCB）： 任务结构（task_struct）：是每个进程的主要数据结构，包含了进程的所有信息，如进程 ID、状态、优先级、程序计数器、内存管理信息、打开的文件描述符等。 进程地址空间： 代码段：存储可执行代码。 数据段：存储全局变量和静态变量。 堆（Heap）：用于动态内存分配。 栈（Stack）：存储函数调用的返回地址、本地变量等。 内存管理： 页表（Page Table）：映射虚拟地址到物理地址。 内存区域描述符（vm_area_struct）：描述进程地址空间中的各个区域。 文件描述符表：存储进程打开的文件描述符，每个文件描述符对应一个文件结构（file struct）。
+信号处理：与进程相关的信号处理信息。
+调度信息：进程的调度优先级和调度策略。
+linux线程内核结构 在 Linux 中，线程被视为一种轻量级进程，它们共享同一个进程的某些资源，但每个线程都有自己的执行上下文。线程的内核结构也包含在 task_struct 中，但有一些共享和独立的部分：
+共享部分：
+进程地址空间：同一进程的线程共享相同的地址空间，包括代码段、数据段、堆和全局变量。 文件描述符表：所有线程共享相同的文件描述符表。 信号处理：线程共享信号处理设置。 用户 ID 和组 ID：同一进程的线程共享相同的用户 ID 和组 ID。 独立部分：
+线程控制块（Thread Control Block, TCB）：每个线程有自己的 TCB，存储线程的执行上下文，如寄存器状态、程序计数器和栈指针。 内核栈：每个线程有自己的内核栈，用于处理内核态的函数调用和中断处理。 线程局部存储（Thread Local Storage, TLS）：用于存储线程特有的数据。 进程的生命周期" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99%E7%AC%94%E8%AE%B0_os_05_20/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2024-05-20T12:49:58+08:00" />
+<meta property="article:modified_time" content="2024-05-20T12:49:58+08:00" /><meta property="og:site_name" content="张不大的博客" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
+
+<meta name="twitter:title" content="随写笔记_OS_05_20"/>
+<meta name="twitter:description" content="This is a page about »随写笔记_OS_05_20«.
+一些关键字 进程 进程：一个正在运行的程序的实例，是操作系统进程资源分配和调度的基本单位。每个进程都有自己的地址空间、内存、文件描述符、全局变量等资源。
+特点：
+独立性：进程拥有自己独立的地址空间，进程之间相互隔离 资源拥有：每个进程有自己独立的内存空间、文件描述符、进程控制块 并发性：多个进程可以并发执行，每个进程可以独立运行 生命周期：进程的生命周期包括创建、就绪、运行、等待和终止 组成：
+代码段：存储可执行的代码 数据段：存储全局变量和静态变量 堆：用于动态内存分配 栈：存储函数调用的返回地址、本地变量、函数局部变量 进程控制块(PCB)：存储进程的状态、程序计数器、寄存器信息、调度信息、内存管理信息 linux 进程内核结构
+进程控制块（Process Control Block, PCB）： 任务结构（task_struct）：是每个进程的主要数据结构，包含了进程的所有信息，如进程 ID、状态、优先级、程序计数器、内存管理信息、打开的文件描述符等。 进程地址空间： 代码段：存储可执行代码。 数据段：存储全局变量和静态变量。 堆（Heap）：用于动态内存分配。 栈（Stack）：存储函数调用的返回地址、本地变量等。 内存管理： 页表（Page Table）：映射虚拟地址到物理地址。 内存区域描述符（vm_area_struct）：描述进程地址空间中的各个区域。 文件描述符表：存储进程打开的文件描述符，每个文件描述符对应一个文件结构（file struct）。
+信号处理：与进程相关的信号处理信息。
+调度信息：进程的调度优先级和调度策略。
+linux线程内核结构 在 Linux 中，线程被视为一种轻量级进程，它们共享同一个进程的某些资源，但每个线程都有自己的执行上下文。线程的内核结构也包含在 task_struct 中，但有一些共享和独立的部分：
+共享部分：
+进程地址空间：同一进程的线程共享相同的地址空间，包括代码段、数据段、堆和全局变量。 文件描述符表：所有线程共享相同的文件描述符表。 信号处理：线程共享信号处理设置。 用户 ID 和组 ID：同一进程的线程共享相同的用户 ID 和组 ID。 独立部分：
+线程控制块（Thread Control Block, TCB）：每个线程有自己的 TCB，存储线程的执行上下文，如寄存器状态、程序计数器和栈指针。 内核栈：每个线程有自己的内核栈，用于处理内核态的函数调用和中断处理。 线程局部存储（Thread Local Storage, TLS）：用于存储线程特有的数据。 进程的生命周期"/>
+
+
+
+<meta itemprop="name" content="随写笔记_OS_05_20">
+<meta itemprop="description" content="This is a page about »随写笔记_OS_05_20«.
+一些关键字 进程 进程：一个正在运行的程序的实例，是操作系统进程资源分配和调度的基本单位。每个进程都有自己的地址空间、内存、文件描述符、全局变量等资源。
+特点：
+独立性：进程拥有自己独立的地址空间，进程之间相互隔离 资源拥有：每个进程有自己独立的内存空间、文件描述符、进程控制块 并发性：多个进程可以并发执行，每个进程可以独立运行 生命周期：进程的生命周期包括创建、就绪、运行、等待和终止 组成：
+代码段：存储可执行的代码 数据段：存储全局变量和静态变量 堆：用于动态内存分配 栈：存储函数调用的返回地址、本地变量、函数局部变量 进程控制块(PCB)：存储进程的状态、程序计数器、寄存器信息、调度信息、内存管理信息 linux 进程内核结构
+进程控制块（Process Control Block, PCB）： 任务结构（task_struct）：是每个进程的主要数据结构，包含了进程的所有信息，如进程 ID、状态、优先级、程序计数器、内存管理信息、打开的文件描述符等。 进程地址空间： 代码段：存储可执行代码。 数据段：存储全局变量和静态变量。 堆（Heap）：用于动态内存分配。 栈（Stack）：存储函数调用的返回地址、本地变量等。 内存管理： 页表（Page Table）：映射虚拟地址到物理地址。 内存区域描述符（vm_area_struct）：描述进程地址空间中的各个区域。 文件描述符表：存储进程打开的文件描述符，每个文件描述符对应一个文件结构（file struct）。
+信号处理：与进程相关的信号处理信息。
+调度信息：进程的调度优先级和调度策略。
+linux线程内核结构 在 Linux 中，线程被视为一种轻量级进程，它们共享同一个进程的某些资源，但每个线程都有自己的执行上下文。线程的内核结构也包含在 task_struct 中，但有一些共享和独立的部分：
+共享部分：
+进程地址空间：同一进程的线程共享相同的地址空间，包括代码段、数据段、堆和全局变量。 文件描述符表：所有线程共享相同的文件描述符表。 信号处理：线程共享信号处理设置。 用户 ID 和组 ID：同一进程的线程共享相同的用户 ID 和组 ID。 独立部分：
+线程控制块（Thread Control Block, TCB）：每个线程有自己的 TCB，存储线程的执行上下文，如寄存器状态、程序计数器和栈指针。 内核栈：每个线程有自己的内核栈，用于处理内核态的函数调用和中断处理。 线程局部存储（Thread Local Storage, TLS）：用于存储线程特有的数据。 进程的生命周期"><meta itemprop="datePublished" content="2024-05-20T12:49:58+08:00" />
+<meta itemprop="dateModified" content="2024-05-20T12:49:58+08:00" />
+<meta itemprop="wordCount" content="443"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="keywords" content="操作系统,随写," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>张不大的博客</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/about/">About</a>
+
+<a href="/archive/archive/">Archive</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>随写笔记_OS_05_20</h1>
+<p>
+  <i>
+    <time datetime='2024-05-20' pubdate>
+      20 May, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>This is a page about »随写笔记_OS_05_20«.</p>
+<h2 id="一些关键字">一些关键字</h2>
+<ol>
+<li>进程</li>
+</ol>
+<p>进程：一个正在运行的程序的实例，是操作系统进程资源分配和调度的基本单位。每个进程都有自己的地址空间、内存、文件描述符、全局变量等资源。</p>
+<p>特点：</p>
+<ol>
+<li>独立性：进程拥有自己独立的地址空间，进程之间相互隔离</li>
+<li>资源拥有：每个进程有自己独立的内存空间、文件描述符、进程控制块</li>
+<li>并发性：多个进程可以并发执行，每个进程可以独立运行</li>
+<li>生命周期：进程的生命周期包括创建、就绪、运行、等待和终止</li>
+</ol>
+<p>组成：</p>
+<ol>
+<li>代码段：存储可执行的代码</li>
+<li>数据段：存储全局变量和静态变量</li>
+<li>堆：用于动态内存分配</li>
+<li>栈：存储函数调用的返回地址、本地变量、函数局部变量</li>
+<li>进程控制块(PCB)：存储进程的状态、程序计数器、寄存器信息、调度信息、内存管理信息</li>
+</ol>
+<p><strong>linux 进程内核结构</strong></p>
+<ol>
+<li>进程控制块（Process Control Block, PCB）：</li>
+</ol>
+<ul>
+<li>任务结构（task_struct）：是每个进程的主要数据结构，包含了进程的所有信息，如进程 ID、状态、优先级、程序计数器、内存管理信息、打开的文件描述符等。</li>
+<li>进程地址空间：
+<ol>
+<li>代码段：存储可执行代码。</li>
+<li>数据段：存储全局变量和静态变量。</li>
+<li>堆（Heap）：用于动态内存分配。</li>
+<li>栈（Stack）：存储函数调用的返回地址、本地变量等。</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li>内存管理：</li>
+</ol>
+<ul>
+<li>页表（Page Table）：映射虚拟地址到物理地址。</li>
+<li>内存区域描述符（vm_area_struct）：描述进程地址空间中的各个区域。</li>
+</ul>
+<ol start="3">
+<li>
+<p>文件描述符表：存储进程打开的文件描述符，每个文件描述符对应一个文件结构（file struct）。</p>
+</li>
+<li>
+<p>信号处理：与进程相关的信号处理信息。</p>
+</li>
+<li>
+<p>调度信息：进程的调度优先级和调度策略。</p>
+</li>
+</ol>
+<hr>
+<p><strong>linux线程内核结构</strong>
+在 Linux 中，线程被视为一种轻量级进程，它们共享同一个进程的某些资源，但每个线程都有自己的执行上下文。线程的内核结构也包含在 task_struct 中，但有一些共享和独立的部分：</p>
+<ol>
+<li>
+<p>共享部分：</p>
+<ol>
+<li>进程地址空间：同一进程的线程共享相同的地址空间，包括代码段、数据段、堆和全局变量。</li>
+<li>文件描述符表：所有线程共享相同的文件描述符表。</li>
+<li>信号处理：线程共享信号处理设置。</li>
+<li>用户 ID 和组 ID：同一进程的线程共享相同的用户 ID 和组 ID。</li>
+</ol>
+</li>
+<li>
+<p>独立部分：</p>
+<ol>
+<li>线程控制块（Thread Control Block, TCB）：每个线程有自己的 TCB，存储线程的执行上下文，如寄存器状态、程序计数器和栈指针。</li>
+<li>内核栈：每个线程有自己的内核栈，用于处理内核态的函数调用和中断处理。</li>
+<li>线程局部存储（Thread Local Storage, TLS）：用于存储线程特有的数据。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<p>进程的生命周期</p>
+<p><img src="/images/wuzhongzhuangtaidejincheng.png" alt="alt text"></p>
+<p><a href="https://liuruijie87.github.io/2020/08/17/%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%BA%94%E7%A7%8D%E7%8A%B6%E6%80%81%EF%BC%88%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%89/">图片来源</a></p>
+<h2 id="参考02httpsrichard-zhang-iosgithubio20180908e6938de4bd9ce7b3bbe7bb9fe7babfe7a88be78ab6e68081e59bbe"><a href="https://richard-zhang-ios.github.io/2018/09/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E5%9B%BE/">参考02</a></h2>
+<blockquote>
+<p>进程通信</p>
+<blockquote>
+<p>同一主机进程间通信</p>
+<blockquote>
+<p>Unix 进程间通信</p>
+<blockquote>
+<p>匿名管道
+有名管道
+信号</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>System V 进程间通信方式 、 POSIX 进程间通信方式</p>
+<blockquote>
+<p>消息队列
+共享内存
+信号量</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>不同主机（网络）进程间通信</p>
+<blockquote>
+<p>socket</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<hr>
+<p>管道</p>
+<blockquote>
+<p>管道，本质是内核内存中维护的缓冲器，这个缓冲器的存储能力有限，不同的操作系统大小不一定相同。管道拥有文件的特质：读操作、写操作。匿名函数没有文件实体，有名函数有函数实体，但不存储数据。可以按照操作文件的方式对管道进程操作。</p>
+<blockquote>
+<p>一个管道就是一个字节流，使用管道时不存在消息挥着消息便捷的概念，从管道读取数据的进程可以读取任意大小的数据块，而不管写入管道的数据块的大小。通过管道传递数据的顺序，从管道读取的顺序和这些数据从管道写入的数据是完全一样的。管道中数据的传递方式是单向的，一段用于写入，另一端用于读取，管道是<strong>半双工</strong>。
+匿名管道只能在具有公共祖先的进程（父进程与子进程、两个兄弟进程，具有沁园关系）之间使用。</p>
+</blockquote>
+</blockquote>
+<ol start="2">
+<li>线程</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>在 Linux 内核中，线程是通过轻量级进程（Lightweight Process, LWP）来实现的。每个线程有自己独立的线程控制块（Thread Control Block, TCB），但共享相同的进程控制块（Process Control Block, PCB）的一部分。Linux 内核通过 clone 系统调用创建线程，这个系统调用允许新线程共享调用者的地址空间和其他资源。
+</span></span></code></pre></div><p><strong>task_struct</strong></p>
+<blockquote>
+<p>在 Linux 操作系统中，线程控制块（Thread Control Block, TCB）和进程控制块（Process Control Block, PCB）都被实现为一个统一的数据结构，即 task_struct。
+这个结构体包含了操作系统管理进程和线程所需的所有信息。
+实际上，在 Linux 中，没有专门的 TCB 和 PCB 结构，所有进程和线程共享相同的 task_struct 数据结构，只是使用该结构的方式不同。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">task_struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 进程状态
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">volatile</span> <span style="color:#66d9ef">long</span> state;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 链接到运行队列或等待队列的指针
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">list_head</span> tasks;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">list_head</span> pushable_tasks;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 进程标识符
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    pid_t pid;
+</span></span><span style="display:flex;"><span>    pid_t tgid;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 信号处理
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">signal_struct</span> <span style="color:#f92672">*</span>signal;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sighand_struct</span> <span style="color:#f92672">*</span>sighand;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 内存管理信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">mm_struct</span> <span style="color:#f92672">*</span>mm;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">mm_struct</span> <span style="color:#f92672">*</span>active_mm;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 进程调度信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sched_entity</span> se;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sched_rt_entity</span> rt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 父进程、子进程
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">task_struct</span> __rcu <span style="color:#f92672">*</span>parent;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">list_head</span> children;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">list_head</span> sibling;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 线程信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">thread_struct</span> <span style="color:#66d9ef">thread</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 文件描述符表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">files_struct</span> <span style="color:#f92672">*</span>files;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 虚拟文件系统信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">fs_struct</span> <span style="color:#f92672">*</span>fs;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 用户和组信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    uid_t uid, gid;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">group_info</span> <span style="color:#f92672">*</span>group_info;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// CPU相关信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">cpumask</span> cpus_allowed;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> on_cpu;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 内核栈指针
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> stack;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 其他字段
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ...
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ol>
+<li>进程状态 (state): 存储进程的当前状态，例如运行中、睡眠中、停止等。</li>
+<li>进程标识符 (pid, tgid): pid 是进程ID，tgid 是线程组ID。在单线程进程中，这两个值是相同的。</li>
+<li>信号处理 (signal, sighand): 管理进程接收和处理信号的信息。</li>
+<li>内存管理信息 (mm, active_mm): mm 指向该进程的内存描述符，包含进程的地址空间信息；active_mm 是当前活动的内存描述符。</li>
+<li>调度信息 (se, rt): 包含调度实体和实时调度实体，决定进程如何被调度执行。</li>
+<li>父进程、子进程 (parent, children, sibling): 链接到进程树结构，跟踪父进程、子进程和兄弟进程。</li>
+<li>线程信息 (thread): 包含与具体线程相关的CPU寄存器状态和其他信息。</li>
+<li>文件描述符表 (files): 指向进程打开的文件描述符表。</li>
+<li>虚拟文件系统信息 (fs): 包含进程的当前工作目录和根目录的信息。</li>
+<li>用户和组信息 (uid, gid, group_info): 进程所属的用户ID和组ID。</li>
+<li>CPU 相关信息 (cpus_allowed, on_cpu): 指示进程允许在哪些CPU上运行，以及当前在哪个CPU上运行。</li>
+<li>内核栈指针 (stack): 指向进程的内核栈</li>
+</ol>
+<hr>
+<ol start="3">
+<li>协程</li>
+</ol>
+<p><strong>轻量级线程vs携程</strong></p>
+<ol>
+<li>
+<p><strong>轻量级线程（Lightweight Thread）</strong></p>
+<ol>
+<li>
+<p>定义
+轻量级线程是由操作系统内核管理的线程。它们可以并行执行，由内核进行调度和管理。</p>
+</li>
+<li>
+<p>特点
+内核管理：由操作系统内核管理，内核负责线程的创建、调度和销毁。
+并行执行：可以在多处理器系统中并行执行。
+独立调度：每个线程有自己的程序计数器、栈和寄存器集合，内核独立调度。
+资源共享：线程共享同一进程的地址空间、文件描述符等资源。
+阻塞与调度：一个线程阻塞不会影响其他线程的运行，因为内核可以调度其他线程。
+上下文切换：线程之间的上下文切换由内核管理，开销较大（相对于协程）。</p>
+</li>
+<li>
+<p>优点
+支持并行执行，充分利用多核处理器。
+内核级调度，更适合 I/O 密集型和 CPU 密集型任务。
+阻塞线程不影响其他线程。</p>
+</li>
+<li>
+<p>缺点
+上下文切换开销较大。
+线程创建和销毁的开销大于协程。
+资源竞争问题，如锁争用和死锁。</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>协程（Coroutine）</strong></p>
+<ol>
+<li>
+<p>定义
+协程是一种用户级别的并发机制，它们在用户空间中执行，通常由应用程序或运行时库进行调度。协程是非抢占式的，只有在协程显式挂起时才会切换到其他协程。</p>
+</li>
+<li>
+<p>特点
+用户级管理：由用户级库或运行时管理，操作系统内核不感知。
+非抢占式调度：协程的切换是显式的，只有当协程主动挂起时才会发生切换。
+协作式多任务：协程之间通过显式挂起和恢复进行协作。
+轻量级：创建和销毁协程的开销非常小，上下文切换开销也小。
+单线程执行：通常在单线程中执行，多协程共享同一个线程的栈和资源。</p>
+</li>
+<li>
+<p>优点
+上下文切换开销小，非常高效。
+简单易用，适用于 I/O 密集型任务和异步编程。
+没有资源竞争问题，不需要复杂的同步机制。</p>
+</li>
+<li>
+<p>缺点
+不能利用多核处理器进行并行执行。
+协程阻塞会导致整个线程阻塞，需要避免阻塞操作。
+调试和跟踪较为复杂。</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>轻量级线程与协程的对比</strong></p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">特性</th>
+<th style="text-align:center">轻量级线程</th>
+<th style="text-align:center">协程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">管理者</td>
+<td style="text-align:center">操作系统内核</td>
+<td style="text-align:center">用户级库或运行时</td>
+</tr>
+<tr>
+<td style="text-align:left">调度方式</td>
+<td style="text-align:center">内核调度</td>
+<td style="text-align:center">用户级调度</td>
+</tr>
+<tr>
+<td style="text-align:left">并行执行</td>
+<td style="text-align:center">支持并行执行，多核处理器友好</td>
+<td style="text-align:center">通常不支持并行执行，多在单线程内</td>
+</tr>
+<tr>
+<td style="text-align:left">上下文切换开销</td>
+<td style="text-align:center">较大</td>
+<td style="text-align:center">非常小</td>
+</tr>
+<tr>
+<td style="text-align:left">阻塞</td>
+<td style="text-align:center">一个线程阻塞不影响其他线程</td>
+<td style="text-align:center">一个协程阻塞会导致整个线程阻塞</td>
+</tr>
+<tr>
+<td style="text-align:left">资源共享</td>
+<td style="text-align:center">共享进程资源</td>
+<td style="text-align:center">共享线程资源</td>
+</tr>
+<tr>
+<td style="text-align:left">使用场景</td>
+<td style="text-align:center">CPU 密集型和 I/O 密集型任务</td>
+<td style="text-align:center">I/O 密集型任务和异步编程</td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li>
+<p>总结
+轻量级线程和协程都用于实现并发，但它们适用于不同的场景：</p>
+<p>轻量级线程：适合需要利用多核处理器进行并行执行的场景，适合 CPU 密集型和 I/O 密集型任务。它们由内核管理，提供更强的隔离性和调度能力。
+协程：适合单线程内的高效并发，尤其是在处理 I/O 密集型任务和异步编程时。协程具有轻量级的上下文切换和更低的管理开销，但不适合并行执行。</p>
+</li>
+</ol>
+<hr>
+<ol>
+<li>僵尸进程</li>
+</ol>
+<blockquote>
+<p>进程结束，自己的地址空间当中的用户数据会被释放，但是内核区的PCB无法自己释放，需要父进程释放，如果进程终止，父进程没有回收（wait、waitpid），子进程残留的资源（PCB）存放与内核中，这个进程就变成了僵尸进程。僵尸进程不能被kill -9 杀死，然后内核的PCB信息一直占用，进程号也一直占用，但是系统的进程号是有限的，当产生大量僵尸进程，可能会导致没有可用的进程号而导致不能产生新的进程。</p>
+</blockquote>
+<ol start="2">
+<li>孤儿进程</li>
+</ol>
+<blockquote>
+<p>父进程运行结束，但是子进程还在运行（未结束）。当出现孤儿进程时，内核会把孤儿进程的父进程设置为init，而init进程会循环地wait()它已经退出的子进程。孤儿进程没有什么危害。</p>
+</blockquote>
+<hr>
+<ol>
+<li>
+<p>阻塞</p>
+</li>
+<li>
+<p>非阻塞</p>
+</li>
+</ol>
+<hr>
+<ol>
+<li>
+<p>并发</p>
+</li>
+<li>
+<p>并行</p>
+</li>
+</ol>
+<hr>
+<p>一些补充 from gpt</p>
+<p><strong>轻量级线程</strong></p>
+<ol>
+<li>轻量级进程的特点
+<ol>
+<li>资源共享：
+LWP 共享同一个进程的地址空间、文件描述符、信号处理等资源，这使得它们之间的通信和切换比进程更快。</li>
+<li>独立调度：
+每个 LWP 有自己的程序计数器、寄存器集合和栈，因此它们可以被独立调度和执行。</li>
+<li>较小的开销：
+创建和销毁 LWP 的开销比进程小，切换上下文的开销也较低，因为 LWP 不需要切换整个地址空间。</li>
+<li>内核管理：
+LWP 由操作系统内核管理，因此它们可以利用多处理器系统中的多个 CPU 进行并行执行。</li>
+</ol>
+</li>
+<li>轻量级进程的实现</li>
+</ol>
+<p>在不同的操作系统中，LWP 的实现方式有所不同。例如：</p>
+<p><strong>Linux</strong>：
+在 Linux 中，轻量级进程通常通过 clone 系统调用来创建。clone 允许新线程共享其父线程的资源，例如地址空间和文件描述符。
+Linux 中的线程库（如 POSIX 线程库 pthread）实际上使用的是轻量级进程。
+<strong>Solaris</strong>：
+在 Solaris 中，LWP 是一种特殊的调度实体，结合了用户级线程和内核级线程的优点。</p>
+<ol start="3">
+<li>
+<p>轻量级进程与线程的关系
+在许多现代操作系统中，轻量级进程与线程通常被视为同义词，因为它们都表示内核级的线程。以下是轻量级进程和线程的一些关系和区别：</p>
+<ol>
+<li>
+<p>相似性：</p>
+<p>两者都表示可以被独立调度的执行单元。
+共享同一进程的地址空间和资源。</p>
+</li>
+<li>
+<p>区别：</p>
+<p>在一些文献中，轻量级进程特指那些由内核直接管理的线程，而线程可能指用户级线程（User-Level Thread, ULT），这些线程由用户空间的线程库管理，不需要内核直接介入。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>轻量级进程的优缺点</p>
+<ol>
+<li>优点
+<ol>
+<li>快速切换：
+由于共享同一地址空间，LWP 之间的上下文切换比进程切换更快。</li>
+<li>资源利用率高：</li>
+<li>LWP 共享进程的资源，使得内存和其他资源的利用更加高效。</li>
+<li>并发性强：
+可以在多处理器系统中实现真正的并行执行，提高程序的并发性能。</li>
+</ol>
+</li>
+<li>缺点
+<ol>
+<li>资源竞争：
+由于 LWP 共享同一进程的资源，可能导致竞争资源，如锁争用问题。</li>
+<li>调试困难：
+由于 LWP 共享同一地址空间，调试并发问题可能更加复杂。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<hr>
+<p>我发现，得不断思考、重复总结，才能把一些知识点吃透、吃烂</p>
+<hr>
+<p>未完待续&hellip;</p>
+
+</content>
+<p>
+  
+  <a href="https://tutuwu2019.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">#操作系统</a>
+  
+  <a href="https://tutuwu2019.github.io/blog/%E9%9A%8F%E5%86%99/">#随写</a>
+  
+</p>
+
+  </main>
+  <footer>contact me  <a href="https://github.com/tutuwu2019/">zhangbuda7788</a>
+</footer>
+
+    
+
+
+
+
+</body>
+
+</html>

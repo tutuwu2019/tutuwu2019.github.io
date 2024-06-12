@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/git/</link>
+    <description>Recent content in git on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Thu, 16 May 2024 00:16:27 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git_tips</title>
+      <link>https://tutuwu2019.github.io/git_tips/</link>
+      <pubDate>Thu, 16 May 2024 00:16:27 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/git_tips/</guid>
+      <description>This is a page about »Git_tips«.
+git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
+本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
+大概率是本地的git 仓库被污染了。
+其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》
+我甚至想暴力把github 仓库删除，重新创建。
+后来误打误撞的解决了
+# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &amp;#34;Clear remote repository&amp;#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息</description>
+    </item>
+    
+  </channel>
+</rss>

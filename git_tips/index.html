@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
+<title>Git_tips | 张不大的博客</title>
+<meta name="title" content="Git_tips" />
+<meta name="description" content="This is a page about »Git_tips«.
+git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
+本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
+大概率是本地的git 仓库被污染了。
+其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》
+我甚至想暴力把github 仓库删除，重新创建。
+后来误打误撞的解决了
+# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息" />
+<meta name="keywords" content="git," />
+
+
+<meta property="og:title" content="Git_tips" />
+<meta property="og:description" content="This is a page about »Git_tips«.
+git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
+本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
+大概率是本地的git 仓库被污染了。
+其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》
+我甚至想暴力把github 仓库删除，重新创建。
+后来误打误撞的解决了
+# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tutuwu2019.github.io/git_tips/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2024-05-16T00:16:27+08:00" />
+<meta property="article:modified_time" content="2024-05-16T00:16:27+08:00" /><meta property="og:site_name" content="张不大的博客" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
+
+<meta name="twitter:title" content="Git_tips"/>
+<meta name="twitter:description" content="This is a page about »Git_tips«.
+git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
+本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
+大概率是本地的git 仓库被污染了。
+其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》
+我甚至想暴力把github 仓库删除，重新创建。
+后来误打误撞的解决了
+# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息"/>
+
+
+
+<meta itemprop="name" content="Git_tips">
+<meta itemprop="description" content="This is a page about »Git_tips«.
+git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
+本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
+大概率是本地的git 仓库被污染了。
+其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》
+我甚至想暴力把github 仓库删除，重新创建。
+后来误打误撞的解决了
+# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息"><meta itemprop="datePublished" content="2024-05-16T00:16:27+08:00" />
+<meta itemprop="dateModified" content="2024-05-16T00:16:27+08:00" />
+<meta itemprop="wordCount" content="79"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="keywords" content="git," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>张不大的博客</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/about/">About</a>
+
+<a href="/archive/archive/">Archive</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Git_tips</h1>
+<p>
+  <i>
+    <time datetime='2024-05-16' pubdate>
+      16 May, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>This is a page about »Git_tips«.</p>
+<h1 id="git-tips">git tips</h1>
+<blockquote>
+<p>老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了</p>
+</blockquote>
+<h2 id="本地git仓库被污染了">本地git仓库被污染了</h2>
+<blockquote>
+<p>是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo  server 正常，但是 git push 迟迟没有更新</p>
+</blockquote>
+<blockquote>
+<p>大概率是本地的git 仓库被污染了。</p>
+<p>其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》</p>
+<p>我甚至想暴力把github 仓库删除，重新创建。</p>
+<p>后来误打误撞的解决了</p>
+</blockquote>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 先创建一个</span>
+</span></span><span style="display:flex;"><span>git checkout --orphan temp  <span style="color:#75715e"># 创建一个新的孤立分支</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建一个空的提交      什么是空的提交？空的提交就是什么也没有改变，和原来的一样。  默认git 是不允许的，但是可以采用  --allow-empty  强制空提交</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。</span>
+</span></span><span style="display:flex;"><span>git commit --allow-empty -m <span style="color:#e6db74">&#34;Clear remote repository&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除本地的  main 分之</span>
+</span></span><span style="display:flex;"><span>git branch -D main  <span style="color:#75715e"># 删除本地的 main 分支</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 将新的孤立分支重命名为 main</span>
+</span></span><span style="display:flex;"><span>git branch -m temp main  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git push origin main --force
+</span></span></code></pre></div><p>注：  git remote -v 查看远程远程仓库信息</p>
+<hr>
+
+</content>
+<p>
+  
+  <a href="https://tutuwu2019.github.io/blog/git/">#git</a>
+  
+</p>
+
+  </main>
+  <footer>contact me  <a href="https://github.com/tutuwu2019/">zhangbuda7788</a>
+</footer>
+
+    
+
+
+
+
+</body>
+
+</html>

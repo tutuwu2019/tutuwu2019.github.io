@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>加密 on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/%E5%8A%A0%E5%AF%86/</link>
+    <description>Recent content in 加密 on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Sun, 12 May 2024 14:32:26 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/%E5%8A%A0%E5%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>加密博客</title>
+      <link>https://tutuwu2019.github.io/%E5%8A%A0%E5%AF%86%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Sun, 12 May 2024 14:32:26 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E5%8A%A0%E5%AF%86%E5%8D%9A%E5%AE%A2/</guid>
+      <description>This is a page about »加密博客«. 接下来的内容会被加密(猜猜什么被加密了哦) 文章的部分内容被密码保护：
+--- DON&#39;T MODIFY THIS LINE --- You cannot see me unless you&amp;rsquo;ve got the password! This is the content you want to encrypt!
+明明就 啊哈哈哈，啥也没有嘛
+Do remember to close the hugo-encryptor shortcodes tag:
+else </description>
+    </item>
+    
+  </channel>
+</rss>

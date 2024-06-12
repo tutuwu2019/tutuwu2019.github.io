@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mysql on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/mysql/</link>
+    <description>Recent content in mysql on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Thu, 09 May 2024 17:34:01 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>锁</title>
+      <link>https://tutuwu2019.github.io/%E9%94%81/</link>
+      <pubDate>Thu, 09 May 2024 17:34:01 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%94%81/</guid>
+      <description>锁 都有哪些锁呢？
+乐观锁 悲观锁 共享锁 排他锁 行锁 表锁 死锁 自旋锁 &amp;hellip; 锁1 Mysql/InnoDB锁
+MySQL/InnoDB加锁 在数据库有高并发请求的时候，如何保证数据完整性？产生死锁问题如何排查以及解决？
+面试 面试题1 面试题2 面试3</description>
+    </item>
+    
+  </channel>
+</rss>

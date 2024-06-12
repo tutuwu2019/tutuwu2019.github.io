@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
+<title>Http_vs_https_and_get_vs_post | 张不大的博客</title>
+<meta name="title" content="Http_vs_https_and_get_vs_post" />
+<meta name="description" content="This is a page about »Http_vs_https_and_get_vs_post«.
+Http_vs_https_and_get_vs_post Http_vs_https get_vs_post RFC2616中没有对url 长度有限制，但是浏览器会有长度限制。还有浏览器会有url缓存记录
+GET 只允许 ASCII格式编码，而POST则没有要求。
+GET 只采用 url 传入信息，不安全，所以把数据裸露在url 使用GET 方法传输不是明智的选择。
+POST 不仅可以通过参数传递信息，还能通过 body 传递消息，通常通过表单上产消息给服务器就是采用post 方法
+注意：这两个只是规范，是在http协议层定义的两个方法，所以本质上都是通过tcp 传递数据，没有实质性差别
+V2EX 上看到一个大哥说，GET 和 POST 的区别就是，一个的方法是’GET’，一个的方法是’POST’。我觉得这个答案很有哲理性.. 很有佛教性空的味道。 就是说：在 http 这个应用层协议上来说，两种被定义为不同的方法，但是从 TCP 这个传输层上说，他们并没有什么区别。给 GET 加上 request body，给 POST 带上 url 参数？完全可以。
+参考 引用01" />
+<meta name="keywords" content="面试," />
+
+
+<meta property="og:title" content="Http_vs_https_and_get_vs_post" />
+<meta property="og:description" content="This is a page about »Http_vs_https_and_get_vs_post«.
+Http_vs_https_and_get_vs_post Http_vs_https get_vs_post RFC2616中没有对url 长度有限制，但是浏览器会有长度限制。还有浏览器会有url缓存记录
+GET 只允许 ASCII格式编码，而POST则没有要求。
+GET 只采用 url 传入信息，不安全，所以把数据裸露在url 使用GET 方法传输不是明智的选择。
+POST 不仅可以通过参数传递信息，还能通过 body 传递消息，通常通过表单上产消息给服务器就是采用post 方法
+注意：这两个只是规范，是在http协议层定义的两个方法，所以本质上都是通过tcp 传递数据，没有实质性差别
+V2EX 上看到一个大哥说，GET 和 POST 的区别就是，一个的方法是’GET’，一个的方法是’POST’。我觉得这个答案很有哲理性.. 很有佛教性空的味道。 就是说：在 http 这个应用层协议上来说，两种被定义为不同的方法，但是从 TCP 这个传输层上说，他们并没有什么区别。给 GET 加上 request body，给 POST 带上 url 参数？完全可以。
+参考 引用01" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tutuwu2019.github.io/http_vs_https_and_get_vs_post/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2024-05-19T03:38:47+08:00" />
+<meta property="article:modified_time" content="2024-05-19T03:38:47+08:00" /><meta property="og:site_name" content="张不大的博客" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
+
+<meta name="twitter:title" content="Http_vs_https_and_get_vs_post"/>
+<meta name="twitter:description" content="This is a page about »Http_vs_https_and_get_vs_post«.
+Http_vs_https_and_get_vs_post Http_vs_https get_vs_post RFC2616中没有对url 长度有限制，但是浏览器会有长度限制。还有浏览器会有url缓存记录
+GET 只允许 ASCII格式编码，而POST则没有要求。
+GET 只采用 url 传入信息，不安全，所以把数据裸露在url 使用GET 方法传输不是明智的选择。
+POST 不仅可以通过参数传递信息，还能通过 body 传递消息，通常通过表单上产消息给服务器就是采用post 方法
+注意：这两个只是规范，是在http协议层定义的两个方法，所以本质上都是通过tcp 传递数据，没有实质性差别
+V2EX 上看到一个大哥说，GET 和 POST 的区别就是，一个的方法是’GET’，一个的方法是’POST’。我觉得这个答案很有哲理性.. 很有佛教性空的味道。 就是说：在 http 这个应用层协议上来说，两种被定义为不同的方法，但是从 TCP 这个传输层上说，他们并没有什么区别。给 GET 加上 request body，给 POST 带上 url 参数？完全可以。
+参考 引用01"/>
+
+
+
+<meta itemprop="name" content="Http_vs_https_and_get_vs_post">
+<meta itemprop="description" content="This is a page about »Http_vs_https_and_get_vs_post«.
+Http_vs_https_and_get_vs_post Http_vs_https get_vs_post RFC2616中没有对url 长度有限制，但是浏览器会有长度限制。还有浏览器会有url缓存记录
+GET 只允许 ASCII格式编码，而POST则没有要求。
+GET 只采用 url 传入信息，不安全，所以把数据裸露在url 使用GET 方法传输不是明智的选择。
+POST 不仅可以通过参数传递信息，还能通过 body 传递消息，通常通过表单上产消息给服务器就是采用post 方法
+注意：这两个只是规范，是在http协议层定义的两个方法，所以本质上都是通过tcp 传递数据，没有实质性差别
+V2EX 上看到一个大哥说，GET 和 POST 的区别就是，一个的方法是’GET’，一个的方法是’POST’。我觉得这个答案很有哲理性.. 很有佛教性空的味道。 就是说：在 http 这个应用层协议上来说，两种被定义为不同的方法，但是从 TCP 这个传输层上说，他们并没有什么区别。给 GET 加上 request body，给 POST 带上 url 参数？完全可以。
+参考 引用01"><meta itemprop="datePublished" content="2024-05-19T03:38:47+08:00" />
+<meta itemprop="dateModified" content="2024-05-19T03:38:47+08:00" />
+<meta itemprop="wordCount" content="48"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="keywords" content="面试," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>张不大的博客</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/about/">About</a>
+
+<a href="/archive/archive/">Archive</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Http_vs_https_and_get_vs_post</h1>
+<p>
+  <i>
+    <time datetime='2024-05-19' pubdate>
+      19 May, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>This is a page about »Http_vs_https_and_get_vs_post«.</p>
+<h1 id="http_vs_https_and_get_vs_post">Http_vs_https_and_get_vs_post</h1>
+<h2 id="http_vs_https">Http_vs_https</h2>
+<h2 id="get_vs_post">get_vs_post</h2>
+<blockquote>
+<p>RFC2616中没有对url 长度有限制，但是浏览器会有长度限制。还有浏览器会有url缓存记录</p>
+<p>GET 只允许 ASCII格式编码，而POST则没有要求。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>GET 只采用 url 传入信息，不安全，所以把数据裸露在url 使用GET 方法传输不是明智的选择。</p>
+<p>POST 不仅可以通过参数传递信息，还能通过 body 传递消息，通常通过表单上产消息给服务器就是采用post 方法</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>注意：这两个只是规范，是在http协议层定义的两个方法，所以本质上都是通过tcp 传递数据，没有实质性差别</p>
+<p>V2EX 上看到一个大哥说，GET 和 POST 的区别就是，一个的方法是’GET’，一个的方法是’POST’。我觉得这个答案很有哲理性.. 很有佛教性空的味道。
+就是说：在 http 这个应用层协议上来说，两种被定义为不同的方法，但是从 TCP 这个传输层上说，他们并没有什么区别。给 GET 加上 request body，给 POST 带上 url 参数？完全可以。</p>
+</blockquote>
+<h2 id="参考">参考</h2>
+<p><a href="https://crouchred.github.io/2017/10/difference_between_http_get_and_post.html">引用01</a></p>
+
+</content>
+<p>
+  
+  <a href="https://tutuwu2019.github.io/blog/%E9%9D%A2%E8%AF%95/">#面试</a>
+  
+</p>
+
+  </main>
+  <footer>contact me  <a href="https://github.com/tutuwu2019/">zhangbuda7788</a>
+</footer>
+
+    
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>操作系统 on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+    <description>Recent content in 操作系统 on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Mon, 20 May 2024 12:49:58 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>随写笔记_OS_05_20</title>
+      <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99%E7%AC%94%E8%AE%B0_os_05_20/</link>
+      <pubDate>Mon, 20 May 2024 12:49:58 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99%E7%AC%94%E8%AE%B0_os_05_20/</guid>
+      <description>This is a page about »随写笔记_OS_05_20«.
+一些关键字 进程 进程：一个正在运行的程序的实例，是操作系统进程资源分配和调度的基本单位。每个进程都有自己的地址空间、内存、文件描述符、全局变量等资源。
+特点：
+独立性：进程拥有自己独立的地址空间，进程之间相互隔离 资源拥有：每个进程有自己独立的内存空间、文件描述符、进程控制块 并发性：多个进程可以并发执行，每个进程可以独立运行 生命周期：进程的生命周期包括创建、就绪、运行、等待和终止 组成：
+代码段：存储可执行的代码 数据段：存储全局变量和静态变量 堆：用于动态内存分配 栈：存储函数调用的返回地址、本地变量、函数局部变量 进程控制块(PCB)：存储进程的状态、程序计数器、寄存器信息、调度信息、内存管理信息 linux 进程内核结构
+进程控制块（Process Control Block, PCB）： 任务结构（task_struct）：是每个进程的主要数据结构，包含了进程的所有信息，如进程 ID、状态、优先级、程序计数器、内存管理信息、打开的文件描述符等。 进程地址空间： 代码段：存储可执行代码。 数据段：存储全局变量和静态变量。 堆（Heap）：用于动态内存分配。 栈（Stack）：存储函数调用的返回地址、本地变量等。 内存管理： 页表（Page Table）：映射虚拟地址到物理地址。 内存区域描述符（vm_area_struct）：描述进程地址空间中的各个区域。 文件描述符表：存储进程打开的文件描述符，每个文件描述符对应一个文件结构（file struct）。
+信号处理：与进程相关的信号处理信息。
+调度信息：进程的调度优先级和调度策略。
+linux线程内核结构 在 Linux 中，线程被视为一种轻量级进程，它们共享同一个进程的某些资源，但每个线程都有自己的执行上下文。线程的内核结构也包含在 task_struct 中，但有一些共享和独立的部分：
+共享部分：
+进程地址空间：同一进程的线程共享相同的地址空间，包括代码段、数据段、堆和全局变量。 文件描述符表：所有线程共享相同的文件描述符表。 信号处理：线程共享信号处理设置。 用户 ID 和组 ID：同一进程的线程共享相同的用户 ID 和组 ID。 独立部分：
+线程控制块（Thread Control Block, TCB）：每个线程有自己的 TCB，存储线程的执行上下文，如寄存器状态、程序计数器和栈指针。 内核栈：每个线程有自己的内核栈，用于处理内核态的函数调用和中断处理。 线程局部存储（Thread Local Storage, TLS）：用于存储线程特有的数据。 进程的生命周期</description>
+    </item>
+    
+    <item>
+      <title>锁</title>
+      <link>https://tutuwu2019.github.io/%E9%94%81/</link>
+      <pubDate>Thu, 09 May 2024 17:34:01 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%94%81/</guid>
+      <description>锁 都有哪些锁呢？
+乐观锁 悲观锁 共享锁 排他锁 行锁 表锁 死锁 自旋锁 &amp;hellip; 锁1 Mysql/InnoDB锁
+MySQL/InnoDB加锁 在数据库有高并发请求的时候，如何保证数据完整性？产生死锁问题如何排查以及解决？
+面试 面试题1 面试题2 面试3</description>
+    </item>
+    
+  </channel>
+</rss>

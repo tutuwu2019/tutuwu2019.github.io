@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>算法 on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 算法 on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Thu, 09 May 2024 02:58:29 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>面试基础算法c&#43;&#43;_go</title>
+      <link>https://tutuwu2019.github.io/%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95c-_go/</link>
+      <pubDate>Thu, 09 May 2024 02:58:29 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95c-_go/</guid>
+      <description>列举一些算法 杂序（c++和go 实现） 链表反转 链表反转的核心思想就是每次遍历 head 链表的时候把当前节点充当newHead 的头节点，在把上轮的newHead 接到 newHead 的屁股上
+c++ struct ListNode{ int val; struct ListNode* next; ListNode(int x):val(x),next(nullptr){}; }; class solution{ ListNode* ReverseList(ListNode* head){ ListNode* nhead; while(head != nullptr){ ListNode* tmp; tmp = nhead; nhead = head; head = head-&amp;gt;next; nhead-&amp;gt;next = tmp; } return nHead; } } go package main import( &amp;#34;fmt&amp;#34; ) type ListNode struct{ Val int Next *ListNode } func ReverseList(head *ListNode)*ListNode{ var newHead *ListNode = nil for head !</description>
+    </item>
+    
+  </channel>
+</rss>

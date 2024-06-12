@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lua on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/lua/</link>
+    <description>Recent content in lua on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Wed, 15 May 2024 18:55:31 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/lua/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lua_and_c_cpp</title>
+      <link>https://tutuwu2019.github.io/lua_and_c_cpp/</link>
+      <pubDate>Wed, 15 May 2024 18:55:31 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/lua_and_c_cpp/</guid>
+      <description>This is a page about »Lua_and_c_cpp«.
+lua 我想，lua 能这么火，讲全世界最快的脚本 在游戏领域确实首屈一指 c + lua 好像，有人讲国内lua 的火，是云风点的
+c/c++ 看似领域很多，但是每个领域又都有自己的护城河，一旦哪天被优化了，很大概率会有因为当初选c/c++ 这条路又骂自己一遍。为什么当初不把 java 给啃下去
+lua 与 c/c++ 之间的合作 参考一下的链接就好了，如果还没有入门，那就去B站看看相关的视频
+参考01 参考02 参考03 参考04 参考05 参考06 参考07 参考08 参考09 参考10 参考11 参考12 参考13 参考14</description>
+    </item>
+    
+  </channel>
+</rss>

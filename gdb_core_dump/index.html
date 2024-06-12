@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
+<title>Gdb_core_dump | 张不大的博客</title>
+<meta name="title" content="Gdb_core_dump" />
+<meta name="description" content="This is a page about »Gdb_core_dump«.
+Gdb_core_dump GDB 调试 GDB中文手册
+GDB调试死循环
+GDB调试入门
+GDB 多线程调试
+gdb core dump 调试 cat segfault.cpp
+#include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; void cause_segfault(){ int *p = NULL; *p = 42; // int *p = (int*)malloc(sizeof(int)); // if(p == NULL){ // exit(1); // } // *p = 42; // printf(&#34;the *p is %d&#34;, *p); } int main(){ cause_segfault(); return 0; } 编译 g&#43;&#43; -g segfault.cpp -o segfault
+# 查看 core dump 文件 存储路径 cat /proc/sys/kernel/core_pattern |/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e # 修改存储路径 sudo sysctl -w kernel." />
+<meta name="keywords" content="c/c&#43;&#43;," />
+
+
+<meta property="og:title" content="Gdb_core_dump" />
+<meta property="og:description" content="This is a page about »Gdb_core_dump«.
+Gdb_core_dump GDB 调试 GDB中文手册
+GDB调试死循环
+GDB调试入门
+GDB 多线程调试
+gdb core dump 调试 cat segfault.cpp
+#include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; void cause_segfault(){ int *p = NULL; *p = 42; // int *p = (int*)malloc(sizeof(int)); // if(p == NULL){ // exit(1); // } // *p = 42; // printf(&#34;the *p is %d&#34;, *p); } int main(){ cause_segfault(); return 0; } 编译 g&#43;&#43; -g segfault.cpp -o segfault
+# 查看 core dump 文件 存储路径 cat /proc/sys/kernel/core_pattern |/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e # 修改存储路径 sudo sysctl -w kernel." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tutuwu2019.github.io/gdb_core_dump/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2024-05-29T02:42:32+08:00" />
+<meta property="article:modified_time" content="2024-05-29T02:42:32+08:00" /><meta property="og:site_name" content="张不大的博客" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
+
+<meta name="twitter:title" content="Gdb_core_dump"/>
+<meta name="twitter:description" content="This is a page about »Gdb_core_dump«.
+Gdb_core_dump GDB 调试 GDB中文手册
+GDB调试死循环
+GDB调试入门
+GDB 多线程调试
+gdb core dump 调试 cat segfault.cpp
+#include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; void cause_segfault(){ int *p = NULL; *p = 42; // int *p = (int*)malloc(sizeof(int)); // if(p == NULL){ // exit(1); // } // *p = 42; // printf(&#34;the *p is %d&#34;, *p); } int main(){ cause_segfault(); return 0; } 编译 g&#43;&#43; -g segfault.cpp -o segfault
+# 查看 core dump 文件 存储路径 cat /proc/sys/kernel/core_pattern |/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e # 修改存储路径 sudo sysctl -w kernel."/>
+
+
+
+<meta itemprop="name" content="Gdb_core_dump">
+<meta itemprop="description" content="This is a page about »Gdb_core_dump«.
+Gdb_core_dump GDB 调试 GDB中文手册
+GDB调试死循环
+GDB调试入门
+GDB 多线程调试
+gdb core dump 调试 cat segfault.cpp
+#include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; void cause_segfault(){ int *p = NULL; *p = 42; // int *p = (int*)malloc(sizeof(int)); // if(p == NULL){ // exit(1); // } // *p = 42; // printf(&#34;the *p is %d&#34;, *p); } int main(){ cause_segfault(); return 0; } 编译 g&#43;&#43; -g segfault.cpp -o segfault
+# 查看 core dump 文件 存储路径 cat /proc/sys/kernel/core_pattern |/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e # 修改存储路径 sudo sysctl -w kernel."><meta itemprop="datePublished" content="2024-05-29T02:42:32+08:00" />
+<meta itemprop="dateModified" content="2024-05-29T02:42:32+08:00" />
+<meta itemprop="wordCount" content="182"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="keywords" content="c/c&#43;&#43;," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>张不大的博客</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/about/">About</a>
+
+<a href="/archive/archive/">Archive</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Gdb_core_dump</h1>
+<p>
+  <i>
+    <time datetime='2024-05-29' pubdate>
+      29 May, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>This is a page about »Gdb_core_dump«.</p>
+<h1 id="gdb_core_dump">Gdb_core_dump</h1>
+<h2 id="gdb-调试">GDB 调试</h2>
+<p><a href="https://github.com/zhuzongzhen/Books/blob/master/GDB%E4%B8%AD%E6%96%87%E6%89%8B%E5%86%8C%E5%AE%8C%E7%BE%8E%E7%89%88.pdf">GDB中文手册</a></p>
+<p><a href="https://blog.csdn.net/ttxiaoxiaobai/article/details/137161187?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171692182416800211537952%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&amp;request_id=171692182416800211537952&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-137161187-null-null.nonecase&amp;utm_term=gdb&amp;spm=1018.2226.3001.4450">GDB调试死循环</a></p>
+<p><a href="https://blog.csdn.net/ttxiaoxiaobai/article/details/131756836?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171692182416800211537952%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&amp;request_id=171692182416800211537952&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-2-131756836-null-null.nonecase&amp;utm_term=gdb&amp;spm=1018.2226.3001.4450">GDB调试入门</a></p>
+<p><a href="https://blog.csdn.net/ttxiaoxiaobai/article/details/136793651?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171692182416800211537952%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&amp;request_id=171692182416800211537952&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-3-136793651-null-null.nonecase&amp;utm_term=gdb&amp;spm=1018.2226.3001.4450">GDB 多线程调试</a></p>
+<h1 id="gdb-core-dump-调试">gdb core dump 调试</h1>
+<p>cat  segfault.cpp</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cause_segfault</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">//  int *p = (int*)malloc(sizeof(int));
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#75715e">// if(p == NULL){
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>     <span style="color:#75715e">//   exit(1);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#75715e">// }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">//  *p = 42;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#75715e">// printf(&#34;the *p is %d&#34;, *p);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    cause_segfault();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>编译
+g++ -g segfault.cpp  -o segfault</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 查看 core dump 文件 存储路径</span>
+</span></span><span style="display:flex;"><span>cat /proc/sys/kernel/core_pattern
+</span></span><span style="display:flex;"><span>|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %e
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改存储路径</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo sysctl -w kernel.core_pattern<span style="color:#f92672">=</span>/tmp/core.%e.%p.%h.%t
+</span></span><span style="display:flex;"><span>kernel.core_pattern <span style="color:#f92672">=</span> /tmp/core.%e.%p.%h.%t
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看 core dump 文件</span>
+</span></span><span style="display:flex;"><span>ls /tmp
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>core.segfault.3540311.localhost.localdomain.1716920116
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gdb 调试</span>
+</span></span><span style="display:flex;"><span>gdb ./segfault /tmp/core.segfault.3540311.localhost.localdomain.1716920116
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 接着，会出在 运行至报错的地方报出相应的错误</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看 调用栈</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> bt
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#0  0x0000000000400566 in cause_segfault () at segfault.cpp:6</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#1  0x0000000000400578 in main () at segfault.cpp:17</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  调用栈帧</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> frame <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#0  0x0000000000400566 in cause_segfault () at segfault.cpp:5</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">5</span>           *p <span style="color:#f92672">=</span> 42;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看本地信息</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> info locals
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> 0x0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 打印 p 指针</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> p p
+</span></span><span style="display:flex;"><span>$1 <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>int *<span style="color:#f92672">)</span> 0x0
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  打印 p指针解引用</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> p *p
+</span></span><span style="display:flex;"><span>Cannot access memory at address 0x0
+</span></span></code></pre></div><p><a href="https://ivanzz1001.github.io/records/post/cplusplus/2018/11/08/cpluscplus-gdbusage_part4">gdb 栈帧</a></p>
+<hr>
+<p>未完待续</p>
+
+</content>
+<p>
+  
+  <a href="https://tutuwu2019.github.io/blog/c/c-/">#c/c&#43;&#43;</a>
+  
+</p>
+
+  </main>
+  <footer>contact me  <a href="https://github.com/tutuwu2019/">zhangbuda7788</a>
+</footer>
+
+    
+
+
+
+
+</body>
+
+</html>

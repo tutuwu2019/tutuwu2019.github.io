@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
+<title>计网 | 张不大的博客</title>
+<meta name="title" content="计网" />
+<meta name="description" content="This is a page about »计网«.
+计算机网络&ndash;面试常见问题(自用) 网络结构 七层模型&amp;协议 物理层，传输单位bit，IEE802.3、CLOCK、RJ45 数据链路层，传输单位帧，MAC、VLAN、PPP 网络层，传输单位包，IP、ARP、ICMP 传输层，传输单位报文，TCP、UDP 会话层，输出单位SPDU，RPC、NFS 建立、管理、终止会话 表示层，传输单位PPDU，JPEG、ASII 对数据翻译、加密、压缩 应用层，传输单位APDU，FTP、HTTP、DNS
+TCP/IP 4层模型 网络接口层，MAC、VLAN 网络层，IP、ARP、ICMP 传输层，TCP、UDP 应用层，HTTP、DNS、SMTP
+常见的网络协议 tcp、udp 特点： tcp 三次握手/四次挥手 常见 专有名词，TIME_WAIT(作用、弊端、如何优化) tcp 可靠传输 数据包校验 对失序数据包重排 丢弃重复数据 应答机制 超时重发 流量控制 拥塞控制（满开始、拥塞避免、快重传、快恢复） 流量控制 发送方控制发送速率
+滑动窗口 什么是滑动窗口 tcp 采用滑动窗口进行流量控制
+拥塞控制 什么事拥塞控制 tcp 拥塞控制
+tcp 粘包 发送方粘包
+发送方与接收方保持长连接（短连接不存在粘包问题） 过小数据合并发送，这个合并的过程再发送缓冲区进行，数据发送出来就已经是粘包状态
+接收方产生粘包
+read、recv 无法一次全部读出，然后下一个数据又到放入缓冲区末尾，等读取的数据就是一个粘包
+如何解决粘包问题
+分包机制，特殊字符控制、在包头首部添加数据包的长度
+注意使用netty框架就会有专门的编码器和解码器解决拆包和粘包问题
+基于tcp&amp;udp 常见的协议 tcp
+http 80 https 443 ftp 21 telnet 23 smtp 25 udp" />
+<meta name="keywords" content="计网,面试," />
+
+
+<meta property="og:title" content="计网" />
+<meta property="og:description" content="This is a page about »计网«.
+计算机网络&ndash;面试常见问题(自用) 网络结构 七层模型&amp;协议 物理层，传输单位bit，IEE802.3、CLOCK、RJ45 数据链路层，传输单位帧，MAC、VLAN、PPP 网络层，传输单位包，IP、ARP、ICMP 传输层，传输单位报文，TCP、UDP 会话层，输出单位SPDU，RPC、NFS 建立、管理、终止会话 表示层，传输单位PPDU，JPEG、ASII 对数据翻译、加密、压缩 应用层，传输单位APDU，FTP、HTTP、DNS
+TCP/IP 4层模型 网络接口层，MAC、VLAN 网络层，IP、ARP、ICMP 传输层，TCP、UDP 应用层，HTTP、DNS、SMTP
+常见的网络协议 tcp、udp 特点： tcp 三次握手/四次挥手 常见 专有名词，TIME_WAIT(作用、弊端、如何优化) tcp 可靠传输 数据包校验 对失序数据包重排 丢弃重复数据 应答机制 超时重发 流量控制 拥塞控制（满开始、拥塞避免、快重传、快恢复） 流量控制 发送方控制发送速率
+滑动窗口 什么是滑动窗口 tcp 采用滑动窗口进行流量控制
+拥塞控制 什么事拥塞控制 tcp 拥塞控制
+tcp 粘包 发送方粘包
+发送方与接收方保持长连接（短连接不存在粘包问题） 过小数据合并发送，这个合并的过程再发送缓冲区进行，数据发送出来就已经是粘包状态
+接收方产生粘包
+read、recv 无法一次全部读出，然后下一个数据又到放入缓冲区末尾，等读取的数据就是一个粘包
+如何解决粘包问题
+分包机制，特殊字符控制、在包头首部添加数据包的长度
+注意使用netty框架就会有专门的编码器和解码器解决拆包和粘包问题
+基于tcp&amp;udp 常见的协议 tcp
+http 80 https 443 ftp 21 telnet 23 smtp 25 udp" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tutuwu2019.github.io/%E8%AE%A1%E7%BD%91/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2024-05-13T23:30:49+08:00" />
+<meta property="article:modified_time" content="2024-05-13T23:30:49+08:00" /><meta property="og:site_name" content="张不大的博客" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
+
+<meta name="twitter:title" content="计网"/>
+<meta name="twitter:description" content="This is a page about »计网«.
+计算机网络&ndash;面试常见问题(自用) 网络结构 七层模型&amp;协议 物理层，传输单位bit，IEE802.3、CLOCK、RJ45 数据链路层，传输单位帧，MAC、VLAN、PPP 网络层，传输单位包，IP、ARP、ICMP 传输层，传输单位报文，TCP、UDP 会话层，输出单位SPDU，RPC、NFS 建立、管理、终止会话 表示层，传输单位PPDU，JPEG、ASII 对数据翻译、加密、压缩 应用层，传输单位APDU，FTP、HTTP、DNS
+TCP/IP 4层模型 网络接口层，MAC、VLAN 网络层，IP、ARP、ICMP 传输层，TCP、UDP 应用层，HTTP、DNS、SMTP
+常见的网络协议 tcp、udp 特点： tcp 三次握手/四次挥手 常见 专有名词，TIME_WAIT(作用、弊端、如何优化) tcp 可靠传输 数据包校验 对失序数据包重排 丢弃重复数据 应答机制 超时重发 流量控制 拥塞控制（满开始、拥塞避免、快重传、快恢复） 流量控制 发送方控制发送速率
+滑动窗口 什么是滑动窗口 tcp 采用滑动窗口进行流量控制
+拥塞控制 什么事拥塞控制 tcp 拥塞控制
+tcp 粘包 发送方粘包
+发送方与接收方保持长连接（短连接不存在粘包问题） 过小数据合并发送，这个合并的过程再发送缓冲区进行，数据发送出来就已经是粘包状态
+接收方产生粘包
+read、recv 无法一次全部读出，然后下一个数据又到放入缓冲区末尾，等读取的数据就是一个粘包
+如何解决粘包问题
+分包机制，特殊字符控制、在包头首部添加数据包的长度
+注意使用netty框架就会有专门的编码器和解码器解决拆包和粘包问题
+基于tcp&amp;udp 常见的协议 tcp
+http 80 https 443 ftp 21 telnet 23 smtp 25 udp"/>
+
+
+
+<meta itemprop="name" content="计网">
+<meta itemprop="description" content="This is a page about »计网«.
+计算机网络&ndash;面试常见问题(自用) 网络结构 七层模型&amp;协议 物理层，传输单位bit，IEE802.3、CLOCK、RJ45 数据链路层，传输单位帧，MAC、VLAN、PPP 网络层，传输单位包，IP、ARP、ICMP 传输层，传输单位报文，TCP、UDP 会话层，输出单位SPDU，RPC、NFS 建立、管理、终止会话 表示层，传输单位PPDU，JPEG、ASII 对数据翻译、加密、压缩 应用层，传输单位APDU，FTP、HTTP、DNS
+TCP/IP 4层模型 网络接口层，MAC、VLAN 网络层，IP、ARP、ICMP 传输层，TCP、UDP 应用层，HTTP、DNS、SMTP
+常见的网络协议 tcp、udp 特点： tcp 三次握手/四次挥手 常见 专有名词，TIME_WAIT(作用、弊端、如何优化) tcp 可靠传输 数据包校验 对失序数据包重排 丢弃重复数据 应答机制 超时重发 流量控制 拥塞控制（满开始、拥塞避免、快重传、快恢复） 流量控制 发送方控制发送速率
+滑动窗口 什么是滑动窗口 tcp 采用滑动窗口进行流量控制
+拥塞控制 什么事拥塞控制 tcp 拥塞控制
+tcp 粘包 发送方粘包
+发送方与接收方保持长连接（短连接不存在粘包问题） 过小数据合并发送，这个合并的过程再发送缓冲区进行，数据发送出来就已经是粘包状态
+接收方产生粘包
+read、recv 无法一次全部读出，然后下一个数据又到放入缓冲区末尾，等读取的数据就是一个粘包
+如何解决粘包问题
+分包机制，特殊字符控制、在包头首部添加数据包的长度
+注意使用netty框架就会有专门的编码器和解码器解决拆包和粘包问题
+基于tcp&amp;udp 常见的协议 tcp
+http 80 https 443 ftp 21 telnet 23 smtp 25 udp"><meta itemprop="datePublished" content="2024-05-13T23:30:49+08:00" />
+<meta itemprop="dateModified" content="2024-05-13T23:30:49+08:00" />
+<meta itemprop="wordCount" content="116"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="keywords" content="计网,面试," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>张不大的博客</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/about/">About</a>
+
+<a href="/archive/archive/">Archive</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>计网</h1>
+<p>
+  <i>
+    <time datetime='2024-05-13' pubdate>
+      13 May, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>This is a page about »计网«.</p>
+<h1 id="计算机网络--面试常见问题自用">计算机网络&ndash;面试常见问题(自用)</h1>
+<h2 id="网络结构">网络结构</h2>
+<ul>
+<li>七层模型&amp;协议</li>
+</ul>
+<blockquote>
+<p>物理层，传输单位bit，IEE802.3、CLOCK、RJ45
+数据链路层，传输单位帧，MAC、VLAN、PPP
+网络层，传输单位包，IP、ARP、ICMP
+传输层，传输单位报文，TCP、UDP
+会话层，输出单位SPDU，RPC、NFS    建立、管理、终止会话
+表示层，传输单位PPDU，JPEG、ASII  对数据翻译、加密、压缩
+应用层，传输单位APDU，FTP、HTTP、DNS</p>
+</blockquote>
+<ul>
+<li>TCP/IP 4层模型</li>
+</ul>
+<blockquote>
+<p>网络接口层，MAC、VLAN
+网络层，IP、ARP、ICMP
+传输层，TCP、UDP
+应用层，HTTP、DNS、SMTP</p>
+</blockquote>
+<h2 id="常见的网络协议">常见的网络协议</h2>
+<h3 id="tcpudp">tcp、udp</h3>
+<ol>
+<li>特点：</li>
+<li>tcp 三次握手/四次挥手</li>
+<li>常见 专有名词，TIME_WAIT(作用、弊端、如何优化)</li>
+</ol>
+<ul>
+<li>tcp 可靠传输</li>
+</ul>
+<ol>
+<li>数据包校验</li>
+<li>对失序数据包重排</li>
+<li>丢弃重复数据</li>
+<li>应答机制</li>
+<li>超时重发</li>
+<li>流量控制</li>
+<li>拥塞控制（满开始、拥塞避免、快重传、快恢复）</li>
+</ol>
+<ul>
+<li>流量控制</li>
+</ul>
+<blockquote>
+<p>发送方控制发送速率</p>
+</blockquote>
+<ul>
+<li>滑动窗口</li>
+</ul>
+<blockquote>
+<p>什么是滑动窗口
+tcp 采用滑动窗口进行流量控制</p>
+</blockquote>
+<ul>
+<li>拥塞控制</li>
+</ul>
+<blockquote>
+<p>什么事拥塞控制
+tcp 拥塞控制</p>
+</blockquote>
+<ul>
+<li>tcp 粘包</li>
+</ul>
+<blockquote>
+<p>发送方粘包</p>
+<blockquote>
+<p>发送方与接收方保持长连接（短连接不存在粘包问题）
+过小数据合并发送，这个合并的过程再发送缓冲区进行，数据发送出来就已经是粘包状态</p>
+</blockquote>
+<p>接收方产生粘包</p>
+<blockquote>
+<p>read、recv 无法一次全部读出，然后下一个数据又到放入缓冲区末尾，等读取的数据就是一个粘包</p>
+</blockquote>
+<p>如何解决粘包问题</p>
+<blockquote>
+<p>分包机制，特殊字符控制、在包头首部添加数据包的长度</p>
+</blockquote>
+<p><strong>注意使用netty框架就会有专门的编码器和解码器解决拆包和粘包问题</strong></p>
+</blockquote>
+<ul>
+<li>基于tcp&amp;udp 常见的协议</li>
+</ul>
+<p>tcp</p>
+<ol>
+<li>http  80    https 443</li>
+<li>ftp 21</li>
+<li>telnet 23</li>
+<li>smtp 25</li>
+</ol>
+<hr>
+<p>udp</p>
+<ol>
+<li>tftp 69</li>
+<li>dns 53</li>
+<li>snmp 161
+4.dhcp 服务器发送从67发出，客户端从68发送</li>
+</ol>
+<h3 id="http">http</h3>
+<blockquote>
+<p>无状态连接</p>
+</blockquote>
+<blockquote>
+<p>cookie、session、jwt
+http1.0、http1.1、http2.0</p>
+</blockquote>
+<blockquote>
+<p>http 长连接</p>
+</blockquote>
+<blockquote>
+<p>http 的结构</p>
+</blockquote>
+<blockquote>
+<p>http 的方法</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>forward &amp; redirect</p>
+<p>get &amp; post</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>https</p>
+</blockquote>
+<blockquote>
+<p>在浏览器输出url 到显示主页到过程</p>
+</blockquote>
+<ol>
+<li>浏览器解析 url 是否合法</li>
+<li>浏览器检查是否有缓存（有三层缓存，浏览器缓存、系统缓存、路由器缓存）</li>
+<li>发送http 请求前，先进行域名解析，先从本地，再根域名服务器再是顶级域名服务器依次二级&hellip;</li>
+<li>浏览器向服务器发送tcp 三次握手，建立连接</li>
+<li>握手成功，浏览器向服务器发送http请求</li>
+<li>服务器接收请求，把响应结果发送给浏览器</li>
+<li>浏览器接收，并响应，如果没有缓存则缓存。</li>
+<li>浏览器根据服务器发送的响应数据做web 页面展示</li>
+</ol>
+<hr>
+<p>未完待续&hellip;</p>
+
+</content>
+<p>
+  
+  <a href="https://tutuwu2019.github.io/blog/%E8%AE%A1%E7%BD%91/">#计网</a>
+  
+  <a href="https://tutuwu2019.github.io/blog/%E9%9D%A2%E8%AF%95/">#面试</a>
+  
+</p>
+
+  </main>
+  <footer>contact me  <a href="https://github.com/tutuwu2019/">zhangbuda7788</a>
+</footer>
+
+    
+
+
+
+
+</body>
+
+</html>

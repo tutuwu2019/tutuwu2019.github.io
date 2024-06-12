@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
+<title>高性能服务器 | 张不大的博客</title>
+<meta name="title" content="高性能服务器" />
+<meta name="description" content="高性能服务器分析 声明：一点点自己的总结与感悟吧，如果有不对的地方，烦请指正
+服务器最重要的是能够解决复杂的网络问题，大量并发请求，如经典的c10K ，当然后面这个并发问题延伸到c10M
+当然这个 c10k 已经被从硬件和软件两个方面解决了，硬件方面应该是在 摩尔定律上下功夫？ 软件方面就有很多方向了，然后接下来着重讲软件方面的解决方案
+OS &amp; question 有人说，操作系统的底层设计让通信开销增大
+原话是，os 的内核不是解决c10M问题的办法，相反os 的内核正是导致C10M问题的关键
+简单解释一下，比如网络包进入网卡，然后通过网卡进入内核处理，内核接着拷贝把数据转给用户程序处理，再把处理的数据通过网卡发送客户端
+大致的思路是这样，然后就有人在这里分析，分析的结论有以下几个方面
+中断处理，频繁的硬件中断请求会增加os资源的开销，尤其是硬件中断会打断低级的软中断或者系统调用的执行过程，这种打断会增加一定的性能开销 内存拷贝，数据包从网卡到内核开辟的缓冲区，再由内核缓冲区到用户态空间，在linux 内核协议栈汇中的耗时占到了整个数据包处理过程的57.1% 上下文切换，频繁的中断处理，会产生大量的上下文切换开销，而且可能涉及资源竞争，这就会涉及锁的处理，用锁也是一个很大开销 局部性失效，在多核处理器中，一个数据包跨多个cpu核心，如数据包中断在cpu0，内核处理在cpu1，用户态处理在cpu2，这样跨多核，容易增加cpu缓存失效，造成局部性失效 内存管理，服务器内存页4k ？然后为了提高内存的访问速度，避免cache miss ，增加cache 的映射表条目，但是这增加了cpu 检索效率 当然也有解决方案
+控制层和数据层分层 多核技术 NUMA 亲和性 大页存技术 无锁技术 解决案例 是的，有一些包含上述的解决方案的网络框架（🤦）好像有很多很多网络框架，都说自己贼牛逼（高可用、分布式、高性能
+具体到的有，6wind、Windriver、Netmap、DPDK
+这个DPDK 其实好像很火，后面可以有空研究一下
+心得 好像，自己写过的项目，高性能是这样走的，
+首先是对数据的处理，使用各种池 线程池（Thread Pool）
+线程池是预先创建一组线程，任务提交后将分配给空闲的线程处理。线程池用于避免线程频繁创建和销毁的开销，提高并发性能。
+数据库连接池（Connection Pool）
+数据库连接池管理数据库连接。它预先创建一组数据库连接，并在需要时分配。这样可以减少每次连接数据库的开销，提高数据库操作的性能。
+对象池（Object Pool）
+对象池用于管理可重复使用的对象，避免对象的频繁创建和销毁。对象池可以用在各种场景，如游戏开发中的游戏对象、数据库连接、网络资源等。
+缓存池（Cache Pool）
+缓存池用于管理缓存，提供快速访问数据的能力。缓存池通常用于提高系统性能和响应速度，减少数据库或其他后端系统的负载。
+线程本地池（Thread Local Pool）
+线程本地池为每个线程创建一组独立的资源，确保每个线程都有自己独立的资源池。这在需要避免线程间资源共享的情况下非常有用。
+内存池（Memory Pool）
+内存池用于管理内存块。通过预先分配一块大内存，然后从中划分小块，减少内存分配和释放的开销。这种技术在需要频繁分配和释放内存的应用中非常有用。
+连接池（Connection Pool）
+连接池可以用于网络连接管理。它类似于数据库连接池，但用于管理网络连接，如与服务器、外部服务等的连接。
+资源池（Resource Pool）
+资源池可以管理各种类型的资源，如线程、对象、连接等。资源池的目的是提高资源利用率，减少资源创建和销毁的开销。
+消息池（Message Pool）" />
+<meta name="keywords" content="高性能服务器,性能分析," />
+
+
+<meta property="og:title" content="高性能服务器" />
+<meta property="og:description" content="高性能服务器分析 声明：一点点自己的总结与感悟吧，如果有不对的地方，烦请指正
+服务器最重要的是能够解决复杂的网络问题，大量并发请求，如经典的c10K ，当然后面这个并发问题延伸到c10M
+当然这个 c10k 已经被从硬件和软件两个方面解决了，硬件方面应该是在 摩尔定律上下功夫？ 软件方面就有很多方向了，然后接下来着重讲软件方面的解决方案
+OS &amp; question 有人说，操作系统的底层设计让通信开销增大
+原话是，os 的内核不是解决c10M问题的办法，相反os 的内核正是导致C10M问题的关键
+简单解释一下，比如网络包进入网卡，然后通过网卡进入内核处理，内核接着拷贝把数据转给用户程序处理，再把处理的数据通过网卡发送客户端
+大致的思路是这样，然后就有人在这里分析，分析的结论有以下几个方面
+中断处理，频繁的硬件中断请求会增加os资源的开销，尤其是硬件中断会打断低级的软中断或者系统调用的执行过程，这种打断会增加一定的性能开销 内存拷贝，数据包从网卡到内核开辟的缓冲区，再由内核缓冲区到用户态空间，在linux 内核协议栈汇中的耗时占到了整个数据包处理过程的57.1% 上下文切换，频繁的中断处理，会产生大量的上下文切换开销，而且可能涉及资源竞争，这就会涉及锁的处理，用锁也是一个很大开销 局部性失效，在多核处理器中，一个数据包跨多个cpu核心，如数据包中断在cpu0，内核处理在cpu1，用户态处理在cpu2，这样跨多核，容易增加cpu缓存失效，造成局部性失效 内存管理，服务器内存页4k ？然后为了提高内存的访问速度，避免cache miss ，增加cache 的映射表条目，但是这增加了cpu 检索效率 当然也有解决方案
+控制层和数据层分层 多核技术 NUMA 亲和性 大页存技术 无锁技术 解决案例 是的，有一些包含上述的解决方案的网络框架（🤦）好像有很多很多网络框架，都说自己贼牛逼（高可用、分布式、高性能
+具体到的有，6wind、Windriver、Netmap、DPDK
+这个DPDK 其实好像很火，后面可以有空研究一下
+心得 好像，自己写过的项目，高性能是这样走的，
+首先是对数据的处理，使用各种池 线程池（Thread Pool）
+线程池是预先创建一组线程，任务提交后将分配给空闲的线程处理。线程池用于避免线程频繁创建和销毁的开销，提高并发性能。
+数据库连接池（Connection Pool）
+数据库连接池管理数据库连接。它预先创建一组数据库连接，并在需要时分配。这样可以减少每次连接数据库的开销，提高数据库操作的性能。
+对象池（Object Pool）
+对象池用于管理可重复使用的对象，避免对象的频繁创建和销毁。对象池可以用在各种场景，如游戏开发中的游戏对象、数据库连接、网络资源等。
+缓存池（Cache Pool）
+缓存池用于管理缓存，提供快速访问数据的能力。缓存池通常用于提高系统性能和响应速度，减少数据库或其他后端系统的负载。
+线程本地池（Thread Local Pool）
+线程本地池为每个线程创建一组独立的资源，确保每个线程都有自己独立的资源池。这在需要避免线程间资源共享的情况下非常有用。
+内存池（Memory Pool）
+内存池用于管理内存块。通过预先分配一块大内存，然后从中划分小块，减少内存分配和释放的开销。这种技术在需要频繁分配和释放内存的应用中非常有用。
+连接池（Connection Pool）
+连接池可以用于网络连接管理。它类似于数据库连接池，但用于管理网络连接，如与服务器、外部服务等的连接。
+资源池（Resource Pool）
+资源池可以管理各种类型的资源，如线程、对象、连接等。资源池的目的是提高资源利用率，减少资源创建和销毁的开销。
+消息池（Message Pool）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tutuwu2019.github.io/%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2024-05-08T16:10:36+08:00" />
+<meta property="article:modified_time" content="2024-05-08T16:10:36+08:00" /><meta property="og:site_name" content="张不大的博客" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
+
+<meta name="twitter:title" content="高性能服务器"/>
+<meta name="twitter:description" content="高性能服务器分析 声明：一点点自己的总结与感悟吧，如果有不对的地方，烦请指正
+服务器最重要的是能够解决复杂的网络问题，大量并发请求，如经典的c10K ，当然后面这个并发问题延伸到c10M
+当然这个 c10k 已经被从硬件和软件两个方面解决了，硬件方面应该是在 摩尔定律上下功夫？ 软件方面就有很多方向了，然后接下来着重讲软件方面的解决方案
+OS &amp; question 有人说，操作系统的底层设计让通信开销增大
+原话是，os 的内核不是解决c10M问题的办法，相反os 的内核正是导致C10M问题的关键
+简单解释一下，比如网络包进入网卡，然后通过网卡进入内核处理，内核接着拷贝把数据转给用户程序处理，再把处理的数据通过网卡发送客户端
+大致的思路是这样，然后就有人在这里分析，分析的结论有以下几个方面
+中断处理，频繁的硬件中断请求会增加os资源的开销，尤其是硬件中断会打断低级的软中断或者系统调用的执行过程，这种打断会增加一定的性能开销 内存拷贝，数据包从网卡到内核开辟的缓冲区，再由内核缓冲区到用户态空间，在linux 内核协议栈汇中的耗时占到了整个数据包处理过程的57.1% 上下文切换，频繁的中断处理，会产生大量的上下文切换开销，而且可能涉及资源竞争，这就会涉及锁的处理，用锁也是一个很大开销 局部性失效，在多核处理器中，一个数据包跨多个cpu核心，如数据包中断在cpu0，内核处理在cpu1，用户态处理在cpu2，这样跨多核，容易增加cpu缓存失效，造成局部性失效 内存管理，服务器内存页4k ？然后为了提高内存的访问速度，避免cache miss ，增加cache 的映射表条目，但是这增加了cpu 检索效率 当然也有解决方案
+控制层和数据层分层 多核技术 NUMA 亲和性 大页存技术 无锁技术 解决案例 是的，有一些包含上述的解决方案的网络框架（🤦）好像有很多很多网络框架，都说自己贼牛逼（高可用、分布式、高性能
+具体到的有，6wind、Windriver、Netmap、DPDK
+这个DPDK 其实好像很火，后面可以有空研究一下
+心得 好像，自己写过的项目，高性能是这样走的，
+首先是对数据的处理，使用各种池 线程池（Thread Pool）
+线程池是预先创建一组线程，任务提交后将分配给空闲的线程处理。线程池用于避免线程频繁创建和销毁的开销，提高并发性能。
+数据库连接池（Connection Pool）
+数据库连接池管理数据库连接。它预先创建一组数据库连接，并在需要时分配。这样可以减少每次连接数据库的开销，提高数据库操作的性能。
+对象池（Object Pool）
+对象池用于管理可重复使用的对象，避免对象的频繁创建和销毁。对象池可以用在各种场景，如游戏开发中的游戏对象、数据库连接、网络资源等。
+缓存池（Cache Pool）
+缓存池用于管理缓存，提供快速访问数据的能力。缓存池通常用于提高系统性能和响应速度，减少数据库或其他后端系统的负载。
+线程本地池（Thread Local Pool）
+线程本地池为每个线程创建一组独立的资源，确保每个线程都有自己独立的资源池。这在需要避免线程间资源共享的情况下非常有用。
+内存池（Memory Pool）
+内存池用于管理内存块。通过预先分配一块大内存，然后从中划分小块，减少内存分配和释放的开销。这种技术在需要频繁分配和释放内存的应用中非常有用。
+连接池（Connection Pool）
+连接池可以用于网络连接管理。它类似于数据库连接池，但用于管理网络连接，如与服务器、外部服务等的连接。
+资源池（Resource Pool）
+资源池可以管理各种类型的资源，如线程、对象、连接等。资源池的目的是提高资源利用率，减少资源创建和销毁的开销。
+消息池（Message Pool）"/>
+
+
+
+<meta itemprop="name" content="高性能服务器">
+<meta itemprop="description" content="高性能服务器分析 声明：一点点自己的总结与感悟吧，如果有不对的地方，烦请指正
+服务器最重要的是能够解决复杂的网络问题，大量并发请求，如经典的c10K ，当然后面这个并发问题延伸到c10M
+当然这个 c10k 已经被从硬件和软件两个方面解决了，硬件方面应该是在 摩尔定律上下功夫？ 软件方面就有很多方向了，然后接下来着重讲软件方面的解决方案
+OS &amp; question 有人说，操作系统的底层设计让通信开销增大
+原话是，os 的内核不是解决c10M问题的办法，相反os 的内核正是导致C10M问题的关键
+简单解释一下，比如网络包进入网卡，然后通过网卡进入内核处理，内核接着拷贝把数据转给用户程序处理，再把处理的数据通过网卡发送客户端
+大致的思路是这样，然后就有人在这里分析，分析的结论有以下几个方面
+中断处理，频繁的硬件中断请求会增加os资源的开销，尤其是硬件中断会打断低级的软中断或者系统调用的执行过程，这种打断会增加一定的性能开销 内存拷贝，数据包从网卡到内核开辟的缓冲区，再由内核缓冲区到用户态空间，在linux 内核协议栈汇中的耗时占到了整个数据包处理过程的57.1% 上下文切换，频繁的中断处理，会产生大量的上下文切换开销，而且可能涉及资源竞争，这就会涉及锁的处理，用锁也是一个很大开销 局部性失效，在多核处理器中，一个数据包跨多个cpu核心，如数据包中断在cpu0，内核处理在cpu1，用户态处理在cpu2，这样跨多核，容易增加cpu缓存失效，造成局部性失效 内存管理，服务器内存页4k ？然后为了提高内存的访问速度，避免cache miss ，增加cache 的映射表条目，但是这增加了cpu 检索效率 当然也有解决方案
+控制层和数据层分层 多核技术 NUMA 亲和性 大页存技术 无锁技术 解决案例 是的，有一些包含上述的解决方案的网络框架（🤦）好像有很多很多网络框架，都说自己贼牛逼（高可用、分布式、高性能
+具体到的有，6wind、Windriver、Netmap、DPDK
+这个DPDK 其实好像很火，后面可以有空研究一下
+心得 好像，自己写过的项目，高性能是这样走的，
+首先是对数据的处理，使用各种池 线程池（Thread Pool）
+线程池是预先创建一组线程，任务提交后将分配给空闲的线程处理。线程池用于避免线程频繁创建和销毁的开销，提高并发性能。
+数据库连接池（Connection Pool）
+数据库连接池管理数据库连接。它预先创建一组数据库连接，并在需要时分配。这样可以减少每次连接数据库的开销，提高数据库操作的性能。
+对象池（Object Pool）
+对象池用于管理可重复使用的对象，避免对象的频繁创建和销毁。对象池可以用在各种场景，如游戏开发中的游戏对象、数据库连接、网络资源等。
+缓存池（Cache Pool）
+缓存池用于管理缓存，提供快速访问数据的能力。缓存池通常用于提高系统性能和响应速度，减少数据库或其他后端系统的负载。
+线程本地池（Thread Local Pool）
+线程本地池为每个线程创建一组独立的资源，确保每个线程都有自己独立的资源池。这在需要避免线程间资源共享的情况下非常有用。
+内存池（Memory Pool）
+内存池用于管理内存块。通过预先分配一块大内存，然后从中划分小块，减少内存分配和释放的开销。这种技术在需要频繁分配和释放内存的应用中非常有用。
+连接池（Connection Pool）
+连接池可以用于网络连接管理。它类似于数据库连接池，但用于管理网络连接，如与服务器、外部服务等的连接。
+资源池（Resource Pool）
+资源池可以管理各种类型的资源，如线程、对象、连接等。资源池的目的是提高资源利用率，减少资源创建和销毁的开销。
+消息池（Message Pool）"><meta itemprop="datePublished" content="2024-05-08T16:10:36+08:00" />
+<meta itemprop="dateModified" content="2024-05-08T16:10:36+08:00" />
+<meta itemprop="wordCount" content="1294"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="keywords" content="高性能服务器,性能分析," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>张不大的博客</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/about/">About</a>
+
+<a href="/archive/archive/">Archive</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>高性能服务器</h1>
+<p>
+  <i>
+    <time datetime='2024-05-08' pubdate>
+      08 May, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <h1 id="高性能服务器分析">高性能服务器分析</h1>
+<hr>
+<p>声明：一点点自己的总结与感悟吧，如果有不对的地方，烦请指正</p>
+<blockquote>
+<p>服务器最重要的是能够解决复杂的网络问题，大量并发请求，如经典的<strong>c10K</strong> ，当然后面这个并发问题延伸到<strong>c10M</strong></p>
+<blockquote>
+<p>当然这个 c10k 已经被从硬件和软件两个方面解决了，硬件方面应该是在 摩尔定律上下功夫？ 软件方面就有很多方向了，然后接下来着重讲软件方面的解决方案</p>
+</blockquote>
+</blockquote>
+<h2 id="os--question">OS &amp; question</h2>
+<blockquote>
+<p>有人说，操作系统的底层设计让通信开销增大</p>
+<blockquote>
+<p>原话是，os 的内核不是解决c10M问题的办法，相反os 的内核正是导致C10M问题的关键</p>
+</blockquote>
+<blockquote>
+<p>简单解释一下，比如网络包进入网卡，然后通过网卡进入内核处理，内核接着拷贝把数据转给用户程序处理，再把处理的数据通过网卡发送客户端</p>
+</blockquote>
+</blockquote>
+<p>大致的思路是这样，然后就有人在这里分析，分析的结论有以下几个方面</p>
+<ul>
+<li>中断处理，频繁的硬件中断请求会增加os资源的开销，尤其是硬件中断会打断低级的软中断或者系统调用的执行过程，这种打断会增加一定的性能开销</li>
+<li>内存拷贝，数据包从网卡到内核开辟的缓冲区，再由内核缓冲区到用户态空间，在linux 内核协议栈汇中的耗时占到了整个数据包处理过程的57.1%</li>
+<li>上下文切换，频繁的中断处理，会产生大量的上下文切换开销，而且可能涉及资源竞争，这就会涉及锁的处理，用<strong>锁</strong>也是一个很大开销</li>
+<li>局部性失效，在多核处理器中，一个数据包跨多个cpu核心，如数据包中断在cpu0，内核处理在cpu1，用户态处理在cpu2，这样跨多核，容易增加cpu缓存失效，造成局部性失效</li>
+<li>内存管理，服务器内存页4k ？然后为了提高内存的访问速度，避免cache miss ，增加cache 的映射表条目，<strong>但是这增加了cpu 检索效率</strong></li>
+</ul>
+<p>当然也有解决方案</p>
+<ul>
+<li>控制层和数据层分层</li>
+<li>多核技术</li>
+<li>NUMA 亲和性</li>
+<li>大页存技术</li>
+<li>无锁技术</li>
+</ul>
+<h2 id="解决案例">解决案例</h2>
+<p>是的，有一些包含上述的解决方案的网络框架（🤦）好像有很多很多网络框架，都说自己贼牛逼（高可用、分布式、高性能</p>
+<p>具体到的有，6wind、Windriver、Netmap、DPDK</p>
+<p>这个DPDK 其实好像很火，后面可以有空研究一下</p>
+<h2 id="心得">心得</h2>
+<p>好像，自己写过的项目，高性能是这样走的，</p>
+<h3 id="首先是对数据的处理使用各种池">首先是对数据的处理，使用各种池</h3>
+<blockquote>
+<p>线程池（Thread Pool）</p>
+<blockquote>
+<p>线程池是预先创建一组线程，任务提交后将分配给空闲的线程处理。线程池用于避免线程频繁创建和销毁的开销，提高并发性能。</p>
+</blockquote>
+<p>数据库连接池（Connection Pool）</p>
+<blockquote>
+<p>数据库连接池管理数据库连接。它预先创建一组数据库连接，并在需要时分配。这样可以减少每次连接数据库的开销，提高数据库操作的性能。</p>
+</blockquote>
+<p>对象池（Object Pool）</p>
+<blockquote>
+<p>对象池用于管理可重复使用的对象，避免对象的频繁创建和销毁。对象池可以用在各种场景，如游戏开发中的游戏对象、数据库连接、网络资源等。</p>
+</blockquote>
+<p>缓存池（Cache Pool）</p>
+<blockquote>
+<p>缓存池用于管理缓存，提供快速访问数据的能力。缓存池通常用于提高系统性能和响应速度，减少数据库或其他后端系统的负载。</p>
+</blockquote>
+<p>线程本地池（Thread Local Pool）</p>
+<blockquote>
+<p>线程本地池为每个线程创建一组独立的资源，确保每个线程都有自己独立的资源池。这在需要避免线程间资源共享的情况下非常有用。</p>
+</blockquote>
+<p>内存池（Memory Pool）</p>
+<blockquote>
+<p>内存池用于管理内存块。通过预先分配一块大内存，然后从中划分小块，减少内存分配和释放的开销。这种技术在需要频繁分配和释放内存的应用中非常有用。</p>
+</blockquote>
+<p>连接池（Connection Pool）</p>
+<blockquote>
+<p>连接池可以用于网络连接管理。它类似于数据库连接池，但用于管理网络连接，如与服务器、外部服务等的连接。</p>
+</blockquote>
+<p>资源池（Resource Pool）</p>
+<blockquote>
+<p>资源池可以管理各种类型的资源，如线程、对象、连接等。资源池的目的是提高资源利用率，减少资源创建和销毁的开销。</p>
+</blockquote>
+<p>消息池（Message Pool）</p>
+<blockquote>
+<p>消息池用于管理消息对象，通常用于消息队列、事件系统等。消息池可以减少消息对象的创建和销毁，提高消息处理的性能。</p>
+</blockquote>
+</blockquote>
+<h3 id="然后是io多路复用">然后是io多路复用</h3>
+<h4 id="比如常见的三剑客-selectpollepoll">比如常见的“三剑客” select、poll、epoll</h4>
+<p>(环境linux c/c++)</p>
+<ul>
+<li>select</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/select.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/socket.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netinet/in.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> server_fd <span style="color:#f92672">=</span> socket(AF_INET, SOCK_STREAM, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    sockaddr_in address <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>    address.sin_family <span style="color:#f92672">=</span> AF_INET;
+</span></span><span style="display:flex;"><span>    address.sin_port <span style="color:#f92672">=</span> htons(<span style="color:#ae81ff">8080</span>);
+</span></span><span style="display:flex;"><span>    address.sin_addr.s_addr <span style="color:#f92672">=</span> INADDR_ANY;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    bind(server_fd, (<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>address, <span style="color:#66d9ef">sizeof</span>(address));
+</span></span><span style="display:flex;"><span>    listen(server_fd, <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    fd_set readfds;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (true) {
+</span></span><span style="display:flex;"><span>        FD_ZERO(<span style="color:#f92672">&amp;</span>readfds);
+</span></span><span style="display:flex;"><span>        FD_SET(server_fd, <span style="color:#f92672">&amp;</span>readfds);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> max_fd <span style="color:#f92672">=</span> server_fd;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> activity <span style="color:#f92672">=</span> select(max_fd <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>readfds, <span style="color:#66d9ef">nullptr</span>, <span style="color:#66d9ef">nullptr</span>, <span style="color:#66d9ef">nullptr</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (activity <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> errno <span style="color:#f92672">!=</span> EINTR) {
+</span></span><span style="display:flex;"><span>            std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Select error&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (FD_ISSET(server_fd, <span style="color:#f92672">&amp;</span>readfds)) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> client_fd <span style="color:#f92672">=</span> accept(server_fd, <span style="color:#66d9ef">nullptr</span>, <span style="color:#66d9ef">nullptr</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello from select server</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>            send(client_fd, message, strlen(message), <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>            close(client_fd);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    close(server_fd);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>poll</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/poll.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/socket.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netinet/in.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> server_fd <span style="color:#f92672">=</span> socket(AF_INET, SOCK_STREAM, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    sockaddr_in address <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>    address.sin_family <span style="color:#f92672">=</span> AF_INET;
+</span></span><span style="display:flex;"><span>    address.sin_port <span style="color:#f92672">=</span> htons(<span style="color:#ae81ff">8080</span>);
+</span></span><span style="display:flex;"><span>    address.sin_addr.s_addr <span style="color:#f92672">=</span> INADDR_ANY;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    bind(server_fd, (<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>address, <span style="color:#66d9ef">sizeof</span>(address));
+</span></span><span style="display:flex;"><span>    listen(server_fd, <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    pollfd fds[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    fds[<span style="color:#ae81ff">0</span>].fd <span style="color:#f92672">=</span> server_fd;
+</span></span><span style="display:flex;"><span>    fds[<span style="color:#ae81ff">0</span>].events <span style="color:#f92672">=</span> POLLIN;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (true) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> activity <span style="color:#f92672">=</span> poll(fds, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (activity <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Poll error&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (fds[<span style="color:#ae81ff">0</span>].revents <span style="color:#f92672">&amp;</span> POLLIN) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> client_fd <span style="color:#f92672">=</span> accept(server_fd, <span style="color:#66d9ef">nullptr</span>, <span style="color:#66d9ef">nullptr</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello from poll server</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>            send(client_fd, message, strlen(message), <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>            close(client_fd);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    close(server_fd);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>epoll</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/epoll.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/socket.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netinet/in.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> server_fd <span style="color:#f92672">=</span> socket(AF_INET, SOCK_STREAM, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    sockaddr_in address <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>    address.sin_family <span style="color:#f92672">=</span> AF_INET;
+</span></span><span style="display:flex;"><span>    address.sin_port <span style="color:#f92672">=</span> htons(<span style="color:#ae81ff">8080</span>);
+</span></span><span style="display:flex;"><span>    address.sin_addr.s_addr <span style="color:#f92672">=</span> INADDR_ANY;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    bind(server_fd, (<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>address, <span style="color:#66d9ef">sizeof</span>(address));
+</span></span><span style="display:flex;"><span>    listen(server_fd, <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> epoll_fd <span style="color:#f92672">=</span> epoll_create(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    epoll_event event <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>    event.events <span style="color:#f92672">=</span> EPOLLIN;
+</span></span><span style="display:flex;"><span>    event.data.fd <span style="color:#f92672">=</span> server_fd;
+</span></span><span style="display:flex;"><span>    epoll_ctl(epoll_fd, EPOLL_CTL_ADD, server_fd, <span style="color:#f92672">&amp;</span>event);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (true) {
+</span></span><span style="display:flex;"><span>        epoll_event events[<span style="color:#ae81ff">10</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> activity <span style="color:#f92672">=</span> epoll_wait(epoll_fd, events, <span style="color:#ae81ff">10</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (activity <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Epoll error&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> activity; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (events[i].data.fd <span style="color:#f92672">==</span> server_fd) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> client_fd <span style="color:#f92672">=</span> accept(server_fd, <span style="color:#66d9ef">nullptr</span>, <span style="color:#66d9ef">nullptr</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello from epoll server</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>                send(client_fd, message, strlen(message), <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>                close(client_fd);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    close(server_fd);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="pr--create-">pr &amp; create ?</h3>
+<p>(这块我暂时想不了，系统的写一篇博客真的要点东西啊)</p>
+<h2 id="边缘触发--水平触发">边缘触发 &amp;&amp; 水平触发</h2>
+<blockquote>
+<p>边缘触发 edge  trigger （ET）
+水平触发 level trigger</p>
+</blockquote>
+<p><a href="https://github.com/Manistein/test_epoll_lt_and_et">源码参考</a></p>
+<ul>
+<li>server</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//server
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/epoll.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/socket.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netinet/tcp.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fcntl.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;errno.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netinet/in.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;arpa/inet.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netdb.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">do_listen</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> host, <span style="color:#66d9ef">int</span> port) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">addrinfo</span> ai_hints;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">addrinfo</span><span style="color:#f92672">*</span> ai_list <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> portstr[<span style="color:#ae81ff">16</span>];
+</span></span><span style="display:flex;"><span>    sprintf(portstr, <span style="color:#e6db74">&#34;%d&#34;</span>, port);
+</span></span><span style="display:flex;"><span>    memset(<span style="color:#f92672">&amp;</span>ai_list, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(ai_hints));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ai_hints.ai_socktype <span style="color:#f92672">=</span> SOCK_STREAM;
+</span></span><span style="display:flex;"><span>    ai_hints.ai_protocol <span style="color:#f92672">=</span> IPPROTO_TCP;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> status <span style="color:#f92672">=</span> getaddrinfo(host, portstr, <span style="color:#f92672">&amp;</span>ai_hints, <span style="color:#f92672">&amp;</span>ai_list);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (status <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> fd <span style="color:#f92672">=</span> socket(ai_list<span style="color:#f92672">-&gt;</span>ai_family, ai_list<span style="color:#f92672">-&gt;</span>ai_socktype, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (fd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        freeaddrinfo(ai_list);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    status <span style="color:#f92672">=</span> bind(fd, (<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr</span><span style="color:#f92672">*</span>)ai_list<span style="color:#f92672">-&gt;</span>ai_addr, ai_list<span style="color:#f92672">-&gt;</span>ai_addrlen);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (status <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        close(fd);
+</span></span><span style="display:flex;"><span>        freeaddrinfo(ai_list);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    listen(fd, <span style="color:#ae81ff">30</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;do_listen success fd:%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, fd);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> fd;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">**</span> argv) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (argc <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;please input mode, lt or et</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ep_event <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (strcmp(argv[<span style="color:#ae81ff">1</span>], <span style="color:#e6db74">&#34;et&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        ep_event <span style="color:#f92672">=</span> EPOLLET;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (strcmp(argv[<span style="color:#ae81ff">1</span>], <span style="color:#e6db74">&#34;lt&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        ep_event <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;unknow mode %s please input lt or et</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, argv[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> epfd <span style="color:#f92672">=</span> epoll_create(<span style="color:#ae81ff">1024</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (epfd <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;fail to create epoll %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, errno);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> listen_fd <span style="color:#f92672">=</span> do_listen(<span style="color:#e6db74">&#34;127.0.0.1&#34;</span>, <span style="color:#ae81ff">8001</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (listen_fd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;do listen fail&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">epoll_event</span> ee;
+</span></span><span style="display:flex;"><span>    ee.events <span style="color:#f92672">=</span> EPOLLIN;
+</span></span><span style="display:flex;"><span>    ee.data.fd <span style="color:#f92672">=</span> listen_fd;
+</span></span><span style="display:flex;"><span>    epoll_ctl(epfd, EPOLL_CTL_ADD, listen_fd, <span style="color:#f92672">&amp;</span>ee);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(;;) {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;before epoll epoll_wait</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">epoll_event</span> ev[<span style="color:#ae81ff">16</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> epoll_wait(epfd, ev, <span style="color:#ae81ff">16</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            printf(<span style="color:#e6db74">&#34;epoll_wait error %d&#34;</span>, errno);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;after epoll_wait event n:%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, n);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">epoll_event</span><span style="color:#f92672">*</span> e <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>ev[i];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (e<span style="color:#f92672">-&gt;</span>data.fd <span style="color:#f92672">==</span> listen_fd) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr</span> s;
+</span></span><span style="display:flex;"><span>                socklen_t len <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(s);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> client_fd <span style="color:#f92672">=</span> accept(listen_fd, <span style="color:#f92672">&amp;</span>s, <span style="color:#f92672">&amp;</span>len);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (client_fd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                fcntl(client_fd, F_SETFL, O_NONBLOCK);
+</span></span><span style="display:flex;"><span>                ee.events <span style="color:#f92672">=</span> EPOLLIN <span style="color:#f92672">|</span> ep_event;
+</span></span><span style="display:flex;"><span>                ee.data.fd <span style="color:#f92672">=</span> client_fd;
+</span></span><span style="display:flex;"><span>                epoll_ctl(epfd, EPOLL_CTL_ADD, client_fd, <span style="color:#f92672">&amp;</span>ee);
+</span></span><span style="display:flex;"><span>                printf(<span style="color:#e6db74">&#34;accpet new connection fd:%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, client_fd);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> client_fd <span style="color:#f92672">=</span> e<span style="color:#f92672">-&gt;</span>data.fd;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> flag <span style="color:#f92672">=</span> e<span style="color:#f92672">-&gt;</span>events;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> (flag <span style="color:#f92672">&amp;</span> EPOLLIN) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (r) {
+</span></span><span style="display:flex;"><span>                    printf(<span style="color:#e6db74">&#34;read fd:%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, client_fd);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">char</span> buffer[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> read(client_fd, buffer, <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>                    printf(<span style="color:#e6db74">&#34;read number %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, n);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">switch</span>(errno) {
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">case</span> EINTR: <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">case</span> EWOULDBLOCK: <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                        }
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                        epoll_ctl(epfd, EPOLL_CTL_DEL, client_fd, NULL);
+</span></span><span style="display:flex;"><span>                        close(client_fd);
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                        printf(<span style="color:#e6db74">&#34;----%c%c</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, buffer[<span style="color:#ae81ff">0</span>], buffer[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>client</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//client
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/epoll.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/socket.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netinet/tcp.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fcntl.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;errno.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netinet/in.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;arpa/inet.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netdb.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">do_listen</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> host, <span style="color:#66d9ef">int</span> port) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">addrinfo</span> ai_hints;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">addrinfo</span><span style="color:#f92672">*</span> ai_list <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> portstr[<span style="color:#ae81ff">16</span>];
+</span></span><span style="display:flex;"><span>    sprintf(portstr, <span style="color:#e6db74">&#34;%d&#34;</span>, port);
+</span></span><span style="display:flex;"><span>    memset(<span style="color:#f92672">&amp;</span>ai_list, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(ai_hints));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ai_hints.ai_socktype <span style="color:#f92672">=</span> SOCK_STREAM;
+</span></span><span style="display:flex;"><span>    ai_hints.ai_protocol <span style="color:#f92672">=</span> IPPROTO_TCP;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> status <span style="color:#f92672">=</span> getaddrinfo(host, portstr, <span style="color:#f92672">&amp;</span>ai_hints, <span style="color:#f92672">&amp;</span>ai_list);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (status <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> fd <span style="color:#f92672">=</span> socket(ai_list<span style="color:#f92672">-&gt;</span>ai_family, ai_list<span style="color:#f92672">-&gt;</span>ai_socktype, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (fd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        freeaddrinfo(ai_list);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    status <span style="color:#f92672">=</span> bind(fd, (<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr</span><span style="color:#f92672">*</span>)ai_list<span style="color:#f92672">-&gt;</span>ai_addr, ai_list<span style="color:#f92672">-&gt;</span>ai_addrlen);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (status <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        close(fd);
+</span></span><span style="display:flex;"><span>        freeaddrinfo(ai_list);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    listen(fd, <span style="color:#ae81ff">30</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;do_listen success fd:%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, fd);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> fd;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">**</span> argv) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (argc <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;please input mode, lt or et</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ep_event <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (strcmp(argv[<span style="color:#ae81ff">1</span>], <span style="color:#e6db74">&#34;et&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        ep_event <span style="color:#f92672">=</span> EPOLLET;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (strcmp(argv[<span style="color:#ae81ff">1</span>], <span style="color:#e6db74">&#34;lt&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        ep_event <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;unknow mode %s please input lt or et</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, argv[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> epfd <span style="color:#f92672">=</span> epoll_create(<span style="color:#ae81ff">1024</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (epfd <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;fail to create epoll %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, errno);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> listen_fd <span style="color:#f92672">=</span> do_listen(<span style="color:#e6db74">&#34;127.0.0.1&#34;</span>, <span style="color:#ae81ff">8001</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (listen_fd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;do listen fail&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">epoll_event</span> ee;
+</span></span><span style="display:flex;"><span>    ee.events <span style="color:#f92672">=</span> EPOLLIN;
+</span></span><span style="display:flex;"><span>    ee.data.fd <span style="color:#f92672">=</span> listen_fd;
+</span></span><span style="display:flex;"><span>    epoll_ctl(epfd, EPOLL_CTL_ADD, listen_fd, <span style="color:#f92672">&amp;</span>ee);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(;;) {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;before epoll epoll_wait</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">epoll_event</span> ev[<span style="color:#ae81ff">16</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> epoll_wait(epfd, ev, <span style="color:#ae81ff">16</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            printf(<span style="color:#e6db74">&#34;epoll_wait error %d&#34;</span>, errno);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;after epoll_wait event n:%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, n);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">epoll_event</span><span style="color:#f92672">*</span> e <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>ev[i];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (e<span style="color:#f92672">-&gt;</span>data.fd <span style="color:#f92672">==</span> listen_fd) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr</span> s;
+</span></span><span style="display:flex;"><span>                socklen_t len <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(s);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> client_fd <span style="color:#f92672">=</span> accept(listen_fd, <span style="color:#f92672">&amp;</span>s, <span style="color:#f92672">&amp;</span>len);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (client_fd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                fcntl(client_fd, F_SETFL, O_NONBLOCK);
+</span></span><span style="display:flex;"><span>                ee.events <span style="color:#f92672">=</span> EPOLLIN <span style="color:#f92672">|</span> ep_event;
+</span></span><span style="display:flex;"><span>                ee.data.fd <span style="color:#f92672">=</span> client_fd;
+</span></span><span style="display:flex;"><span>                epoll_ctl(epfd, EPOLL_CTL_ADD, client_fd, <span style="color:#f92672">&amp;</span>ee);
+</span></span><span style="display:flex;"><span>                printf(<span style="color:#e6db74">&#34;accpet new connection fd:%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, client_fd);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> client_fd <span style="color:#f92672">=</span> e<span style="color:#f92672">-&gt;</span>data.fd;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> flag <span style="color:#f92672">=</span> e<span style="color:#f92672">-&gt;</span>events;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> (flag <span style="color:#f92672">&amp;</span> EPOLLIN) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (r) {
+</span></span><span style="display:flex;"><span>                    printf(<span style="color:#e6db74">&#34;read fd:%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, client_fd);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">char</span> buffer[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> read(client_fd, buffer, <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>                    printf(<span style="color:#e6db74">&#34;read number %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, n);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">switch</span>(errno) {
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">case</span> EINTR: <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">case</span> EWOULDBLOCK: <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                        }
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                        epoll_ctl(epfd, EPOLL_CTL_DEL, client_fd, NULL);
+</span></span><span style="display:flex;"><span>                        close(client_fd);
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                        printf(<span style="color:#e6db74">&#34;----%c%c</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, buffer[<span style="color:#ae81ff">0</span>], buffer[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="阻塞与非阻塞">阻塞与非阻塞</h2>
+<p>阻塞 I/O
+在阻塞模式下，当一个 I/O 操作（例如读取数据、写入数据）被调用时，如果数据不可用或操作无法立即完成，程序会等待，直到操作完成。这意味着程序的执行将暂停，直到 I/O 操作完成。</p>
+<p>特点
+简单易用：阻塞 I/O 通常更简单，编程更容易理解。程序只需等待操作完成，无需处理异步操作。
+可能导致性能瓶颈：阻塞 I/O 会导致整个线程暂停，这在处理大量并发请求时可能导致性能瓶颈。
+适用于简单应用：对于不需要高并发的应用，阻塞 I/O 是一种简单有效的解决方案。
+适用场景
+单线程应用：在单线程环境中，阻塞 I/O 可能更容易实现，因为没有并发问题。
+低并发应用：在不需要处理大量并发请求的情况下，阻塞 I/O 可以简化编程。
+批处理任务：在不需要即时响应的批处理任务中，阻塞 I/O 可能是合适的选择。
+非阻塞 I/O
+在非阻塞模式下，I/O 操作立即返回，而不等待操作完成。如果操作无法立即完成，程序会得到一个标志（如 EAGAIN 或 EWOULDBLOCK），指示稍后再尝试。非阻塞 I/O 通常与 I/O 多路复用技术（如 select、poll、epoll）结合使用。</p>
+<p>特点
+高并发：非阻塞 I/O 适合处理大量并发请求，因为线程不会因为 I/O 操作而阻塞。
+需要异步处理：非阻塞 I/O 通常需要处理异步操作，可能增加代码的复杂性。
+更复杂的设计：非阻塞 I/O 需要考虑并发和同步问题，设计复杂度更高。
+适用场景
+高并发服务器：在处理大量并发请求时，非阻塞 I/O 可以提高服务器的吞吐量和性能。
+事件驱动架构：非阻塞 I/O 通常与事件驱动架构结合使用，实现高性能服务器。
+实时应用：在需要实时响应的应用中，非阻塞 I/O 可以提供更好的性能。
+总结
+阻塞和非阻塞 I/O 在性能和应用场景上有显著区别。阻塞 I/O 适用于简单、低并发的应用，而非阻塞 I/O 适用于高并发、事件驱动的环境。选择哪种模式取决于应用的需求、并发量和性能要求。</p>
+<p>对于高性能服务器，非阻塞 I/O 通常是更好的选择，因为它可以处理大量并发请求，提高服务器的性能和可扩展性。阻塞 I/O 更适合简单、低并发的应用。选择哪种模式要根据具体场景和需求而定。</p>
+<p>(问的gpt)</p>
+<h2 id="总结">总结</h2>
+<p>高性能服务器，首先要完成最基本的通信问题，其次在考虑根据各种复杂环境做相应的处理。
+不如，多线程就不适合做阻塞
+但是，事件处理机制就不能用阻塞而要用非阻塞</p>
+<p>有很多时候，会有这样一个idea，一个问题，站在不同角度去分析又是另个味道，下次具体化说来听听🙊</p>
+
+</content>
+<p>
+  
+  <a href="https://tutuwu2019.github.io/blog/%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8/">#高性能服务器</a>
+  
+  <a href="https://tutuwu2019.github.io/blog/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">#性能分析</a>
+  
+</p>
+
+  </main>
+  <footer>contact me  <a href="https://github.com/tutuwu2019/">zhangbuda7788</a>
+</footer>
+
+    
+
+
+
+
+</body>
+
+</html>

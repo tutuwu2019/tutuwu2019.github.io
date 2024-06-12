@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>工作 on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/%E5%B7%A5%E4%BD%9C/</link>
+    <description>Recent content in 工作 on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Wed, 15 May 2024 19:01:11 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/%E5%B7%A5%E4%BD%9C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>职业发展</title>
+      <link>https://tutuwu2019.github.io/%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95/</link>
+      <pubDate>Wed, 15 May 2024 19:01:11 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95/</guid>
+      <description>This is a page about »职业发展«.
+职业发展 我的困惑 一句话，计算机辐射的领域太多了，所以造就了很多工作方向，很多岗位
+在大学的时候，我的思维还没转过来，也和当时的培养方案有关。
+要学这，有要学那，还有考试，让人好忙，可是真正学的东西少之又少
+加上自己当时不喜欢java，看到jetbrains idea 然后配环境、搞maven 弄的很难受
+到了找工作的时候，跟着牛客的c++高性能服务器入了门，自此进入了c/c++服务器这个方向
+工作方向是网关认证领域，用vscode 远程连linux，真的好舒服，尽管有时候项目要在低版本linux编译&amp;amp;运行，然后vscode 对低版本的扩展越来越不友好，当时也想了《简单》搞gcc 库依赖解决低版本问题，gcc 是linux 的底层库，遂换了一个解决方案
+发现（base 广州），c/c++ 的服务器岗位特别少，主要面向游戏服务器(重点是要有实际游戏开发经验)，其实就是c/c++ 客户端，做QT的，说实话，自己不是很感冒
+后面想着要不再学一门主力语言go，后面发现，go 主要是做网络（网关？）有优势，做业务还得java，兜兜转转又回来🤣
+接下来，定下来就主方向，c/c++、go，然后往分布式存储、网关方向学习、成长。
+职业发展感慨 当下的环境这么差，大家有目共睹。
+可是，我的朋友圈，有人从字节跳到虾皮
+他的朋友圈个性签名是：Dream is possible
+我很是震撼，我记得他实习在虎牙做直播，后来毕业就跳到了字节，应该在字节呆了有3年了？大家都说字节1年，人间3年。我真的很震撼，很多方面，有技术、有觉悟、也有职业发展
+学历决定下界，思维决定上界。可能很多东西，像思维啊，已经是定数了。
+但是没事啊!慢就慢点，把真本领练出来，构造自己的护城河。
+加油！
+最后 一点感悟：
+没有什么是一劳永逸。工作==拿时间换钱
+把握当下，过去了的很难再回来
+焦虑的时候，就停下来想10s，再做
+要对大厂祛魅，但是要向技术抬头，追求
+最后一点，保持身体健康，坚持锻炼，keep contact with family.</description>
+    </item>
+    
+  </channel>
+</rss>

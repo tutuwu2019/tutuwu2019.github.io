@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
+<title>随写笔记 | 张不大的博客</title>
+<meta name="title" content="随写笔记" />
+<meta name="description" content="This is a page about »随写笔记«.
+随写笔记 代码简洁之道 代码简洁之道01
+同步、异步、阻塞io、非阻塞io 参考01 参考02 参考03 参考04 参考05 参考06
+云原生系统 devops 关键词：云原生系统 devops
+耗子&mdash;系统架构的一些原则 跳转
+服从客观，抵制主观
+这大概是我当下的感受吧，在大学时期总是主观的选择那个看起来逻辑简单的，比如说用c/c&#43;&#43;做主力语言，而不是java，后来就导致，各种坑、各种坎坷
+其实，转方向是必然的，就像现在跳go，我们总是容易看帖子、短视频、公众号软文听信了那个主观选择，然后这条路走着走着发现不对劲，后悔啊、说多了都是🥱
+总之一切都来得及，一切都在路上，用文章结那句话来讲，&ldquo;进步来于探索，探索需要付出代价，但收获是值得的.&rdquo;
+共勉
+后续更新&hellip;" />
+<meta name="keywords" content="随写," />
+
+
+<meta property="og:title" content="随写笔记" />
+<meta property="og:description" content="This is a page about »随写笔记«.
+随写笔记 代码简洁之道 代码简洁之道01
+同步、异步、阻塞io、非阻塞io 参考01 参考02 参考03 参考04 参考05 参考06
+云原生系统 devops 关键词：云原生系统 devops
+耗子&mdash;系统架构的一些原则 跳转
+服从客观，抵制主观
+这大概是我当下的感受吧，在大学时期总是主观的选择那个看起来逻辑简单的，比如说用c/c&#43;&#43;做主力语言，而不是java，后来就导致，各种坑、各种坎坷
+其实，转方向是必然的，就像现在跳go，我们总是容易看帖子、短视频、公众号软文听信了那个主观选择，然后这条路走着走着发现不对劲，后悔啊、说多了都是🥱
+总之一切都来得及，一切都在路上，用文章结那句话来讲，&ldquo;进步来于探索，探索需要付出代价，但收获是值得的.&rdquo;
+共勉
+后续更新&hellip;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2024-05-19T10:32:25+08:00" />
+<meta property="article:modified_time" content="2024-05-19T10:32:25+08:00" /><meta property="og:site_name" content="张不大的博客" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
+
+<meta name="twitter:title" content="随写笔记"/>
+<meta name="twitter:description" content="This is a page about »随写笔记«.
+随写笔记 代码简洁之道 代码简洁之道01
+同步、异步、阻塞io、非阻塞io 参考01 参考02 参考03 参考04 参考05 参考06
+云原生系统 devops 关键词：云原生系统 devops
+耗子&mdash;系统架构的一些原则 跳转
+服从客观，抵制主观
+这大概是我当下的感受吧，在大学时期总是主观的选择那个看起来逻辑简单的，比如说用c/c&#43;&#43;做主力语言，而不是java，后来就导致，各种坑、各种坎坷
+其实，转方向是必然的，就像现在跳go，我们总是容易看帖子、短视频、公众号软文听信了那个主观选择，然后这条路走着走着发现不对劲，后悔啊、说多了都是🥱
+总之一切都来得及，一切都在路上，用文章结那句话来讲，&ldquo;进步来于探索，探索需要付出代价，但收获是值得的.&rdquo;
+共勉
+后续更新&hellip;"/>
+
+
+
+<meta itemprop="name" content="随写笔记">
+<meta itemprop="description" content="This is a page about »随写笔记«.
+随写笔记 代码简洁之道 代码简洁之道01
+同步、异步、阻塞io、非阻塞io 参考01 参考02 参考03 参考04 参考05 参考06
+云原生系统 devops 关键词：云原生系统 devops
+耗子&mdash;系统架构的一些原则 跳转
+服从客观，抵制主观
+这大概是我当下的感受吧，在大学时期总是主观的选择那个看起来逻辑简单的，比如说用c/c&#43;&#43;做主力语言，而不是java，后来就导致，各种坑、各种坎坷
+其实，转方向是必然的，就像现在跳go，我们总是容易看帖子、短视频、公众号软文听信了那个主观选择，然后这条路走着走着发现不对劲，后悔啊、说多了都是🥱
+总之一切都来得及，一切都在路上，用文章结那句话来讲，&ldquo;进步来于探索，探索需要付出代价，但收获是值得的.&rdquo;
+共勉
+后续更新&hellip;"><meta itemprop="datePublished" content="2024-05-19T10:32:25+08:00" />
+<meta itemprop="dateModified" content="2024-05-19T10:32:25+08:00" />
+<meta itemprop="wordCount" content="28"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="keywords" content="随写," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>张不大的博客</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/about/">About</a>
+
+<a href="/archive/archive/">Archive</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>随写笔记</h1>
+<p>
+  <i>
+    <time datetime='2024-05-19' pubdate>
+      19 May, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>This is a page about »随写笔记«.</p>
+<h1 id="随写笔记">随写笔记</h1>
+<h2 id="代码简洁之道">代码简洁之道</h2>
+<p><a href="https://brucedone.com/archives/1470/">代码简洁之道01</a></p>
+<hr>
+<h2 id="同步异步阻塞io非阻塞io">同步、异步、阻塞io、非阻塞io</h2>
+<p><a href="https://www.cnblogs.com/loveer/p/11479249.html">参考01</a>
+<br>
+<a href="https://panzhongxian.cn/cn/2022/02/understanding-of-block-and-sync/">参考02</a>
+<br>
+<a href="https://github.com/mebusy/notes/blob/master/dev_notes/sync_block.md">参考03</a>
+<br>
+<a href="https://leesonhsu.blogspot.com/2014/09/blog-post.html">参考04</a>
+<br>
+<a href="https://linary.github.io/2018/07/04/network-io/">参考05</a>
+<br>
+<a href="https://maples7.com/2016/08/24/understand-sync-async-and-blocking-non-blocking/">参考06</a></p>
+<hr>
+<h2 id="云原生系统-devops">云原生系统 devops</h2>
+<blockquote>
+<p>关键词：云原生系统 devops</p>
+</blockquote>
+<hr>
+<h2 id="耗子---系统架构的一些原则">耗子&mdash;系统架构的一些原则</h2>
+<p><a href="https://coolshell.cn/articles/21672.html">跳转</a></p>
+<blockquote>
+<p>服从客观，抵制主观</p>
+<blockquote>
+<p>这大概是我当下的感受吧，在大学时期总是主观的选择那个看起来逻辑简单的，比如说用c/c++做主力语言，而不是java，后来就导致，各种坑、各种坎坷</p>
+<p>其实，转方向是必然的，就像现在跳go，我们总是容易看帖子、短视频、公众号软文听信了那个主观选择，然后这条路走着走着发现不对劲，后悔啊、说多了都是🥱</p>
+<p>总之一切都来得及，一切都在路上，用文章结那句话来讲，&ldquo;进步来于探索，探索需要付出代价，但收获是值得的.&rdquo;</p>
+</blockquote>
+</blockquote>
+<p><strong>共勉</strong></p>
+<hr>
+<p>后续更新&hellip;</p>
+
+</content>
+<p>
+  
+  <a href="https://tutuwu2019.github.io/blog/%E9%9A%8F%E5%86%99/">#随写</a>
+  
+</p>
+
+  </main>
+  <footer>contact me  <a href="https://github.com/tutuwu2019/">zhangbuda7788</a>
+</footer>
+
+    
+
+
+
+
+</body>
+
+</html>

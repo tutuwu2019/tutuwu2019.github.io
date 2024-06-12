@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>随写 on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/%E9%9A%8F%E5%86%99/</link>
+    <description>Recent content in 随写 on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Sun, 26 May 2024 01:59:38 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/%E9%9A%8F%E5%86%99/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>随写_0526</title>
+      <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99_0526/</link>
+      <pubDate>Sun, 26 May 2024 01:59:38 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99_0526/</guid>
+      <description>This is a page about »随写_0526«.
+随写_0526 生活就是没有的剧本的一场戏
+看似都没有进展。 我害怕失去，可是没有什么可以再丢失的了 可是，有会有憧憬、向往、偏爱
+人性啊！ 我也想要拥有啊 \
+我又emo了 抽刀断水水更流
+不管怎么说，还是鼓励自己再努力一点吧！
+未完待续&amp;hellip; 一切都在路上，慢慢来</description>
+    </item>
+    
+    <item>
+      <title>Cpp_就业方向</title>
+      <link>https://tutuwu2019.github.io/cpp_%E5%B0%B1%E4%B8%9A%E6%96%B9%E5%90%91/</link>
+      <pubDate>Sat, 25 May 2024 03:22:21 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/cpp_%E5%B0%B1%E4%B8%9A%E6%96%B9%E5%90%91/</guid>
+      <description>This is a page about »Cpp_就业方向«.
+Cpp_就业方向 说实话好焦虑，尤其是短时间(这1～2年)，各种复杂的事情席卷而来，让人难以应付。 有工作方向的不断尝试，社会环境的不断变化……我想，最主要的就是从大学到社会的这个转变。 现在回想，我的大学好像也是荒废了，彻头彻尾的荒废，错过了很多东西，这些主要是技术栈的丰富吧，毫无疑问这和我个人的认知息息相关。 扯的有点远，接下来，我们看看 cpp/go 往分布式存储的发展
+参考资料 为什么把**参考资料放第一位呢？**出了社会，本就是一无所有，本就是需要不断的汲取大量资料。
+分布式存储解决方案 分布式存储阅读笔记 分布式存储系列 我的分布式存储之路 简单的分布式云存储服务 大数据知识汇总 基于哈希一致性k-v分布式存储 go 语言实现分布式存储服务 分布式对象存储 中间件、分布式、高性能存储 分布式存储系统
+go 分布式存储系统(和前面的那个项目好像啊) zheng 哪吒？分布式存储系统 mongodb-4.4 分布式存储与计算 go-fastdfs go-family mongodb-5.0 基于 spring-sharding-mybaits 集成 redis 缓存的游戏分布式存储框架 架构师 公开课 CS162 的分布式 KV 存储项目 《分布式对象存储：原理、设计与实现》 算法：c语言实现
+看到这里，应该大概才出来了，我是因为浏览器上标签打开的太多了，炸了，所以在这里做笔记呢！
+发现很多知识，都是最近或者近一年集成最多了。全是在换大学的账啊！ 有些路，必定大家都要走，有的人觉悟高，很早就知道要怎么走，有的人需要多弯两下。 就像进大厂，觉悟高的人，知道走校招是最轻松的路，而有的傻瓜(像我)这里扭下那里停下，错过了很多，如果想冲大厂可能还要等3～5年了。当然也要适当的对大厂祛魅。
+未完待续&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>开源许可</title>
+      <link>https://tutuwu2019.github.io/%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF/</link>
+      <pubDate>Fri, 24 May 2024 21:30:48 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF/</guid>
+      <description>This is a page about »开源许可«.
+开源许可 我看到很多github 上的仓库都会写一些开源许可的内容，我在创建仓库的时候也会出现开源协议选择，我也不太懂啊，就借住gpt做个小结吧
+MIT License MIT License（麻省理工学院许可证）是一种宽松、开放源代码的许可证，它对使用、复制、修改和分发软件提供了极少的限制。该许可证以其简单明了和宽松的条款而闻名，使其成为开源软件项目中最受欢迎的许可证之一。
+MIT License 的主要特点
+自由使用：任何人都可以自由地使用软件，包括用于商业目的。 自由复制：允许用户自由地复制和分发软件。 自由修改：允许用户修改软件，并且可以选择是否将修改后的版本公开。 自由分发：可以分发修改后的版本，前提是保留原始许可证声明和版权声明。 MIT License 模版
+MIT License Copyright (c) [年份] [作者] Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &amp;#34;Software&amp;#34;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</description>
+    </item>
+    
+    <item>
+      <title>随写_emo_520</title>
+      <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99_emo_520/</link>
+      <pubDate>Tue, 21 May 2024 00:39:33 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99_emo_520/</guid>
+      <description>This is a page about »随写_emo_520«.
+随写_emo_520 看着听着自己拍的视频，感慨万分
+#六成以上的年轻人选择躺平
+再看看自己，一无所有。
+感觉读书，真的不值钱。甚至特别掉价。
+女性地位上升，普普通通的我，拿什么去憧憬美好生活？
+我在胡说八道。自己看看就好吧。
+焦虑，心不狠，佛系，卷不赢
+放不下，拿不起。
+我拿什么换我的未来？
+女性地位的提升，换言之，大家同样的起点，都是普通的“长相”、“正常的性格”、“同样的起跑线”……
+相亲，就是也是一个市场，讲究“门当户对”，讲究，房、车、money
+我，拿什么换我的康庄大道？
+焦虑，焦虑之后还得继续学习。
+眼界、思维、技术，各个方面都要有建树。
+难道，每天看着这未知的k线能有未来？
+脚踏实地吧
+我得去看qt 相关视频了，明天约了一个外包的面试。说实话，不愿意去外包，先去看看外包的面试是一个怎么样的流程吧。
+专研的时候就再耐着性子学十分钟。实在学不下，就去附近的图书馆学习。
+肚子在长肉，有空就练练腹部啊 end 2024.5.21 00:52</description>
+    </item>
+    
+    <item>
+      <title>随写笔记_OS_05_20</title>
+      <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99%E7%AC%94%E8%AE%B0_os_05_20/</link>
+      <pubDate>Mon, 20 May 2024 12:49:58 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99%E7%AC%94%E8%AE%B0_os_05_20/</guid>
+      <description>This is a page about »随写笔记_OS_05_20«.
+一些关键字 进程 进程：一个正在运行的程序的实例，是操作系统进程资源分配和调度的基本单位。每个进程都有自己的地址空间、内存、文件描述符、全局变量等资源。
+特点：
+独立性：进程拥有自己独立的地址空间，进程之间相互隔离 资源拥有：每个进程有自己独立的内存空间、文件描述符、进程控制块 并发性：多个进程可以并发执行，每个进程可以独立运行 生命周期：进程的生命周期包括创建、就绪、运行、等待和终止 组成：
+代码段：存储可执行的代码 数据段：存储全局变量和静态变量 堆：用于动态内存分配 栈：存储函数调用的返回地址、本地变量、函数局部变量 进程控制块(PCB)：存储进程的状态、程序计数器、寄存器信息、调度信息、内存管理信息 linux 进程内核结构
+进程控制块（Process Control Block, PCB）： 任务结构（task_struct）：是每个进程的主要数据结构，包含了进程的所有信息，如进程 ID、状态、优先级、程序计数器、内存管理信息、打开的文件描述符等。 进程地址空间： 代码段：存储可执行代码。 数据段：存储全局变量和静态变量。 堆（Heap）：用于动态内存分配。 栈（Stack）：存储函数调用的返回地址、本地变量等。 内存管理： 页表（Page Table）：映射虚拟地址到物理地址。 内存区域描述符（vm_area_struct）：描述进程地址空间中的各个区域。 文件描述符表：存储进程打开的文件描述符，每个文件描述符对应一个文件结构（file struct）。
+信号处理：与进程相关的信号处理信息。
+调度信息：进程的调度优先级和调度策略。
+linux线程内核结构 在 Linux 中，线程被视为一种轻量级进程，它们共享同一个进程的某些资源，但每个线程都有自己的执行上下文。线程的内核结构也包含在 task_struct 中，但有一些共享和独立的部分：
+共享部分：
+进程地址空间：同一进程的线程共享相同的地址空间，包括代码段、数据段、堆和全局变量。 文件描述符表：所有线程共享相同的文件描述符表。 信号处理：线程共享信号处理设置。 用户 ID 和组 ID：同一进程的线程共享相同的用户 ID 和组 ID。 独立部分：
+线程控制块（Thread Control Block, TCB）：每个线程有自己的 TCB，存储线程的执行上下文，如寄存器状态、程序计数器和栈指针。 内核栈：每个线程有自己的内核栈，用于处理内核态的函数调用和中断处理。 线程局部存储（Thread Local Storage, TLS）：用于存储线程特有的数据。 进程的生命周期</description>
+    </item>
+    
+    <item>
+      <title>随写笔记</title>
+      <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 19 May 2024 10:32:25 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99%E7%AC%94%E8%AE%B0/</guid>
+      <description>This is a page about »随写笔记«.
+随写笔记 代码简洁之道 代码简洁之道01
+同步、异步、阻塞io、非阻塞io 参考01 参考02 参考03 参考04 参考05 参考06
+云原生系统 devops 关键词：云原生系统 devops
+耗子&amp;mdash;系统架构的一些原则 跳转
+服从客观，抵制主观
+这大概是我当下的感受吧，在大学时期总是主观的选择那个看起来逻辑简单的，比如说用c/c++做主力语言，而不是java，后来就导致，各种坑、各种坎坷
+其实，转方向是必然的，就像现在跳go，我们总是容易看帖子、短视频、公众号软文听信了那个主观选择，然后这条路走着走着发现不对劲，后悔啊、说多了都是🥱
+总之一切都来得及，一切都在路上，用文章结那句话来讲，&amp;ldquo;进步来于探索，探索需要付出代价，但收获是值得的.&amp;rdquo;
+共勉
+后续更新&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>我讨厌蚊子</title>
+      <link>https://tutuwu2019.github.io/%E6%88%91%E8%AE%A8%E5%8E%8C%E8%9A%8A%E5%AD%90/</link>
+      <pubDate>Thu, 09 May 2024 17:55:24 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E6%88%91%E8%AE%A8%E5%8E%8C%E8%9A%8A%E5%AD%90/</guid>
+      <description>我讨厌蚊子 由来？
+广州的蚊子特别多，尤其是阴雨天的时候，恰巧今年广州的雨下的特别多
+蚊子，好像也摸头了人类的习性
+它们总是喜欢单兵作战，出来觅食的时候还不会发出声音，可能进化的太厉害了吧
+常常我拍死一只🦟以后，紧接着，过一点时间另一只蚊子又开始出动了
+常常，我察觉到了有蚊子在咬，惯性的去抖动，看了一下，小腿，没有蚊子，大概率蚊子没有吃到我的血吧
+可是啊！蚊子你也没有吸到我的血，我也没有拍到你，然后过了一段时间，你又来！这就很烦人了，让人分心&amp;hellip;
+我的抗蚊策略
+点蚊香，这个是最有效的，可是每天要掰、每天要点有时候就很烦 蚊香液，这个很方便，一劳永逸，但貌似效果不佳 弄蚊帐，好像大家都是这样弄的，只是当我在蚊帐外，电脑前，我怎么弄啊！！！ 关门关窗，开空调，这个也很有效，但是有点憋，好像温度降下来，蚊子也会乖乖呆别处 一个冷知识，出来咬我们的蚊子都是母蚊子！
+有时候，我会很佛，好像理解世界、包容世界，它咬就它咬，你不要让我感到不舒服，痒啊、痛啊，然后还要去参与防蚊保卫战！
+蚊子，真可恶，广州的蚊子太多了
+贴一下蚊子有什么危害 蚊子，这么小，我们一巴掌就能把它拍死，可是它仍然这么拼的出来工作（吸我们的血，去繁衍后代）而且已经进化的飞行轨迹难以抓摸，环境这么糟糕，也能活着，那我们是不是更因该努力一些呢？
+虫子虽然很弱小，但是从来没有真正被消灭过
+后面有激烈的战场画面，不感兴趣可划走（有点血腥！） 后面又有蚊子行动，而且他们好狡猾、贪婪（明明已经吸了很多血，还不走） (蚊子1号)
+(蚊子2号)</description>
+    </item>
+    
+    <item>
+      <title>随写01</title>
+      <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%9901/</link>
+      <pubDate>Wed, 08 May 2024 00:25:06 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%9901/</guid>
+      <description>This is a page about »Unordered_write«.
+随写 有一种东西，它会在某个夏天的夜晚像风一样突然袭来，让你猝不及防，无法安宁，与你形影相随，挥之不去，我不知道那是什么，只能称它为爱情。
+励志 虫子虽然很弱小，但是重来没有被消灭过。</description>
+    </item>
+    
+  </channel>
+</rss>

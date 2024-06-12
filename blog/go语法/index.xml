@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>go语法 on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/go%E8%AF%AD%E6%B3%95/</link>
+    <description>Recent content in go语法 on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Thu, 09 May 2024 12:18:11 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/go%E8%AF%AD%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go基本数据类型</title>
+      <link>https://tutuwu2019.github.io/go%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</link>
+      <pubDate>Thu, 09 May 2024 12:18:11 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/go%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</guid>
+      <description>go基本数据类型 编程有感 这是一篇由浅入深介绍go 数据类型的笔记(自用) 对于新手，最快进入学习状态的方式莫过于，看别人的写的博客或者视频了。当然高手写的博客或者视频那就更好了。 这是比较好的切入点，我也看了 go 的官方文档，感觉写的很浅 学技术，最重要的是学权威内容，这个东西不能出现二义性，可是网上（内网）的很多“博客”都是半吊子水，这对于思维不活泛的同学（不比如我，要多走很多弯路😩😩），后面深入的话还是要看源码的
+主要有以下内容，会由浅入深以及结合面试题总结（05-08）
+常见的数据数据类型（参考c/c++、python、js、java）int、string、struct、slice、map 关键字 new、make interface、闭包 关键字 reflect chan、defer、goroutine 抢占式调度? panic、recover GMP Go的内存管理(栈内存管理、) 常见的数据数据类型（参考c/c++、python、js）int、string、struct、slice、map 先添个小料，我问gpt go1.18中的切片扩容规则的时候，它直接讲 切片扩容阈值threshold 是1024，但是在go1.18以后的切片扩容阈值改成了256，而且扩容规则也调整了一些
+int string struct slice 切片 本质是一个数据结构，包含指向底层数组的首地址，切片大小以及切片容量 入门讲解
+// 写几种 定义 方式 var tmp01 []int = make([]int, 2, 5) tmp01 = append(tmp01, 1, 2, 3, 4, 5) tmp02 := []int{1, 2, 3, 4, 5} tmp03 := new([]int) *tmp03 = append(*tmp03, 1, 2, 3, 4, 5) 注意采用的是左闭右开 demo</description>
+    </item>
+    
+  </channel>
+</rss>
