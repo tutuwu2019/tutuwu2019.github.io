@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/linux/</link>
+    <description>Recent content in linux on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Thu, 13 Jun 2024 21:46:35 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux_关键字</title>
+      <link>https://tutuwu2019.github.io/linux_%E5%85%B3%E9%94%AE%E5%AD%97/</link>
+      <pubDate>Thu, 13 Jun 2024 21:46:35 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/linux_%E5%85%B3%E9%94%AE%E5%AD%97/</guid>
+      <description>This is a page about »Linux_关键字«.
+linux 关键字 主要讲讲，我的linux 的一些使用笔记&amp;amp;资料
+常用的命令 参考资料 linux 三剑客 sed 命令
+awk 命令 vi &amp;amp; vim
+tcpdump 抓包</description>
+    </item>
+    
+  </channel>
+</rss>
