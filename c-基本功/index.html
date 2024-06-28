@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
+<title>C&#43;&#43;基本功 | 张不大的博客</title>
+<meta name="title" content="C&#43;&#43;基本功" />
+<meta name="description" content="This is a page about »C&#43;&#43;基本功«.
+c&#43;&#43; c&#43;&#43;基本功 基础 基本类型int、long、数组，控制循环for if while swtich， continue与break区别
+有一个原则，叫 短整形 &lt;= 整型、整型 &lt;= 长整型、端整形至少16位，长整型至少32位 32位编译器指针大小位4字节，64位编译器指针大小为8字节 基本数据类型大小 cpp的switch语句 go 的switch 可以接函数、同时列举多个表达式 continue 是跳过这层循环，会进行下一次循环，而break 会退出循环，进去下一步语句
+c&#43;&#43;面向对象，三大特性的理解 继承 封装 多态（一个接口多种实现）
+封装：客观事物封装成抽象类，而且类的成员函数和数据只允许可信类或者对象操作。public、private、protected 继承： 多态：消息以多种形式展示 重载多态（编译期）：函数重载、运算符重载 子类型多态（运行期）：虚函数 参数多态（编译期）：类模版、函数模版 强制多态（编译期/运行期）：基本类型转换、自定义类型转换
+c&#43;&#43;与c的区别（面向对象与面向过程差异）
+面向过程：分析解决问题所需的步骤，并通过函数实现这些步骤 面向对象：把构成问题的事务分成各个对象，建立对象的目的不是为了完成一个步骤，而是描述某个事务在解决整个问题步骤中的行为。
+一些其他细小的区别： 赋值 ：c只有 = ，而c&#43;&#43; 还有 () 比如 int x(5);
+结构体：虽然c和c&#43;&#43;的结构体默认都是public (注意c&#43;&#43;类的默认，结构体默认public，继承默认也是public，类默认访问是private，默认继承也是private)，但是c&#43;&#43; 还可以和类一样用剩下的访问控制符 private、protect，而且c&#43;&#43; 的结构体也能通过派生类覆盖基类虚函数实现多态。 c和c&#43;&#43;的结构体还有一个区别就是，一个结构标记声明后，在c中必须在结构体标记前添struct，才能做结构体类型名(或者 typedef struct Person{}Person;)。而在c&#43;&#43;中可以直接把结构体标记充当结构体类型名来使用。 c/c&#43;&#43; 结构体声明的区别
+c 的 string 和 c&#43;&#43; 的string c&#43;&#43; 的string 是对 char* 进行了封装，封装的string包含了 char*数组、容量、长度。注意string 可以动态扩展，每次扩展的时候另外申请一块比原来空间大两杯的空间，并将原字符串拷贝过去，并加上新增内容。" />
+<meta name="keywords" content="c/c&#43;&#43;," />
+
+
+<meta property="og:title" content="C&#43;&#43;基本功" />
+<meta property="og:description" content="This is a page about »C&#43;&#43;基本功«.
+c&#43;&#43; c&#43;&#43;基本功 基础 基本类型int、long、数组，控制循环for if while swtich， continue与break区别
+有一个原则，叫 短整形 &lt;= 整型、整型 &lt;= 长整型、端整形至少16位，长整型至少32位 32位编译器指针大小位4字节，64位编译器指针大小为8字节 基本数据类型大小 cpp的switch语句 go 的switch 可以接函数、同时列举多个表达式 continue 是跳过这层循环，会进行下一次循环，而break 会退出循环，进去下一步语句
+c&#43;&#43;面向对象，三大特性的理解 继承 封装 多态（一个接口多种实现）
+封装：客观事物封装成抽象类，而且类的成员函数和数据只允许可信类或者对象操作。public、private、protected 继承： 多态：消息以多种形式展示 重载多态（编译期）：函数重载、运算符重载 子类型多态（运行期）：虚函数 参数多态（编译期）：类模版、函数模版 强制多态（编译期/运行期）：基本类型转换、自定义类型转换
+c&#43;&#43;与c的区别（面向对象与面向过程差异）
+面向过程：分析解决问题所需的步骤，并通过函数实现这些步骤 面向对象：把构成问题的事务分成各个对象，建立对象的目的不是为了完成一个步骤，而是描述某个事务在解决整个问题步骤中的行为。
+一些其他细小的区别： 赋值 ：c只有 = ，而c&#43;&#43; 还有 () 比如 int x(5);
+结构体：虽然c和c&#43;&#43;的结构体默认都是public (注意c&#43;&#43;类的默认，结构体默认public，继承默认也是public，类默认访问是private，默认继承也是private)，但是c&#43;&#43; 还可以和类一样用剩下的访问控制符 private、protect，而且c&#43;&#43; 的结构体也能通过派生类覆盖基类虚函数实现多态。 c和c&#43;&#43;的结构体还有一个区别就是，一个结构标记声明后，在c中必须在结构体标记前添struct，才能做结构体类型名(或者 typedef struct Person{}Person;)。而在c&#43;&#43;中可以直接把结构体标记充当结构体类型名来使用。 c/c&#43;&#43; 结构体声明的区别
+c 的 string 和 c&#43;&#43; 的string c&#43;&#43; 的string 是对 char* 进行了封装，封装的string包含了 char*数组、容量、长度。注意string 可以动态扩展，每次扩展的时候另外申请一块比原来空间大两杯的空间，并将原字符串拷贝过去，并加上新增内容。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tutuwu2019.github.io/c-%E5%9F%BA%E6%9C%AC%E5%8A%9F/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2024-06-28T13:06:38+08:00" />
+<meta property="article:modified_time" content="2024-06-28T13:06:38+08:00" /><meta property="og:site_name" content="张不大的博客" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
+
+<meta name="twitter:title" content="C&#43;&#43;基本功"/>
+<meta name="twitter:description" content="This is a page about »C&#43;&#43;基本功«.
+c&#43;&#43; c&#43;&#43;基本功 基础 基本类型int、long、数组，控制循环for if while swtich， continue与break区别
+有一个原则，叫 短整形 &lt;= 整型、整型 &lt;= 长整型、端整形至少16位，长整型至少32位 32位编译器指针大小位4字节，64位编译器指针大小为8字节 基本数据类型大小 cpp的switch语句 go 的switch 可以接函数、同时列举多个表达式 continue 是跳过这层循环，会进行下一次循环，而break 会退出循环，进去下一步语句
+c&#43;&#43;面向对象，三大特性的理解 继承 封装 多态（一个接口多种实现）
+封装：客观事物封装成抽象类，而且类的成员函数和数据只允许可信类或者对象操作。public、private、protected 继承： 多态：消息以多种形式展示 重载多态（编译期）：函数重载、运算符重载 子类型多态（运行期）：虚函数 参数多态（编译期）：类模版、函数模版 强制多态（编译期/运行期）：基本类型转换、自定义类型转换
+c&#43;&#43;与c的区别（面向对象与面向过程差异）
+面向过程：分析解决问题所需的步骤，并通过函数实现这些步骤 面向对象：把构成问题的事务分成各个对象，建立对象的目的不是为了完成一个步骤，而是描述某个事务在解决整个问题步骤中的行为。
+一些其他细小的区别： 赋值 ：c只有 = ，而c&#43;&#43; 还有 () 比如 int x(5);
+结构体：虽然c和c&#43;&#43;的结构体默认都是public (注意c&#43;&#43;类的默认，结构体默认public，继承默认也是public，类默认访问是private，默认继承也是private)，但是c&#43;&#43; 还可以和类一样用剩下的访问控制符 private、protect，而且c&#43;&#43; 的结构体也能通过派生类覆盖基类虚函数实现多态。 c和c&#43;&#43;的结构体还有一个区别就是，一个结构标记声明后，在c中必须在结构体标记前添struct，才能做结构体类型名(或者 typedef struct Person{}Person;)。而在c&#43;&#43;中可以直接把结构体标记充当结构体类型名来使用。 c/c&#43;&#43; 结构体声明的区别
+c 的 string 和 c&#43;&#43; 的string c&#43;&#43; 的string 是对 char* 进行了封装，封装的string包含了 char*数组、容量、长度。注意string 可以动态扩展，每次扩展的时候另外申请一块比原来空间大两杯的空间，并将原字符串拷贝过去，并加上新增内容。"/>
+
+
+
+<meta itemprop="name" content="C&#43;&#43;基本功">
+<meta itemprop="description" content="This is a page about »C&#43;&#43;基本功«.
+c&#43;&#43; c&#43;&#43;基本功 基础 基本类型int、long、数组，控制循环for if while swtich， continue与break区别
+有一个原则，叫 短整形 &lt;= 整型、整型 &lt;= 长整型、端整形至少16位，长整型至少32位 32位编译器指针大小位4字节，64位编译器指针大小为8字节 基本数据类型大小 cpp的switch语句 go 的switch 可以接函数、同时列举多个表达式 continue 是跳过这层循环，会进行下一次循环，而break 会退出循环，进去下一步语句
+c&#43;&#43;面向对象，三大特性的理解 继承 封装 多态（一个接口多种实现）
+封装：客观事物封装成抽象类，而且类的成员函数和数据只允许可信类或者对象操作。public、private、protected 继承： 多态：消息以多种形式展示 重载多态（编译期）：函数重载、运算符重载 子类型多态（运行期）：虚函数 参数多态（编译期）：类模版、函数模版 强制多态（编译期/运行期）：基本类型转换、自定义类型转换
+c&#43;&#43;与c的区别（面向对象与面向过程差异）
+面向过程：分析解决问题所需的步骤，并通过函数实现这些步骤 面向对象：把构成问题的事务分成各个对象，建立对象的目的不是为了完成一个步骤，而是描述某个事务在解决整个问题步骤中的行为。
+一些其他细小的区别： 赋值 ：c只有 = ，而c&#43;&#43; 还有 () 比如 int x(5);
+结构体：虽然c和c&#43;&#43;的结构体默认都是public (注意c&#43;&#43;类的默认，结构体默认public，继承默认也是public，类默认访问是private，默认继承也是private)，但是c&#43;&#43; 还可以和类一样用剩下的访问控制符 private、protect，而且c&#43;&#43; 的结构体也能通过派生类覆盖基类虚函数实现多态。 c和c&#43;&#43;的结构体还有一个区别就是，一个结构标记声明后，在c中必须在结构体标记前添struct，才能做结构体类型名(或者 typedef struct Person{}Person;)。而在c&#43;&#43;中可以直接把结构体标记充当结构体类型名来使用。 c/c&#43;&#43; 结构体声明的区别
+c 的 string 和 c&#43;&#43; 的string c&#43;&#43; 的string 是对 char* 进行了封装，封装的string包含了 char*数组、容量、长度。注意string 可以动态扩展，每次扩展的时候另外申请一块比原来空间大两杯的空间，并将原字符串拷贝过去，并加上新增内容。"><meta itemprop="datePublished" content="2024-06-28T13:06:38+08:00" />
+<meta itemprop="dateModified" content="2024-06-28T13:06:38+08:00" />
+<meta itemprop="wordCount" content="442"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="keywords" content="c/c&#43;&#43;," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>张不大的博客</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/about/">About</a>
+
+<a href="/archive/archive/">Archive</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>C&#43;&#43;基本功</h1>
+<p>
+  <i>
+    <time datetime='2024-06-28' pubdate>
+      28 Jun, 2024
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>This is a page about »C++基本功«.</p>
+<h1 id="c">c++</h1>
+<h2 id="c基本功">c++基本功</h2>
+<ol>
+<li>
+<p>基础  基本类型int、long、数组，控制循环for if while swtich， continue与break区别</p>
+<p>有一个原则，叫 短整形 &lt;= 整型、整型 &lt;= 长整型、端整形至少16位，长整型至少32位
+32位编译器指针大小位4字节，64位编译器指针大小为8字节
+<a href="https://www.cnblogs.com/lqcdsns/p/6819821.html">基本数据类型大小</a>
+<a href="https://www.cnblogs.com/lqcdsns/p/6819821.html">cpp的switch语句</a>  go 的switch 可以接函数、同时列举多个表达式
+continue 是跳过这层循环，会进行下一次循环，而break 会退出循环，进去下一步语句</p>
+</li>
+</ol>
+<hr>
+<ol>
+<li>
+<p>c++面向对象，三大特性的理解 继承 封装 多态（一个接口多种实现）</p>
+<p>封装：客观事物封装成抽象类，而且类的成员函数和数据只允许可信类或者对象操作。public、private、protected
+继承：
+多态：消息以多种形式展示
+重载多态（编译期）：函数重载、运算符重载
+子类型多态（运行期）：虚函数
+参数多态（编译期）：类模版、函数模版
+强制多态（编译期/运行期）：基本类型转换、自定义类型转换</p>
+</li>
+</ol>
+<hr>
+<ol start="2">
+<li>
+<p>c++与c的区别（面向对象与面向过程差异）</p>
+<p>面向过程：分析解决问题所需的步骤，并通过函数实现这些步骤
+面向对象：把构成问题的事务分成各个对象，建立对象的目的不是为了完成一个步骤，而是描述某个事务在解决整个问题步骤中的行为。</p>
+<p>一些其他细小的区别：
+赋值 ：c只有   =    ，而c++ 还有 ()   比如  int x(5);</p>
+<p>结构体：虽然c和c++的结构体默认都是public (注意c++类的默认，结构体默认public，继承默认也是public，类默认访问是private，默认继承也是private)，但是c++ 还可以和类一样用剩下的访问控制符 private、protect，而且c++ 的结构体也能通过派生类覆盖基类虚函数实现多态。
+c和c++的结构体还有一个区别就是，一个结构标记声明后，在c中必须在结构体标记前添struct，才能做结构体类型名(或者 typedef struct Person{}Person;)。而在c++中可以直接把结构体标记充当结构体类型名来使用。
+<a href="https://www.cnblogs.com/ericwannn/p/10548186.html">c/c++ 结构体声明的区别</a></p>
+<p>c 的 string 和 c++ 的string
+c++ 的string 是对 char* 进行了封装，封装的string包含了 char*数组、容量、长度。注意string 可以动态扩展，每次扩展的时候另外申请一块比原来空间大两杯的空间，并将原字符串拷贝过去，并加上新增内容。</p>
+<p>c++允许函数重载，而c不允许  其实也可以引析到c 的NULL 和 c++ nullptr</p>
+</li>
+</ol>
+<hr>
+<ol start="3">
+<li>
+<p>c++三种继承的特点，public、protected、private类型</p>
+<p>访问限定符，public、protected、private</p>
+<p>外部访问
+内部访问</p>
+</li>
+</ol>
+<hr>
+<ol start="4">
+<li>
+<p>c++重载、重写、重定义（动态） 、模板（静态）
+<a href="https://blog.csdn.net/qq_37018534/article/details/121330896">https://blog.csdn.net/qq_37018534/article/details/121330896</a></p>
+<p>编译时多态  重载 有一点要注意，就是对返回类型没有要求，因为调用函数时，编译器无法仅仅根据调用语句确定应该调用哪个重载函数(或者理解为：编译的时候不运行函数，所以调用重载函数进而指导重载函数的返回类型是在函数执行期，而不是编译期。)</p>
+<p>运行时多态  虚函数  基类指针对象指向派生类，调用派生类重写的成员方法</p>
+<p>注意：重写(覆盖)，其实是相向的，派生类重新写基类同名函数，这样基类所有同名函数都被隐藏包括重载的函数</p>
+<p>注：什么是多态：用父类型别的指针指向其子类的实例，然后通过父类的指针调用实际子类的成员函数。这种技术可以让父类的指针有 “多种形态”，这是一种泛型技术。（这是陈皓的原话）</p>
+</li>
+</ol>
+<hr>
+<ol start="5">
+<li>
+<p>构造函数、析构函数、拷贝构造、赋值运算符等   六种默认函数</p>
+<p>构造函数，完成对象的初始化
+默认构造函数：无参构造函数、全缺省构造函数、编译期默认生成的构造函数。实际上运行的默认构造函数只能有一个，在对象的生命周期只调用一次
+注意：c++11会把内置类型变量在声明的时候初始化</p>
+<p>析构函数，对象在销毁的时候会自动调用析构函数，完成对象资源的释放、</p>
+<p>拷贝构造函数，完成对象的拷贝构造，只有一个形参，该形参是对本类类型对象的引用，用已经存在的类类型对象创建新对象。其本质是构造函数的一个重载形式。注意拷贝构造函数的参数必须是本类类型对象的引用(因为传一个对象进行拷贝会有临时对象，这样又会调用对象的拷贝，如此循环)，否则编译报错，会引发无穷递归调用、如果是默认的拷贝构造函数，只是浅拷贝，对原对象按字节序存储。
+赋值运算符重载<a href="https://www.cnblogs.com/zpcdbky/p/5027481.html">介绍的很详细</a>如果是同类对象的引用形参，且没有显式赋值运算符重载会调用默认的赋值运算符重载函数。注意  A a(1);A b; b = a; 和 A a(1);A b = a; 这是不一样的，前者会调用个赋值运算符重载函数，后者会调用构造函数。</p>
+<p>const成员函数
+注意，const成员函数不能修改成员变量的值。const对象只能调用const成员函数。非const对象可以调用非const成员函数以及const成员函数</p>
+<p>取地址运算符重载以及const 取地址运算符重载</p>
+</li>
+</ol>
+<hr>
+<ol start="6">
+<li>
+<p>继承中构造函数与析构函数的调用顺序</p>
+<p>类成员初始化方式：1.在函数内部完成初始化(所有数据分配内存空间之后再进行初始化的)。2.通过初始化类表完成初始化(初始化列表是在给数据成员分配内存空间的时候进行初始化的，在分配内存之后再进入函数体的)</p>
+<p>一般是先执行基类的析构函数，如果有虚继承那就要先执行虚继承。注意，只有从左往右执行基类的构造函数，而定义了类的变量，就按照定义顺序执行相应的类构造函数，与初始化列表的位置无关。析构的顺序与此相反。
+<a href="https://gaocegege.com/Blog/cpp/cppclass">继承中构造和析构</a></p>
+</li>
+</ol>
+<hr>
+<ol start="7">
+<li>
+<p>浅拷贝、深拷贝</p>
+<p>浅拷贝：拷贝对象与原始对象引用同一对象，任何默认的方法的拷贝都是浅拷贝
+浅拷贝紧紧复制对象的基本成员值，对于指针成员也仅仅复制指针的地址，而不是指针所指向的内容。所以导致拷贝对象与原始对象共享一个指针所指向的资源，一改都改，以及释放两次内存。
+深拷贝：拷贝对象与原始对象引用不同对象</p>
+<p>深拷贝会影响性能，所以会引出完美转发，转移资源所有权</p>
+<p>相关问题：
+浅拷贝是默认构造函数带来的问题，所以一般是对非基本指针类型分配资源要重写构造函数，用深拷贝实现。</p>
+</li>
+</ol>
+<hr>
+<ol start="8">
+<li>虚函数与纯虚函数的区别、以及析构函数为啥继承时须要定义为虚析构函数<br>
+<a href="https://blog.csdn.net/qq_42247231/article/details/105109709">https://blog.csdn.net/qq_42247231/article/details/105109709</a>
+纯虚函数，基类没有实现，派生类完成实现。
+析构函数定义为虚析构函数是为了，当定义基类指针对象指向派生类时，在析构的时候，先析构派生类的析构函数再析构基类的析构函数</li>
+</ol>
+<hr>
+<ol start="9">
+<li>c++ stl库有那些vector、list、set、queue、array、set、deque以及各自的优缺点</li>
+</ol>
+<hr>
+<ol start="10">
+<li>c++11 c++14 c++17有那些新特性，至少要把c++11 14中的新特性了解下</li>
+</ol>
+<hr>
+<ol start="11">
+<li>
+<p>c++四种智能指针，为何会出现智能指针 auto_ptr、unique_ptr、shared_ptr、weak_ptr(?)
+<a href="https://developer.aliyun.com/article/1490487">智能指针</a>
+智能指针，顾名思义能够解决因为资源释放问题(忘记释放、在释放前发生异常)导致内存泄漏。
+智能指针的发展过程。
+c98 就有指针能指针，auto_ptr ，因为出现类似于把auto_ptr 类型指针a 复制(在复制构造函数中把引用的内存指针进行转移)给b，结果a为空，b重获a的内存资源，这种语义是有问题的，比如 std::vector&lt;std::auto_ptr<!-- raw HTML omitted -->&gt; myvectors;如果进行复制操作会造成多个元素置为空指针。注意：c++11已经废弃了该类型指针
+unique_ptr 对其持有对堆内存的对象具有唯一使用权。也就是说引用计数永远是1。注意unique_ptr 已经把复制语义给禁用了，比如拷贝构造和赋值运算符重载已经禁用了。
+unique_ptr 的初始化为，
+std::unique_ptr<!-- raw HTML omitted --> sp1(new int (123));
+std::unique_ptr<!-- raw HTML omitted --> sp2; sp2.reset(new int (123));
+std::unique_ptr<!-- raw HTML omitted -->sp3 = std::make_unique<!-- raw HTML omitted -->(123);  这个初始化在c++14实现，手动需要这样配置
+template&lt;typename T,typename &hellip; Ts&gt;
+std::unique_ptr<!-- raw HTML omitted --> make_unique&lt;Ts &amp;&amp; &hellip; params&gt;{
+return std::unique_ptr(new T(std::forward<!-- raw HTML omitted -->(params)&hellip;));
+}
+shared_ptr，其持有的资源可以被多个shared_ptr之间共享。每多一个shared_ptr对象对资源的引用，资源引用计数就加一，每当个一个指向shared_ptr资源的对象析构时，引用计数就减一，最后一个对象发现析构时，引用计数为0，就释放该shared_ptr资源。(weak_ptr不参数shared_ptr资源生命周期的管理)</p>
+<p>常见问题：
+1.shared_ptr 是线程安全的吗？
+对引用计数的操作是安全的，也就是多个进程对shared_ptr 可以安全的复制、销毁而不需要添加而外的同步机制。但是shared_ptr 不保证管理对象的线程安全，也就是说多个进程调用shared_ptr 所管理的对象需要自行保证访问线程的安全性。
+2.既然c++11用unique_ptr取代了auto_ptr，是在哪些地方有改进呢？
+同样的，unique_ptr也禁用了复制逻辑，而是采用std::move (注意:正常的std::move 原理 是完成了 复制语义，可能在unique_ptr这块把资源转移也封装进入了。)获取uni_que_ptr资源所有权。采用了std::move (本质讲左值类型转为右值引用，将对象转为右值引用，允许转移资源所有权)</p>
+</li>
+</ol>
+<hr>
+<ol start="12">
+<li>c++四种类型转换 static_cast、dynamic_cast、const_cast、reinterpret_cast
+<a href="https://blog.csdn.net/weixin_52983138/article/details/125909103">https://blog.csdn.net/weixin_52983138/article/details/125909103</a>
+<a href="https://www.cnblogs.com/ider/archive/2011/07/31/cpp_cast_operator_part4.html">static_cast 介绍</a>
+<a href="https://www.cnblogs.com/ider/archive/2011/07/22/cpp_cast_operator_part2.html">讲const_cast 讲的很好</a>、<a href="https://www.cnblogs.com/QG-whz/p/4513136.html">const_cast总结的挺到位的</a>
+<a href="https://www.cnblogs.com/ider/archive/2011/08/01/cpp_cast_operator_part5.html">dynamic_cast</a>
+<a href="https://www.cnblogs.com/ider/archive/2011/08/05/cpp_cast_operator_part6.html">c++类型转换总结</a></li>
+</ol>
+<p>static_cast
+在类层次结构中，可以向上转换(安全)，也可以向下转换(不安全)
+基本数据类型的转换
+void* 转换成其他类型(不安全)
+dynamic_cast
+在类层次结构中，既可以向上转换，也可以进行向下转换(安全)
+const_cast
+可以把 const 常变量、const引用常变量 的const 去掉，但是经过测试，转换后地址不变
+reinterpret_cast
+把一个数据类型，从一种类型转换到另一种类型</p>
+<hr>
+<ol start="13">
+<li>RAII(资源获取就初始化)原则用法
+c++标准保证已经构造的对象在最后会调用析构完成对象的销毁。
+使用一个对象，在构造的时候获取相应的资源，在对象生命周期内访问资源，最后在对象析构的时候释放资源。</li>
+</ol>
+<hr>
+<ol start="14">
+<li>内存分配情况 堆区、栈区、全局区、文字常量区、代码区</li>
+</ol>
+<hr>
+<ol start="15">
+<li>指针与引用区别 <a href="https://blog.csdn.net/HUAERBUSHI521/article/details/118368696">https://blog.csdn.net/HUAERBUSHI521/article/details/118368696</a>
+指针是，系统已经开辟了一个地址的内存空间，而引用是和它所引用的对象共用一块内存空间(有多层含义，1.引用不占内存空间，只是一个别名。2.引用必须要先有引用对象)
+初始化，引用等价于区别名，指针规范化，避免野指针
+一旦引用确定下来了，就不能再更改了。指针就是地址变量随时可以通向同类型任意实体
+sizeof 引用表示引用对象的大小，而指针表示的是该指针大小，64位操作系统指针占8B
+有多级引用类似一维到二维，而没有多级引用</li>
+</ol>
+<hr>
+<ol start="16">
+<li>堆栈的区别，先进先出，后进后出等</li>
+</ol>
+<hr>
+<ol start="17">
+<li>
+<p>const、static的用法与区别，比如const char* 与char <em>const 与 const char</em> const 区别？func()const作用是什么？</p>
+<p>func() const 声明该函数不修改成员变量，也就是这是一个常变量函数</p>
+<p>const*  p;   、*const p; 、const int  *const p;
+const int* p 指针变量p 指向常变量
+int* const p 常变量指针，指针变量本身是常变量
+const int* const p 指针自身是常变量，指向常变量
+const 与 引用绑定
+表示绑定的变量不被修改
+static
+static变量和全局变量存储在同一个内存类型中，比如未初始化，则存储在 .bss内存中(默认0x00)，初始化的存储在.data内存中。
+只会初始化一次，而且在伴随程序的整个生命周期。
+被声明的 static变量不能被其他文件调用，只能在本文件中使用
+用在类内部，静态成员变量、静态成员方法均属于类本身，而不属于类对象，但是对类对象共享
+static 在类中的使用，静态类成员变量只能在类内声明，类外初始化。只有静态常变量成员才能在类内初始化<a href="https://www.cnblogs.com/MinPage/p/14613364.html">参考</a>
+<a href="https://www.cnblogs.com/gkh-whu/p/11457523.html">静态变量、全局变量</a></p>
+</li>
+</ol>
+<hr>
+<ol start="18">
+<li>右值、右值引用、左值、左值引用<br>
+<a href="https://www.cnblogs.com/qicosmos/p/4283455.html">4行代码看右值引用</a></li>
+</ol>
+<hr>
+<ol start="19">
+<li>c++完美转发  所谓完美转发就是不改变值原本属性进行转发。右值引用时是为了提高效率</li>
+</ol>
+<hr>
+<ol start="20">
+<li>
+<p>C++程序中如何调用被C编译器编译后的函数 extern C</p>
+<p>添加extern c 关键字包裹的 c 函数，这样在编译的时候就会把c编译期编译extern c包裹的函数</p>
+</li>
+</ol>
+<hr>
+<ol start="21">
+<li>虚函数表、虚指针关系  （虚析构函数+虚构造函数？）</li>
+</ol>
+<p>虚函数表上面有虚函数指针，含有虚函数的类就会有虚函数表，然后定义了该类对象，该对象就会有一个虚函数表，这里会实现动态多态，当确定了该对象的虚函数的实现，比如隐藏基类的虚函数，重写派生类的虚函数，那么这个虚函数表中的虚函数指针就是这个函数地址。</p>
+<hr>
+<ol start="22">
+<li>模板与泛型编程template<!-- raw HTML omitted -->与template&lt;clasa A,class B&gt;</li>
+</ol>
+<hr>
+<ol start="23">
+<li>多种排序算法，如冒泡、二分查找、选择排序、插入排序、快速排序等 时间复杂度</li>
+</ol>
+<hr>
+<ol start="24">
+<li>
+<p>sizeof与strlen区别，enum与struct区别？ class与struct区别？const与#define有何优点?typedef 和 define 有什么区别?strcpy、memcpy的区别</p>
+</li>
+<li>
+<p>大小端问题与判定系统大小端，tcp的分包拆包原理</p>
+</li>
+<li>
+<p>可执行程序、动态库、静态库编译的过程 so，a，exe, makefile 了解下或者dll exe,动态库与静态库区别等</p>
+</li>
+<li>
+<p>多线程编程、互斥、同步等，生产者与消费者队列原理加深对锁、信号量、条件变量的理解</p>
+</li>
+<li>
+<p>什么是死锁问题如何解决、什么是内存泄漏如何解决
+死锁发生：互不让步、资源争夺、权限都一样需要外部释放空间
+产生死锁的原因：
+1.对临界资源的互斥使用(也就是独占资源)
+一个资源每次只能给一个进程使用
+2.占用等待
+进程在申请新的资源是，保持对原资源占有
+3.不可抢占
+资源申请者不能强行从资源占有着手中争夺资源，资源只能由占有者自愿释放
+4.循环等待
+p1进程等待p2进程释放资源，p2进程等待p3进程释放资源，&hellip;pn进程等待p1进程释放资源
+死锁检测：
+找到进程号 ps -aux | grep xxx
+pstack + pid 分析
+或者 gdb attack + pid 分析
+或者valgrind 分析
+valgrind &ndash;tool=drd &ndash;trace-mutex=yes ./dead_lock
+死锁预防
+银行家算法
+本质在不安全状态，动态分配资源避免死锁。([安全状态]、[非安全状态[死锁]])
+死锁处理
+挂起进程法，把进程挂起，然后剥夺他们的资源解决死锁，待条件满足时，再激活进程。</p>
+</li>
+</ol>
+<p>结束</p>
+<hr>
+<p>附加：</p>
+<p>关键字</p>
+<ul>
+<li>
+<p>static</p>
+<ol>
+<li>隐藏。当编译多个文件是，所有未加static 前缀的全局变量和函数都具有全局可见性。(extern static int x;  // 这个是无效的)</li>
+<li>保持变量内容的持久。存储在静态数据区，默认初始化为0，注意这也是唯一的一次初始化。主持静态存储有两种，一个是 data区，用于存放已经初始化的全局/静态变量，另一个是bss区，用于存放未初始化的全局/静态变量，注意：默认初始化为0x00。这是从底层来讲为什么保持内容持久，从使用来讲的话，每次调用static 变量都是调用它的副本，而不是新开辟一个内存存储。这也可以理解内容的持久。</li>
+<li>讲讲c++ 中的 static 一些特点：简单理解，类中的static成员(无论是变量还是方法)所有权都是归这个类本身，而不是类对象(所以，static 是类对象的共享资源)，所以会延伸很多限制，比如static成员方法只能调用static成员变量(注意：正常的类方法可以调用static方法)。不能通过this 指针获取staic 成员。该类的所有对象都只是拥有static的一份拷贝。static成员变量是先于类对象存在的，所以static对象是在类外完成初始化。static成员方法不能被virtual修饰，本质上static不属于任何对象或者实例，虚函数的的实现是通过对象的虚指针，而虚指针是通过this指针调用。(this-&gt;vptr-&gt;ctable-&gt;virtual function)
+<a href="https://www.cnblogs.com/33debug/p/7223869.html">static</a></li>
+</ol>
+</li>
+<li>
+<p>io多路复用</p>
+<ol>
+<li>select
+<ol>
+<li>监听三类文件描述符，writefds、readfds、和 exceptfds。调用select 函数会阻塞，直到有描述符就绪，调用select函数后通过遍历fdset，找过就绪的文件描述符，select单进程监听的文件描述符有限在linux 默认1024个，当然也可手动修改。注意select支持跨平台。</li>
+<li><a href="https://www.cnblogs.com/skyfsm/p/7079458.html">select讲的特别好</a></li>
+</ol>
+</li>
+<li>poll
+<ol>
+<li>poll 和select 很相似，也是监听fd，然后返回poll，遍历文件描述符，只是这里没有最大数量的限制</li>
+</ol>
+</li>
+<li>epoll
+<ol>
+<li>没有文件描述数量的限制，前面select和poll都属于主动轮训，而epoll属于被动触发，给fd注册了事件之后，当事件触发会调用回调函数，把就绪的fd添加到就绪队列，然后epoll_wait负责抓去就绪队列的fd，有边缘触发和水平触发两种模式，边缘触发，取决接收端缓存大小，因为一次事件只会触发一次，如果发送端数据过大，无法全部发送，会在下次触发时再次发送。水平触发则是一次全部发送。</li>
+</ol>
+</li>
+<li>参考
+<a href="https://www.cnblogs.com/pugang/p/12823606.html">select、poll、epoll之间的区别</a></li>
+</ol>
+</li>
+<li>
+<p>虚表、虚函数指针</p>
+<ol>
+<li><a href="https://jacktang816.github.io/post/virtualfunction/">参考01</a></li>
+</ol>
+</li>
+<li>
+<p>迭代器与原始指针的区别
+原始指针，地址变量，有内存大小，不同编译器/操作系统大小不同，一般的64位操作系统指针大小为8B，32位操作系统指针大小为4B。当然基本类型内存大小有一个原则(短整型&lt;= 整型，整形 &lt;= 长整形)
+对于指针，常见操作是指针的偏移 ++、&ndash;、指针+偏移量得到新的地址，一般是在连续内存中对指针进行操作。
+迭代器，iterator，参考源码，其本质是一个结构体对象，它负责对传入的实际类型数据进行操作，一般这个数据类型是封装后的，比如vector<!-- raw HTML omitted -->，迭代器充当对制定数据结构成员的访问，方法有++、&ndash;、+偏移量、基于begin/end操作等等，这和原始指针的操作很像，其实这些方法就是通过原始指针封装而来，只是操作对象是更复杂的数据结构，如vector、list等等
+在谈到迭代器，有几个点需要注意，一个是 traits(巢状型别)，在候捷《stl源码分析》上是这样讲的，它充当一个粘合剂，实现方法标准化。还有模版特化，也就是模版具体化。迭代器五种类型，input、output、forward、bidirectional、random access</p>
+</li>
+<li>
+<p>容器
+序列式容器：vector、heap、list、deque、stack
+开放式容器：set、map、multiset、multimap
+vector
+线性连续空间，有三个迭代器，start、finish(指向目前已经使用的范围 size = finish - start)、end_of_storage(整块连续空间的尾端 capacity = end_of_storage - start)
+list
+可以保存在非连续的内存空间中，list迭代器具备指向list节点、递增、递减、取值、成员存取等操作。list必须具备前移、后移的能力，所以list提供的是Bidirectional iterators。注意，list的安装和接合都不会造成迭代器失效，而vector会因为安插操作，造成内存重新配置，原有的迭代器全部失效。
+queue
+允许常数级时间内对两端进行元素的插入或者移除操作，所以deque没有容量概念(可以动态的把分段空间组合而成，而不用像vector那样因为空间不足而重新配置一块更大的空间，然后复制元素，再释放原来的空间)。</p>
+</li>
+<li>
+<p>完美转发</p>
+<ol>
+<li>std::move
+完成了复制语义，本质上是为了避免使用拷贝构造和赋值运算符重载，这一点在 unique_ptr 上有体现</li>
+<li>std::forward
+完美转发，实现了对 左值引用&amp;右值引用的封装同一个接口，然后根据数据类型进行动态确定其是左值引用还是右值引用。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="未完待续后面会陆续完善">未完待续，后面会陆续完善</h2>
+<p>20240627</p>
+<hr>
+
+</content>
+<p>
+  
+  <a href="https://tutuwu2019.github.io/blog/c/c-/">#c/c&#43;&#43;</a>
+  
+</p>
+
+  </main>
+  <footer>contact me  <a href="https://github.com/tutuwu2019/">zhangbuda7788</a>
+</footer>
+
+    
+
+
+
+
+</body>
+
+</html>

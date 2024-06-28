@@ -7,7 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, zhangbdua.</copyright>
-    <lastBuildDate>Thu, 13 Jun 2024 21:46:35 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jun 2024 13:06:38 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43;基本功</title>
+      <link>https://tutuwu2019.github.io/c-%E5%9F%BA%E6%9C%AC%E5%8A%9F/</link>
+      <pubDate>Fri, 28 Jun 2024 13:06:38 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/c-%E5%9F%BA%E6%9C%AC%E5%8A%9F/</guid>
+      <description>This is a page about »C++基本功«.
+c++ c++基本功 基础 基本类型int、long、数组，控制循环for if while swtich， continue与break区别
+有一个原则，叫 短整形 &amp;lt;= 整型、整型 &amp;lt;= 长整型、端整形至少16位，长整型至少32位 32位编译器指针大小位4字节，64位编译器指针大小为8字节 基本数据类型大小 cpp的switch语句 go 的switch 可以接函数、同时列举多个表达式 continue 是跳过这层循环，会进行下一次循环，而break 会退出循环，进去下一步语句
+c++面向对象，三大特性的理解 继承 封装 多态（一个接口多种实现）
+封装：客观事物封装成抽象类，而且类的成员函数和数据只允许可信类或者对象操作。public、private、protected 继承： 多态：消息以多种形式展示 重载多态（编译期）：函数重载、运算符重载 子类型多态（运行期）：虚函数 参数多态（编译期）：类模版、函数模版 强制多态（编译期/运行期）：基本类型转换、自定义类型转换
+c++与c的区别（面向对象与面向过程差异）
+面向过程：分析解决问题所需的步骤，并通过函数实现这些步骤 面向对象：把构成问题的事务分成各个对象，建立对象的目的不是为了完成一个步骤，而是描述某个事务在解决整个问题步骤中的行为。
+一些其他细小的区别： 赋值 ：c只有 = ，而c++ 还有 () 比如 int x(5);
+结构体：虽然c和c++的结构体默认都是public (注意c++类的默认，结构体默认public，继承默认也是public，类默认访问是private，默认继承也是private)，但是c++ 还可以和类一样用剩下的访问控制符 private、protect，而且c++ 的结构体也能通过派生类覆盖基类虚函数实现多态。 c和c++的结构体还有一个区别就是，一个结构标记声明后，在c中必须在结构体标记前添struct，才能做结构体类型名(或者 typedef struct Person{}Person;)。而在c++中可以直接把结构体标记充当结构体类型名来使用。 c/c++ 结构体声明的区别
+c 的 string 和 c++ 的string c++ 的string 是对 char* 进行了封装，封装的string包含了 char*数组、容量、长度。注意string 可以动态扩展，每次扩展的时候另外申请一块比原来空间大两杯的空间，并将原字符串拷贝过去，并加上新增内容。</description>
+    </item>
+    
     <item>
       <title>Linux_关键字</title>
       <link>https://tutuwu2019.github.io/linux_%E5%85%B3%E9%94%AE%E5%AD%97/</link>
