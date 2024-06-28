@@ -34,9 +34,19 @@ c 的 string 和 c++ 的string c++ 的string 是对 char* 进行了封装，封�
       <guid>https://tutuwu2019.github.io/linux_%E5%85%B3%E9%94%AE%E5%AD%97/</guid>
       <description>This is a page about »Linux_关键字«.
 linux 关键字 主要讲讲，我的linux 的一些使用笔记&amp;amp;资料
-常用的命令 参考资料 linux 三剑客 sed 命令
-awk 命令 vi &amp;amp; vim
-tcpdump 抓包</description>
+常用的命令 awk 命令 awk 常见变量
+ARGC 命令行参数个数
+ARGV 命令行参数排列
+ENVIRON 支持队列中系统环境变量的使用
+FILENAME awk 浏览的文件名
+FS 设置输入域分隔符，等价于命令行 -F选项
+NF 浏览记录的区域的个数
+NR 已读的记录数
+OFS 输出域分隔符
+ORS 输出记录分隔符
+RS 控制记录分隔符
+{print $0} 整行打印 {print $1} 打印第一行 -F &#39;x&#39; 根据 x 作为截断 BEGIN &amp;amp; END BEGIN {action}处理任何输入行之前执行 END {action}处理所有出入行之后执行
+计算所有数字的总和 awk &#39;BEGIN {sum = 0} {sum += $1} END{print &amp;quot;Total sum: sum}&#39; numbers.txt 统计表格</description>
     </item>
     
     <item>
