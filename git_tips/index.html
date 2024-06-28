@@ -60,7 +60,7 @@ git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着�
 后来误打误撞的解决了
 # 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息"><meta itemprop="datePublished" content="2024-05-16T00:16:27+08:00" />
 <meta itemprop="dateModified" content="2024-05-16T00:16:27+08:00" />
-<meta itemprop="wordCount" content="106"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="wordCount" content="117"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
 <meta itemprop="keywords" content="git," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -306,7 +306,8 @@ git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着�
 <li>查看 DNS 解析过程 dig github.com 或者 nslookup github.com</li>
 <li>测试 ssh 连接情况 ssh -T <a href="mailto:git@github.com">git@github.com</a></li>
 </ol>
-<hr>
+<h2 id="alt-textimagesimage-1png">总结：由于众所周知的原因，无论是在 update or find solution and etc  the network is terrible
+<img src="/images/image-1.png" alt="alt text"></h2>
 
 </content>
 <p>
