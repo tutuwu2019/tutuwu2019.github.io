@@ -7,7 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, zhangbdua.</copyright>
-    <lastBuildDate>Sun, 30 Jun 2024 19:00:44 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Jul 2024 12:43:41 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>陈硕论坛的一些问题思考</title>
+      <link>https://tutuwu2019.github.io/%E9%99%88%E7%A1%95%E8%AE%BA%E5%9D%9B%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%E6%80%9D%E8%80%83/</link>
+      <pubDate>Mon, 01 Jul 2024 12:43:41 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%99%88%E7%A1%95%E8%AE%BA%E5%9D%9B%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%E6%80%9D%E8%80%83/</guid>
+      <description>This is a page about »陈硕论坛的一些问题思考«.
+会陆续贴图片然后谈谈我的思考
+编译问题 gcc 让相同的警告只显示一次 一些开发细节 采用 &amp;lsquo;\n&amp;rsquo; 截断 遇到 EOF 死循环 c++ 关键字篇 volatile 为什么总是谈到 volatile 就会扯到 多线程 啥的。这个关键字 我在查看源码的时候看的比较多，自己基本没咋用过。
+volatile 声明的变量 会禁用 储存在 专有寄存器上(我们都知道寄存器io比内存还要快)
+虚函数
+socket 在多线程发送数据时要加锁吗？
+RAII
+c++ 泛化 c++ 模版的生命和实现位置问题 关于网络开发 tcp 引用如何避免客户端发送大数据导致心跳超时断开连接？
+关键词：心跳连接、mtu、拆包、丢包 场景问题 一个1G的文件，内存限制10M，有序返回频数最高的50个词，该怎么做？ 关键词：排序
+多线程执行顺序控制 文件操作 std::map 在不同线程操作不同的key要不要上锁? ext2 文件系统源码分析方法
+程序员发展 要保持什么样的心态？ 关于技术博客 关于学历 总结 这算不算站在巨人的肩膀上？ 可以试着这样学习，先看一些知名的入门图书，然后在看一些资深开发的讨论，再从讨论中的获取关键词，然后google，把所有的东西给串起来。
+EOF
+未完待续</description>
+    </item>
+    
     <item>
       <title>排序算法</title>
       <link>https://tutuwu2019.github.io/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</link>
