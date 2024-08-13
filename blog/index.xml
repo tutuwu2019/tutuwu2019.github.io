@@ -7,7 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, zhangbdua.</copyright>
-    <lastBuildDate>Tue, 09 Jul 2024 02:50:01 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 14 Aug 2024 01:20:35 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Shell语法</title>
+      <link>https://tutuwu2019.github.io/shell%E8%AF%AD%E6%B3%95/</link>
+      <pubDate>Wed, 14 Aug 2024 01:20:35 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/shell%E8%AF%AD%E6%B3%95/</guid>
+      <description>This is a page about »Shell语法«.
+shell 语法 其实因该改成 shell 脚本语法
+后来，我才发现原来很多越来越方便的语言(迎合人类习惯)的开发，就叫脚本语言开发。
+比如 shell脚本、python脚本、js脚本、vim 脚本、lua脚本等等
+shell脚本语法 像介绍其他开发语言一样，先介绍变量、常量、逻辑、if-else、循环(for、while)，再到 shell 脚本开发
+变量、常量 逻辑(与/或/非) if-else 循环 for、while 脚本 词频统计 话说回来，shell 脚本好像把很多方法嵌入进入了，比如sort
+# word.txt the day is sunny the the the sunny is is 首先切片 根据 空格、换行切片成若干个单词
+cat ./word.txt | tr -s &amp;rsquo; &amp;rsquo; &amp;lsquo;\n&amp;rsquo;
+再将切片后的单词排序 cat ./word.txt | tr -s &amp;rsquo; &amp;rsquo; &amp;lsquo;\n&amp;rsquo; | sort
+再将单词去重 cat ./word.txt | tr -s &amp;rsquo; &amp;rsquo; &amp;lsquo;\n&amp;rsquo; | sort | uniq -c</description>
+    </item>
+    
     <item>
       <title>Epoll_项目分析</title>
       <link>https://tutuwu2019.github.io/epoll_%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90/</link>
