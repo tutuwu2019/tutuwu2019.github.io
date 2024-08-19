@@ -7,7 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, zhangbdua.</copyright>
-    <lastBuildDate>Mon, 19 Aug 2024 22:35:14 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Aug 2024 23:30:26 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sql_note</title>
+      <link>https://tutuwu2019.github.io/sql_note/</link>
+      <pubDate>Mon, 19 Aug 2024 23:30:26 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/sql_note/</guid>
+      <description>This is a page about »Sql_note«.
+sql_note 说来惭愧，之前sql 学的就不怎么样，总是写一些很low 的语句，然后现在数据量上来的，得把基础打的更扎实一些才好。
+一些tips sql 其实很像一门脚本，当然 .sql 也确实是脚本语言，它也有一些脚本语言的特色(比如简洁)
+当然 tips 也是一阵子一阵的持续更新
+重命名 sql 的重命名有两种表示的方式，一个是用 as，另一个是直接写别名(当然哈，这就是省略了 as 关键字)
+重命名 表名
+select column_name as alias_name from table_name; # 省略关键字 select column_name alias_name from table_name; 重命名表名
+select column_name from table_name as alias_name; 重命计算字段
+select price * quantity as total from orders; 重命名子查询的结果
+select alias_name.column_name from (select * from table_name) as alias_name; 往往 重命名会在一些复杂的语句中出现
+基本规则 排序 order by desc/asc</description>
+    </item>
+    
     <item>
       <title>随写_软实力</title>
       <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99_%E8%BD%AF%E5%AE%9E%E5%8A%9B/</link>
