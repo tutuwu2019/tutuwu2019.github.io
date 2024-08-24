@@ -68,7 +68,7 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo;
 再将切片后的单词排序 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort
 再将单词去重 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c"><meta itemprop="datePublished" content="2024-08-14T01:20:35+08:00" />
 <meta itemprop="dateModified" content="2024-08-14T01:20:35+08:00" />
-<meta itemprop="wordCount" content="883"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="wordCount" content="884"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
 <meta itemprop="keywords" content="linux," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -586,11 +586,7 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </ol>
 <h3 id="重定向">重定向</h3>
 <ol>
-<li>
-<blockquote>
-<p>和 &raquo;</p>
-</blockquote>
-</li>
+<li>&gt; 和 &raquo;</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># &gt; 会把内容重定向到新的地方，会覆盖原来已有的内容</span>
 </span></span><span style="display:flex;"><span>cat record.log &gt; tmp.log
