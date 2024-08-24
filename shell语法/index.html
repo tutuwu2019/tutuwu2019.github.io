@@ -68,7 +68,7 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo;
 再将切片后的单词排序 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort
 再将单词去重 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c"><meta itemprop="datePublished" content="2024-08-14T01:20:35+08:00" />
 <meta itemprop="dateModified" content="2024-08-14T01:20:35+08:00" />
-<meta itemprop="wordCount" content="235"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="wordCount" content="892"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
 <meta itemprop="keywords" content="linux," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -353,7 +353,228 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c |sort -
 </span></span><span style="display:flex;"><span>$| 字符串结束的位置 |
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">\b</span> | 限定单词 <span style="color:#f92672">(</span>字<span style="color:#f92672">)</span> 的字符，常用来确定一个单词，可以结合两个‘<span style="color:#ae81ff">\b</span>’使用 |
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">\B</span> | 限定非单词 <span style="color:#f92672">(</span>字<span style="color:#f92672">)</span> 边界的字符，用的很少 |
-</span></span></code></pre></div>
+</span></span></code></pre></div><h2 id="实用技能">实用技能</h2>
+<h3 id="和">[]、()、(())和</h3>
+<ol>
+<li>
+<p>[] 条件测试</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#用于比较字符串、文件属性  注意 condition 要与 &#39;[&#39; 和 &#39;]&#39; 要有空格   这是条件测试固有的要求</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> condition <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    xxx
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -f <span style="color:#e6db74">&#34;readme.md&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    xxx
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 或者</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$VAR<span style="color:#e6db74">&#34;</span> -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    xxx
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div></li>
+<li>
+<p>() 子shell</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 比如 执行子命令 (command1; command2)</span>
+</span></span><span style="display:flex;"><span>VAR<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $VAR -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">(</span>echo -e <span style="color:#e6db74">&#34;VAR: </span>$VAR<span style="color:#e6db74">\n&#34;</span>; echo -e <span style="color:#e6db74">&#34;else&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div></li>
+<li>
+<p>(()) 进行算数运算的结构</p>
+<p>((xxx))  xxx 表示进行算数运算。如((i+=20))  ==&gt; i=i+20
+$((xxx)) 表示把xxx 的结果赋给变量</p>
+<p>VAR=0
+for ((i=1; i &lt; 10; i++));
+do
+((VAR+=i))
+done</p>
+</li>
+<li>
+<p>{}
+命令组  {} 内部放多个命令，在同一个环境中顺序执行
+字符串扩展   注意会保留空格
+<code>bash echo {a,b,c}{1,2,3} #a1 a2 a3 b1 b2 b3 c1 c2 c3 echo -e {a,b,c}{&quot; 1\t&quot;,&quot; 2\t&quot;,&quot; 3\t&quot;} a 1      a 2     a 3     b 1     b 2     b 3     c 1     c 2     c 3 echo -e {a,b,c}{&quot; 1&quot;,&quot; 2&quot;,&quot; 3&quot;} a 1 a 2 a 3 b 1 b 2 b 3 c 1 c 2 c 3 echo -e {a,b,c}{&quot;1\t&quot;,&quot;2\t&quot;,&quot;3\t&quot;} a1       a2      a3      b1      b2      b3      c1      c2      c3 </code>
+内联代码块<br>
+<code>bash for i in {1..5}; { echo &quot;Number: $i&quot;; } #等价于 for i in {1..5};  do  echo &quot;Number: $i&quot;;  done </code>
+函数定义
+<code>bash my_function() { echo &quot;Hello from my_function&quot; } my_function </code></p>
+</li>
+<li>
+<p>总结</p>
+<ol>
+<li>
+<p>区别</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat  ./tmp_0824_03.sh 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>VAR1<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;this is test&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>VAR2<span style="color:#f92672">=</span>$VAR1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>VAR3<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$VAR1<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>VAR4<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>VAR1<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;VAR1: </span>$VAR1<span style="color:#e6db74">\tVAR2:</span>$VAR2<span style="color:#e6db74">\tVAR3:</span>$VAR3<span style="color:#e6db74">\tVAR4:</span>$VAR4<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./tmp_0824_03.sh 
+</span></span><span style="display:flex;"><span>VAR1: this is test      VAR2:this is test       VAR3:this is test       VAR4:this is test
+</span></span></code></pre></div></li>
+<li>
+<p>建议使用 &ldquo;$VAR1&rdquo; 而不是 $VAR1
+因为 &ldquo;$VAR1&rdquo; 表示的是一个整体，而且两者是数字(比如整数)的效果是等价的，而当表示字符串、空值会出现一些问题，比如  VAR1=“hello world&quot; &ndash;&gt;&quot;$VAR1&quot;表示 &ldquo;hello world&rdquo; 而 $VAR1表示 hello world 在执行  &ldquo;$VAR1&rdquo; -eq xxx 或者 $VAR1 -eq xxx 会报错(尽管都会报错)</p>
+<p>举例说明
+var1=1
+[$var1 -eq 1] 和 [&quot;$var1&quot; -eq 1 ] 的区别
+[$var1 -eq 1]
+变量展开：这里 var1 被直接展开为其值。这个语法在变量 var1 不为空且值为整数时工作正常。
+无引号：没有引号包裹变量，因此如果 var1 的值为空或包含空格，这种情况会引发错误或意外行为。
+潜在风险：如果 var1 是空的或包含特殊字符（如空格），会导致语法错误。例如，[ -eq 1 ] 会导致错误。
+比如 var1 是空
+<code>bash #!/bin/bash var1= if [ $var1 -eq 1 ]; then echo &quot;Variable equals 1&quot; else echo &quot;Variable does not equal 1&quot; fi #当 var1 为空时，[ $var1 -eq 1 ] 变成 [ -eq 1 ]   会报错：bash: [: -eq: unary operator expected </code>
+比如 var1 有空格
+```bash
+#!/bin/bash</p>
+<pre><code>             var1=&quot;some value&quot;
+
+             if [ $var1 -eq 1 ]; then
+                 echo &quot;Variable equals 1&quot;
+             else
+                 echo &quot;Variable does not equal 1&quot;
+             fi
+             #  问题: 当 var1 包含空格时，[ $var1 -eq 1 ] 会变成 [ some value -eq 1 ]。这将导致语法错误 bash: [: some: integer expression expected
+             ```
+     [&quot;$var1&quot; -eq 1 ]
+         变量展开：&quot;$var1&quot; 通过引号包裹，因此变量的值会被正确处理，尤其是当变量包含空格或特殊字符时。
+         安全性：这种方式更安全，因为即使 var1 的值为空或包含空格，也不会导致语法错误。
+         推荐使用：使用引号包裹变量是一个好习惯，可以避免一些常见的错误和不期望的行为。
+             比如 var1 是空
+             ```bash
+             #!/bin/bash
+             var1=
+             if [ &quot;$var1&quot; -eq 1 ]; then
+                 echo &quot;Variable equals 1&quot;
+             else
+                 echo &quot;Variable does not equal 1&quot;
+             fi
+             #行为: 这个脚本不会出错，因为 &quot;$var1&quot; 被引号包裹。引号确保了即使变量为空，它也会被正确地处理为一个空字符串。
+             #结果: Shell 会将空字符串与 1 比较，-eq 运算符只接受整数，所以结果会是一个错误（可能会输出 “Variable does not equal 1”）。但不会产生语法错误。
+             ```
+             比如 var1 有空格
+             ```bash
+             #!/bin/bash
+
+             var1=&quot;some value&quot;
+
+             if [ &quot;$var1&quot; -eq 1 ]; then
+                 echo &quot;Variable equals 1&quot;
+             else
+                 echo &quot;Variable does not equal 1&quot;
+             fi
+             #行为: 即使引号包裹变量，&quot;$var1&quot; 仍然包含空格，这将导致一个错误：bash: [: some value: integer expression expected   注意啊，这种情况和 $var1 -eq 1 是等价的错误
+             ```
+</code></pre>
+</li>
+<li>
+<p>shell 中整数变量和字符串变量</p>
+<ol>
+<li>shell 提供了 ((xxx)) 用于整数计算，比如
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>var1<span style="color:#f92672">=</span><span style="color:#ae81ff">21</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>$var1 -eq 22<span style="color:#f92672">))</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;var1==22&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> 
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;var1!=22&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div>逻辑比较 -eq (比较是否相等)、-ne (是否不相等)、-lt( less then 判断第一个整数是否小于第二个整数)、-le (判断第一个整数是否小于或等于第二个整数)、-gt (判断第一个整数是否大于第二个整数) 和 -ge (判断第一个整数是否大于或等于第二个整数)</li>
+<li>字符串   字符串变量用于文本操作，包括拼接、比较和模式匹配。字符串操作通常使用 [ 或 [[ 进行
+<ol>
+<li>字符串拼接
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>first_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;John&#34;</span>
+</span></span><span style="display:flex;"><span>last_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Doe&#34;</span>
+</span></span><span style="display:flex;"><span>full_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>first_name<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">${</span>last_name<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Full Name: </span>$full_name<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>full_name_length<span style="color:#f92672">=</span><span style="color:#e6db74">${#</span>full_name<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;full_name length is </span>$full_name_length<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Full Name: John Doe</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#the full_name length is 8</span>
+</span></span></code></pre></div></li>
+<li>字符串匹配
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>filename<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;report_2024.txt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> <span style="color:#e6db74">&#34;</span>$filename<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> report_*.txt <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;The filename starts with &#39;report_&#39; and ends with &#39;.txt&#39;.&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;The filename does not match the pattern.&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div></li>
+<li>计算字符串长度
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Hello, World!&#34;</span>
+</span></span><span style="display:flex;"><span>text_length<span style="color:#f92672">=</span><span style="color:#e6db74">${#</span>text<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span> text_length &gt; <span style="color:#ae81ff">10</span> <span style="color:#f92672">))</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;The text is long.&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;The text is short.&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div></li>
+<li>检查是否有 有效整数
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>input<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 检查字符串是否是有效整数</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> <span style="color:#e6db74">&#34;</span>$input<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span>~ ^<span style="color:#f92672">[</span>0-9<span style="color:#f92672">]</span>+$ <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 进行算术运算</span>
+</span></span><span style="display:flex;"><span>    doubled<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span>input <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;Doubled value: </span>$doubled<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;The input is not a valid integer.&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="重定向">重定向</h3>
+<ol>
+<li>
+<blockquote>
+<p>和 &raquo;</p>
+</blockquote>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># &gt; 会把内容重定向到新的地方，会覆盖原来已有的内容</span>
+</span></span><span style="display:flex;"><span>cat record.log &gt; tmp.log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># &gt;&gt; 会把内容重定向到新的地方，不会覆盖原来已有的内容</span>
+</span></span><span style="display:flex;"><span>cat record.log &gt;&gt; tmp.log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意 在使用 tcpdump 抓包 把抓包内容写入文件中采用的是 -w</span>
+</span></span><span style="display:flex;"><span>tcpdump -vvv -n -i any 192.168.21.26 -w tmp.log
+</span></span></code></pre></div><ol start="2">
+<li>把标准输出、标准错误抛弃
+有两种方式</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#1.</span>
+</span></span><span style="display:flex;"><span>cat record.log  &amp;&gt; /dev/null
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#2. 这种方式更通用</span>
+</span></span><span style="display:flex;"><span>cat record.log &gt; /dev/null 2&gt;&amp;<span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><h3 id="判断主机是否存在命令">判断主机是否存在命令</h3>
+<p>command -v xxx</p>
+
 </content>
 <p>
   
