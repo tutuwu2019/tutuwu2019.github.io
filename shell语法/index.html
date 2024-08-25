@@ -68,7 +68,7 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo;
 再将切片后的单词排序 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort
 再将单词去重 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c"><meta itemprop="datePublished" content="2024-08-14T01:20:35+08:00" />
 <meta itemprop="dateModified" content="2024-08-14T01:20:35+08:00" />
-<meta itemprop="wordCount" content="891"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="wordCount" content="1053"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
 <meta itemprop="keywords" content="linux," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -354,6 +354,26 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c |sort -
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">\b</span> | 限定单词 <span style="color:#f92672">(</span>字<span style="color:#f92672">)</span> 的字符，常用来确定一个单词，可以结合两个‘<span style="color:#ae81ff">\b</span>’使用 |
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">\B</span> | 限定非单词 <span style="color:#f92672">(</span>字<span style="color:#f92672">)</span> 边界的字符，用的很少 |
 </span></span></code></pre></div><h2 id="实用技能">实用技能</h2>
+<h3 id="命令-echo">命令 echo</h3>
+<p>携带参数</p>
+<ol>
+<li>-n 打印的文本末尾不换行(默认换行)</li>
+<li>-e 表示转译 ，比如echo &ldquo;test\nthe new test&rdquo; 会进行 \n 转译</li>
+<li>-E 禁用反斜杠转译 比如echo &ldquo;test\nthe new test&rdquo; 会进行 \n  ==&gt; 不会进行转译 不换换行</li>
+</ol>
+<h3 id="默认参数">默认参数</h3>
+<ol>
+<li>$# 传递脚本的参数个数或者传递函数的参数个数</li>
+<li>$* 和 $@</li>
+<li>$0 当前脚本或命令的名称</li>
+<li>$1、$2、$3、&hellip; 表示传递的第几个参数 比如 $1 表述传递的第1个参数</li>
+<li>$# 表示传递的参数个数</li>
+<li>$$ 获取当前脚本执的进程号</li>
+<li>$? 返回上一个命令执行的状态码</li>
+<li>$! 最后一个后台运行的命令进程id</li>
+<li>$_ 上一个命令的最后一个参数</li>
+</ol>
+<p><a href="https://github.com/tutuwu2019/hard-study-to-stronger/blob/main/linux/%E8%84%9A%E6%9C%AC/test/%E9%BB%98%E8%AE%A4%E5%8F%98%E9%87%8F.md">demo_test</a></p>
 <h3 id="和-">[]、()、(())和 {}</h3>
 <ol>
 <li>
@@ -363,11 +383,14 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c |sort -
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> condition <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>    xxx
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -f 检查是否是文件</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -f <span style="color:#e6db74">&#34;readme.md&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>    xxx
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -d 检查是否有目录</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -d <span style="color:#e6db74">&#34;~/xxxdirName&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    xxx
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 或者</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$VAR<span style="color:#e6db74">&#34;</span> -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>    xxx
@@ -614,6 +637,47 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># .*?</span>
 </span></span></code></pre></div><p><a href="https://github.com/tutuwu2019/hard-study-to-stronger/blob/main/linux/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/tmp01.md">demo_01</a></p>
+<h3 id="关于-脚本退出的状态码">关于 脚本退出的状态码</h3>
+<blockquote>
+<p>可以通过 $? 获取上一个命令结束的状态码</p>
+<blockquote>
+<p>默认正确执行命令结束状态码为 0，错误执行为 1， 2， 3 &hellip;
+注意，在做 if 判断的时候 if ( command ); then  xxx  ; 如果正确执行会会执行 if 里面的语句命令 (尽管返回值是0，而错误结果返回值反而是非零 但是不能和逻辑 true 和 false 混淆)</p>
+</blockquote>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./tmp_0825_03.sh
+</span></span><span style="display:flex;"><span>exit 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@localhost sh_<span style="color:#f92672">]</span><span style="color:#75715e"># echo &#34;$?&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@localhost sh_<span style="color:#f92672">]</span><span style="color:#75715e"># cat ./tmp_0825_03.sh </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;exit &#34;</span>
+</span></span><span style="display:flex;"><span>exit
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./tmp_0825_02.sh 
+</span></span><span style="display:flex;"><span>the srcipt will exit and <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span>$?<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>cat ./tmp_0825_02.sh 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>myfunc<span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;the srcipt will exit and return 2&#34;</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>myfunc
+</span></span></code></pre></div><p>如果在函数中执行返回值 可以用 return</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>my_function<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;Inside function&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>my_function
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Function returned </span>$?<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><p>综上，总结来说 退出脚本 exit ， 可以退出的时候选择指定状态码，默认状态码为0，在函数返回值上可以使用 return 然后再带上数字</p>
+<h3 id="命令-getopts">命令 getopts</h3>
 
 </content>
 <p>
