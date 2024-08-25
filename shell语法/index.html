@@ -68,7 +68,7 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo;
 再将切片后的单词排序 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort
 再将单词去重 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c"><meta itemprop="datePublished" content="2024-08-14T01:20:35+08:00" />
 <meta itemprop="dateModified" content="2024-08-14T01:20:35+08:00" />
-<meta itemprop="wordCount" content="885"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="wordCount" content="891"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
 <meta itemprop="keywords" content="linux," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -605,8 +605,15 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#2. 这种方式更通用</span>
 </span></span><span style="display:flex;"><span>cat record.log &gt; /dev/null 2&gt;&amp;<span style="color:#ae81ff">1</span>
-</span></span></code></pre></div><h3 id="判断主机是否存在命令">判断主机是否存在命令</h3>
+</span></span></code></pre></div><h3 id="判断主机是否存在-xxx命令">判断主机是否存在 xxx命令</h3>
 <p>command -v xxx</p>
+<h3 id="正则表达式">正则表达式</h3>
+<ol>
+<li>模糊匹配</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># .*?</span>
+</span></span></code></pre></div><p><a href="https://github.com/tutuwu2019/hard-study-to-stronger/blob/main/linux/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D/tmp01.md">demo_01</a></p>
 
 </content>
 <p>
