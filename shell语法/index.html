@@ -68,7 +68,7 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo;
 再将切片后的单词排序 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort
 再将单词去重 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c"><meta itemprop="datePublished" content="2024-08-14T01:20:35+08:00" />
 <meta itemprop="dateModified" content="2024-08-14T01:20:35+08:00" />
-<meta itemprop="wordCount" content="1074"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="wordCount" content="1175"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
 <meta itemprop="keywords" content="linux," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -376,8 +376,8 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c |sort -
 <p><a href="https://github.com/tutuwu2019/hard-study-to-stronger/blob/main/linux/%E8%84%9A%E6%9C%AC/test/%E9%BB%98%E8%AE%A4%E5%8F%98%E9%87%8F.md">demo_test</a></p>
 <h3 id="和-">[]、()、(())和 {}</h3>
 <ol>
-<li>
-<p>[] 条件测试</p>
+<li>[] 条件测试</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#用于比较字符串、文件属性  注意 condition 要与 &#39;[&#39; 和 &#39;]&#39; 要有空格   这是条件测试固有的要求</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 如</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> condition <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
@@ -395,9 +395,9 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c |sort -
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$VAR<span style="color:#e6db74">&#34;</span> -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>    xxx
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div></li>
-<li>
-<p>() 子shell</p>
+</span></span></code></pre></div><ol start="2">
+<li>() 子shell</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#比如 执行子命令 (command1; command2)</span>
 </span></span><span style="display:flex;"><span>VAR<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $VAR -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
@@ -418,24 +418,27 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c |sort -
 </span></span><span style="display:flex;"><span>array_name<span style="color:#f92672">[</span>0<span style="color:#f92672">]=</span>value0
 </span></span><span style="display:flex;"><span>array_name<span style="color:#f92672">[</span>1<span style="color:#f92672">]=</span>value1
 </span></span><span style="display:flex;"><span>array_name<span style="color:#f92672">[</span>2<span style="color:#f92672">]=</span>value2
-</span></span></code></pre></div></li>
+</span></span></code></pre></div><ol start="3">
 <li>
 <p>(()) 进行算数运算的结构</p>
 <p>((xxx))  xxx 表示进行算数运算。如((i+=20))  ==&gt; i=i+20
 $((xxx)) 表示把xxx 的结果赋给变量</p>
+</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#75715e">#!/bin/bash</span>
 </span></span><span style="display:flex;"><span>    VAR<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">((</span>i<span style="color:#f92672">=</span>1; i &lt; 10; i++<span style="color:#f92672">))</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">do</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">((</span>VAR<span style="color:#f92672">+=</span>i<span style="color:#f92672">))</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">done</span>
-</span></span></code></pre></div></li>
-<li>
-<p>{}</p>
+</span></span></code></pre></div><ol start="4">
+<li>{}
 <blockquote>
 <p>命令组  {} 内部放多个命令，在同一个环境中顺序执行
 字符串扩展   注意会保留空格</p>
 </blockquote>
+</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>echo <span style="color:#f92672">{</span>a,b,c<span style="color:#f92672">}{</span>1,2,3<span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#a1 a2 a3 b1 b2 b3 c1 c2 c3</span>
@@ -460,12 +463,13 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;Hello from my_function&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>my_function
-</span></span></code></pre></div></li>
-<li>
-<p>总结</p>
+</span></span></code></pre></div><ol start="5">
+<li>总结
 <ol>
-<li>
-<p>区别</p>
+<li>区别</li>
+</ol>
+</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat  ./tmp_0824_03.sh 
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
 </span></span><span style="display:flex;"><span>
@@ -481,25 +485,20 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>./tmp_0824_03.sh 
 </span></span><span style="display:flex;"><span>VAR1: this is test      VAR2:this is test       VAR3:this is test       VAR4:this is test
-</span></span></code></pre></div></li>
-<li>
-<p>建议使用 &ldquo;$VAR1&rdquo; 而不是 $VAR1
-因为 &ldquo;$VAR1&rdquo; 表示的是一个整体，而且两者是数字(比如整数)的效果是等价的，而当表示字符串、空值会出现一些问题，比如  VAR1=“hello world&quot; &ndash;&gt;&quot;$VAR1&quot;表示 &ldquo;hello world&rdquo; 而 $VAR1表示 hello world 在执行  &ldquo;$VAR1&rdquo; -eq xxx 或者 $VAR1 -eq xxx 会报错(尽管都会报错)</p>
-<ol>
-<li>举例说明
-<blockquote>
-<p>var1=1
-[$var1 -eq 1] 和 [&quot;$var1&quot; -eq 1 ] 的区别</p>
-</blockquote>
-<ol>
-<li>
-<p>[$var1 -eq 1]</p>
+</span></span></code></pre></div><pre><code>2. 建议使用 &quot;$VAR1&quot; 而不是 $VAR1
+    因为 &quot;$VAR1&quot; 表示的是一个整体，而且两者是数字(比如整数)的效果是等价的，而当表示字符串、空值会出现一些问题，比如  VAR1=“hello world&quot; --&gt;&quot;$VAR1&quot;表示 &quot;hello world&quot; 而 $VAR1表示 hello world 在执行  &quot;$VAR1&quot; -eq xxx 或者 $VAR1 -eq xxx 会报错(尽管都会报错)
+
+    1. 举例说明
+        &gt; var1=1
+        &gt; [$var1 -eq 1] 和 [&quot;$var1&quot; -eq 1 ] 的区别
+         1. [$var1 -eq 1]
+</code></pre>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#75715e">#!/bin/bash</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#变量展开：这里 var1 被直接展开为其值。这个语法在变量 var1 不为空且值为整数时工作正常。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#无引号：没有引号包裹变量，因此如果 var1 的值为空或包含空格，这种情况会引发错误或意外行为。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#潜在风险：如果 var1 是空的或包含特殊字符（如空格），会导致语法错误。例如，[ -eq 1 ] 会导致错误。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#比如 var1 是空 </span>
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    var1<span style="color:#f92672">=</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $var1 -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;Variable equals 1&#34;</span>
@@ -519,9 +518,8 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;Variable does not equal 1&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#  问题: 当 var1 包含空格时，[ $var1 -eq 1 ] 会变成 [ some value -eq 1 ]。这将导致语法错误 bash: [: some: integer expression expected</span>
-</span></span></code></pre></div></li>
-<li>
-<p>[&quot;$var1&quot; -eq 1 ]</p>
+</span></span></code></pre></div><pre><code>         2. [&quot;$var1&quot; -eq 1 ]
+</code></pre>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#75715e">#!/bin/bash</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#变量展开：&#34;$var1&#34; 通过引号包裹，因此变量的值会被正确处理，尤其是当变量包含空格或特殊字符时。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#安全性：这种方式更安全，因为即使 var1 的值为空或包含空格，也不会导致语法错误。</span>
@@ -547,25 +545,20 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;Variable does not equal 1&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#行为: 即使引号包裹变量，&#34;$var1&#34; 仍然包含空格，这将导致一个错误：bash: [: some value: integer expression expected   注意啊，这种情况和 $var1 -eq 1 是等价的错误</span>
-</span></span></code></pre></div></li>
-</ol>
-</li>
-</ol>
-</li>
-<li>
-<p>shell 中整数变量和字符串变量</p>
-<ol>
-<li>shell 提供了 ((xxx)) 用于整数计算，比如
+</span></span><span style="display:flex;"><span>    
+</span></span></code></pre></div><pre><code>3. shell 中整数变量和字符串变量
+   1. shell 提供了 ((xxx)) 用于整数计算，比如 
+</code></pre>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>var1<span style="color:#f92672">=</span><span style="color:#ae81ff">21</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>$var1 -eq 22<span style="color:#f92672">))</span>; <span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;var1==22&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> 
 </span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;var1!=22&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div>逻辑比较 -eq (比较是否相等)、-ne (是否不相等)、-lt( less then 判断第一个整数是否小于第二个整数)、-le (判断第一个整数是否小于或等于第二个整数)、-gt (判断第一个整数是否大于第二个整数) 和 -ge (判断第一个整数是否大于或等于第二个整数)</li>
-<li>字符串   字符串变量用于文本操作，包括拼接、比较和模式匹配。字符串操作通常使用 [ 或 [[ 进行
-<ol>
-<li>字符串拼接
+</span></span></code></pre></div><pre><code>        逻辑比较 -eq (比较是否相等)、-ne (是否不相等)、-lt( less then 判断第一个整数是否小于第二个整数)、-le (判断第一个整数是否小于或等于第二个整数)、-gt (判断第一个整数是否大于第二个整数) 和 -ge (判断第一个整数是否大于或等于第二个整数)
+    2. 字符串   字符串变量用于文本操作，包括拼接、比较和模式匹配。字符串操作通常使用 [ 或 [[ 进行
+       1. 字符串拼接
+</code></pre>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span>first_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;John&#34;</span>
@@ -577,8 +570,8 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;full_name length is </span>$full_name_length<span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#Full Name: John Doe</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#the full_name length is 8</span>
-</span></span></code></pre></div></li>
-<li>字符串匹配
+</span></span></code></pre></div><pre><code>        2. 字符串匹配
+</code></pre>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span>filename<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;report_2024.txt&#34;</span>
@@ -588,8 +581,8 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
 </span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;The filename does not match the pattern.&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div></li>
-<li>计算字符串长度
+</span></span></code></pre></div><pre><code>        3. 计算字符串长度
+</code></pre>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span>text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Hello, World!&#34;</span>
@@ -600,8 +593,8 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
 </span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;The text is short.&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div></li>
-<li>检查是否有 有效整数
+</span></span></code></pre></div><pre><code>        4. 检查是否有 有效整数
+</code></pre>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span>input<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>
@@ -614,19 +607,12 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
 </span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;The input is not a valid integer.&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div></li>
-<li>字符串切片</li>
-</ol>
+</span></span></code></pre></div><pre><code>        5. 字符串切片
+</code></pre>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    string<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;alibaba is a great company&#34;</span>
 </span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">${</span>string:1:4<span style="color:#e6db74">}</span>
 </span></span><span style="display:flex;"><span>    liba
-</span></span></code></pre></div></li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="重定向">重定向</h3>
+</span></span></code></pre></div><h3 id="重定向">重定向</h3>
 <ol>
 <li>&gt; 和 &raquo;</li>
 </ol>
@@ -697,6 +683,41 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Function returned </span>$?<span style="color:#e6db74">&#34;</span>
 </span></span></code></pre></div><p>综上，总结来说 退出脚本 exit ， 可以退出的时候选择指定状态码，默认状态码为0，在函数返回值上可以使用 return 然后再带上数字</p>
 <h3 id="命令-getopts">命令 getopts</h3>
+<blockquote>
+<p>注意啊，c语言里面也是有这个函数，同名函数</p>
+</blockquote>
+<h2 id="shell-测试">shell 测试</h2>
+<blockquote>
+<p>shell  的测试文件后缀为 .bats</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env bats
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>@test <span style="color:#e6db74">&#34;Check if file exists&#34;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  run test -f <span style="color:#e6db74">&#34;/etc/passwd&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$status<span style="color:#e6db74">&#34;</span> -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@test <span style="color:#e6db74">&#34;Check if string matches&#34;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  result<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$result<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello&#34;</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@test <span style="color:#e6db74">&#34;Check the output of a command&#34;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  run echo <span style="color:#e6db74">&#34;Hello, Bats!&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$status<span style="color:#e6db74">&#34;</span> -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$output<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello, Bats!&#34;</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 运行结果</span>
+</span></span><span style="display:flex;"><span>bats  tmp_0825_01.bats
+</span></span><span style="display:flex;"><span> ✓ Check <span style="color:#66d9ef">if</span> file exists
+</span></span><span style="display:flex;"><span> ✓ Check <span style="color:#66d9ef">if</span> string matches
+</span></span><span style="display:flex;"><span> ✓ Check the output of a command
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span> tests, <span style="color:#ae81ff">0</span> failures
+</span></span></code></pre></div><blockquote>
+<p><a href="https://github.com/tutuwu2019/hard-study-to-stronger/blob/main/linux/test%E5%91%BD%E4%BB%A4.md">引申</a></p>
+</blockquote>
 
 </content>
 <p>
