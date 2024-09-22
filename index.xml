@@ -7,7 +7,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, zhangbdua.</copyright>
-    <lastBuildDate>Tue, 27 Aug 2024 00:16:12 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 23 Sep 2024 01:51:56 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>纳秒级cpu优化&amp;rdtsc测试</title>
+      <link>https://tutuwu2019.github.io/%E7%BA%B3%E7%A7%92%E7%BA%A7cpu%E4%BC%98%E5%8C%96rdtsc%E6%B5%8B%E8%AF%95/</link>
+      <pubDate>Mon, 23 Sep 2024 01:51:56 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E7%BA%B3%E7%A7%92%E7%BA%A7cpu%E4%BC%98%E5%8C%96rdtsc%E6%B5%8B%E8%AF%95/</guid>
+      <description>This is a page about »纳秒级cpu优化&amp;amp;rdtsc测试«.
+纳秒级cpu优化&amp;amp;rdtsc测试 起因：看了一段演讲视频，感觉讲的偏底层&amp;amp;基础
+除法比乘法慢的原因 访问对齐数据更高效 访问松散数据导致cache命中率低下 访问矩阵元素不要跨行访问，要逐行访问 → 编写 cache 友好代码的 第一原则：局部性原则 授人以渔：纳米级优化第一守则：防止编译器好心帮倒忙； 第二守则：禁止CPU调频，否则看不出优化的效果； 第三守则：使用专业工具精准测量-Intel Vtune 内存对其与内存不对其 结构体的定义 松散的结构体不仅浪费内存而且访问效率很低。
+struct t1{ int x; char testName[Length]; }; struct t2{ int x; const char* testName; }; 多核加剧了 CPU与内存之间访问的压力
+纳秒级调优守则 编译器优化问题 防止编译器好心干坏事
+如果调用的函数返回结果没有使用，可能编译器会抛弃这个函数，造成执行结果没有差别
+禁止CPU 调频
+使用专业工具：VTUNE PROFILEPROFILER
+rdtsc参考01
+rdtsc demo
+使用 rdtsc 指令进行时钟周期级测量
+rdtsc 参考02 Pitfalls of TSC usage
+rdtsc 参考03
+rdtsc 参考04 rdtsc 参考05
+rdtsc 参考06
+rdtsc 参考07</description>
+    </item>
+    
     <item>
       <title>日志项目详解</title>
       <link>https://tutuwu2019.github.io/%E6%97%A5%E5%BF%97%E9%A1%B9%E7%9B%AE%E8%AF%A6%E8%A7%A3/</link>
