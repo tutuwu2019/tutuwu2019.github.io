@@ -8,12 +8,26 @@
 <link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
 <title>日志项目详解 | 张不大的博客</title>
 <meta name="title" content="日志项目详解" />
-<meta name="description" content="This is a page about »日志项目详解«." />
+<meta name="description" content="This is a page about »日志项目详解«.
+详解 tlog 日志项目 日志level、日志时间、日志flag和日志info tlog_level
+debug 0 info 1 notice 2 error 3 fatal 4 off 5 end 6 tlog_time
+usec、mon、mday、hour、min、sec
+日志flag
+TLOG_NOCOMPRESS 1 TLOG_SEGMENT 10 TLOG_MULTI_WRITE 100 TLOG_NONBLOCK 1000 TLOG_SCREEN 10000 TLOG_SUPPORT_FORK 100000 TLOG_SCREEN_COLOR 1000000 TLOG_FORMAT_NO_PREFIX 10000000 日志info
+level file func line time tlog tlog 可变参数宏定义
+// 定于你 tlog_ext 函数，其中 第6个参数采用 printf 格式，从第7个参数采用 可变参数，而且 第6个参数不能为空 extern int tlog_ext(tlog_level level, const char* file, int line, const char* func, void* userptr, const char* format, ." />
 <meta name="keywords" content="c/c&#43;&#43;," />
 
 
 <meta property="og:title" content="日志项目详解" />
-<meta property="og:description" content="This is a page about »日志项目详解«." />
+<meta property="og:description" content="This is a page about »日志项目详解«.
+详解 tlog 日志项目 日志level、日志时间、日志flag和日志info tlog_level
+debug 0 info 1 notice 2 error 3 fatal 4 off 5 end 6 tlog_time
+usec、mon、mday、hour、min、sec
+日志flag
+TLOG_NOCOMPRESS 1 TLOG_SEGMENT 10 TLOG_MULTI_WRITE 100 TLOG_NONBLOCK 1000 TLOG_SCREEN 10000 TLOG_SUPPORT_FORK 100000 TLOG_SCREEN_COLOR 1000000 TLOG_FORMAT_NO_PREFIX 10000000 日志info
+level file func line time tlog tlog 可变参数宏定义
+// 定于你 tlog_ext 函数，其中 第6个参数采用 printf 格式，从第7个参数采用 可变参数，而且 第6个参数不能为空 extern int tlog_ext(tlog_level level, const char* file, int line, const char* func, void* userptr, const char* format, ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tutuwu2019.github.io/%E6%97%A5%E5%BF%97%E9%A1%B9%E7%9B%AE%E8%AF%A6%E8%A7%A3/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2024-08-27T00:16:12+08:00" />
@@ -25,14 +39,28 @@
 <meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
 
 <meta name="twitter:title" content="日志项目详解"/>
-<meta name="twitter:description" content="This is a page about »日志项目详解«."/>
+<meta name="twitter:description" content="This is a page about »日志项目详解«.
+详解 tlog 日志项目 日志level、日志时间、日志flag和日志info tlog_level
+debug 0 info 1 notice 2 error 3 fatal 4 off 5 end 6 tlog_time
+usec、mon、mday、hour、min、sec
+日志flag
+TLOG_NOCOMPRESS 1 TLOG_SEGMENT 10 TLOG_MULTI_WRITE 100 TLOG_NONBLOCK 1000 TLOG_SCREEN 10000 TLOG_SUPPORT_FORK 100000 TLOG_SCREEN_COLOR 1000000 TLOG_FORMAT_NO_PREFIX 10000000 日志info
+level file func line time tlog tlog 可变参数宏定义
+// 定于你 tlog_ext 函数，其中 第6个参数采用 printf 格式，从第7个参数采用 可变参数，而且 第6个参数不能为空 extern int tlog_ext(tlog_level level, const char* file, int line, const char* func, void* userptr, const char* format, ."/>
 
 
 
 <meta itemprop="name" content="日志项目详解">
-<meta itemprop="description" content="This is a page about »日志项目详解«."><meta itemprop="datePublished" content="2024-08-27T00:16:12+08:00" />
+<meta itemprop="description" content="This is a page about »日志项目详解«.
+详解 tlog 日志项目 日志level、日志时间、日志flag和日志info tlog_level
+debug 0 info 1 notice 2 error 3 fatal 4 off 5 end 6 tlog_time
+usec、mon、mday、hour、min、sec
+日志flag
+TLOG_NOCOMPRESS 1 TLOG_SEGMENT 10 TLOG_MULTI_WRITE 100 TLOG_NONBLOCK 1000 TLOG_SCREEN 10000 TLOG_SUPPORT_FORK 100000 TLOG_SCREEN_COLOR 1000000 TLOG_FORMAT_NO_PREFIX 10000000 日志info
+level file func line time tlog tlog 可变参数宏定义
+// 定于你 tlog_ext 函数，其中 第6个参数采用 printf 格式，从第7个参数采用 可变参数，而且 第6个参数不能为空 extern int tlog_ext(tlog_level level, const char* file, int line, const char* func, void* userptr, const char* format, ."><meta itemprop="datePublished" content="2024-08-27T00:16:12+08:00" />
 <meta itemprop="dateModified" content="2024-08-27T00:16:12+08:00" />
-<meta itemprop="wordCount" content="6"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="wordCount" content="204"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
 <meta itemprop="keywords" content="c/c&#43;&#43;," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -240,6 +268,122 @@
 
 <content>
   <p>This is a page about »日志项目详解«.</p>
+<h1 id="详解-tlog-日志项目">详解 tlog 日志项目</h1>
+<h2 id="日志level日志时间日志flag和日志info">日志level、日志时间、日志flag和日志info</h2>
+<p><strong>tlog_level</strong></p>
+<ol>
+<li>debug    0</li>
+<li>info     1</li>
+<li>notice   2</li>
+<li>error    3</li>
+<li>fatal    4</li>
+<li>off      5</li>
+<li>end      6</li>
+</ol>
+<p><strong>tlog_time</strong></p>
+<blockquote>
+<p>usec、mon、mday、hour、min、sec</p>
+</blockquote>
+<p><strong>日志flag</strong></p>
+<ul>
+<li>TLOG_NOCOMPRESS       1</li>
+<li>TLOG_SEGMENT          10</li>
+<li>TLOG_MULTI_WRITE      100</li>
+<li>TLOG_NONBLOCK         1000</li>
+<li>TLOG_SCREEN           10000</li>
+<li>TLOG_SUPPORT_FORK     100000</li>
+<li>TLOG_SCREEN_COLOR     1000000</li>
+<li>TLOG_FORMAT_NO_PREFIX 10000000</li>
+</ul>
+<p><strong>日志info</strong></p>
+<ul>
+<li>level</li>
+<li>file</li>
+<li>func</li>
+<li>line</li>
+<li>time</li>
+</ul>
+<h2 id="tlog">tlog</h2>
+<blockquote>
+<p>tlog 可变参数宏定义</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 定于你 tlog_ext 函数，其中 第6个参数采用 printf 格式，从第7个参数采用 可变参数，而且 第6个参数不能为空
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">extern</span> <span style="color:#66d9ef">int</span> tlog_ext(tlog_level level, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> file, <span style="color:#66d9ef">int</span> line, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> func, <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> userptr, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> format, ...) __attribute((format( printf, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>))) __attribute__((nonnull(<span style="color:#ae81ff">6</span>)))
+</span></span></code></pre></div><blockquote>
+<p>tlog_reg_format_func  customize log output format</p>
+<blockquote>
+<p>the tlog_format_func 使用snprintf 或者vsnprintf 格式把日志定向到buffer
+tlog_format_func 需要使用 tlog_reg_format_fun register</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>tlog_open</p>
+<blockquote>
+<p>打卡一个新的日志流需要使用 tlog_close 关闭handler</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>tlog_write 把 buffer 写入日志文件</p>
+</blockquote>
+<blockquote>
+<p>tlog_close 关闭 日志流</p>
+</blockquote>
+<ol>
+<li>tlog_ext</li>
+<li>tlog_write_log</li>
+<li>tlog_setlevel</li>
+<li>tlog_long_enabled</li>
+<li>tlog_getlevel</li>
+<li>tlog_set_logfile</li>
+<li>tlog_get_level_string</li>
+<li>tlog_set_maxlog_count</li>
+<li>tlog_init</li>
+<li>tlog_exit</li>
+<li>tlog_reg_format_func &ndash;&gt; tlog_format_func</li>
+<li>tlog_set_early_printf</li>
+<li>tlog_reg_early_printf_callback &ndash;&gt; tlog_early_print_func</li>
+<li>tlog_reg_early_printf_output_callback</li>
+<li>tlog_get_root</li>
+<li>tlog_open</li>
+<li>tlog_write</li>
+<li>tlog_close</li>
+<li>tlog_rename_logfile</li>
+<li>tlog_printf  打印日志到日志流</li>
+<li>tlog_vprintf print log to log stream with ap</li>
+<li>tlog_logscreen  enbale log to screen</li>
+<li>tlog_reg_output_func &ndash;&gt; tlog_output_func</li>
+<li>tlog_set_private</li>
+<li>tlog_get_private</li>
+<li>tlog_localtime</li>
+<li>tlog_set_maxline_size</li>
+<li>tlog_logcount   set max log count</li>
+<li>tlog_set_permission  set log file and archive permission</li>
+<li>tlog_stdout_with_color</li>
+</ol>
+<h2 id="tlogc">tlog.c</h2>
+<ol>
+<li>编译优化部分</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#ifndef likely
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define likely(x) __builtin_expect(!!(x), 1)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ifndef unlikely
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define unlikely(x) __builtin_expect(!!(x), 0)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span></code></pre></div><h2 id="tlog-流程">tlog 流程</h2>
+<h3 id="tlog_init">tlog_init</h3>
+<blockquote>
+<p>tlog_init 需要 初始化配置 tlog_open，需要注册 log output func (_tlog_reg_output_func)，以及tlog.root_format</p>
+<blockquote>
+<p>重点注意 _tlog_reg_func、tlog.root_format<br>
+创建 attr 线程 执行 _tlog_work</p>
+</blockquote>
+</blockquote>
+<h3 id="_tlog_work">_tlog_work</h3>
+<blockquote>
+<p>检查是否还有日志正在压缩，等待压缩指令结束</p>
+</blockquote>
 
 </content>
 <p>
