@@ -68,7 +68,7 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo;
 再将切片后的单词排序 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort
 再将单词去重 cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c"><meta itemprop="datePublished" content="2024-08-14T01:20:35+08:00" />
 <meta itemprop="dateModified" content="2024-08-14T01:20:35+08:00" />
-<meta itemprop="wordCount" content="1175"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="wordCount" content="1247"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
 <meta itemprop="keywords" content="linux," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -398,6 +398,9 @@ cat ./word.txt | tr -s &rsquo; &rsquo; &lsquo;\n&rsquo; | sort | uniq -c |sort -
 </span></span></code></pre></div><ol start="2">
 <li>() 子shell</li>
 </ol>
+<blockquote>
+<p>$() 和 `` 会进行命令替换</p>
+</blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#比如 执行子命令 (command1; command2)</span>
 </span></span><span style="display:flex;"><span>VAR<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $VAR -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
@@ -612,7 +615,34 @@ $((xxx)) 表示把xxx 的结果赋给变量</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    string<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;alibaba is a great company&#34;</span>
 </span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">${</span>string:1:4<span style="color:#e6db74">}</span>
 </span></span><span style="display:flex;"><span>    liba
-</span></span></code></pre></div><h3 id="重定向">重定向</h3>
+</span></span></code></pre></div><h4 id="综合使用">综合使用</h4>
+<p>&rsquo;&rsquo; 会保留字符字面含义不会进行变量替换和命令替换<br>
+&quot;&quot; 允许变量替换和命令替换，保留大部分特殊字符的字面含义<br>
+{} 明确变量名的边界，特别是在变量与后续字符相连时</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">&#34;</span>    ---&gt; hello
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;&#39;</span>$name<span style="color:#e6db74">&#39;&#34;</span>  ---&gt; <span style="color:#e6db74">&#39;hello&#39;</span>    要看 <span style="color:#e6db74">&#39;xx&#39;</span> 的部份是否已经被 双引号包围
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;$name&#39;</span>    ---&gt; $name
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;&#34;$name&#34;&#39;</span>  ---&gt; <span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;&#34;</span>$name<span style="color:#e6db74">&#34;&#34;</span>  ---&gt; hello
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;\$name&#34;</span>   ---&gt; $name
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;\&#39;</span>$name<span style="color:#e6db74">\&#39;&#34;</span>    ---&gt; <span style="color:#ae81ff">\&#39;</span>hello<span style="color:#ae81ff">\&#39;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;&#34;</span>$name<span style="color:#e6db74">&#34;&#34;</span>  ---&gt; hello
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;\&#34;</span>$name<span style="color:#e6db74">\&#34;&#34;</span>    ---&gt;<span style="color:#e6db74">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意  &#34;&#34; 保留了特殊字符</span>
+</span></span><span style="display:flex;"><span>    1. 空格不会解释为命令空格符
+</span></span><span style="display:flex;"><span>    2. * 不会解释为通配符扩展
+</span></span><span style="display:flex;"><span>    3. ？  不会匹配单个字符
+</span></span><span style="display:flex;"><span>    4. 大括号（<span style="color:#f92672">{}</span>）、方括号（<span style="color:#f92672">[]</span>）：不会被解析为扩展
+</span></span></code></pre></div><blockquote>
+<p>双引号中的单引号涉及 $、`、${}或者单引号中的双引号涉及$、、${}</p>
+<blockquote>
+<p>在双引号中使用单引号：单引号会被视为普通字符，$、` 和 ${} 的替换规则依然生效
+在单引号中使用双引号：所有字符，包括双引号，都被视为字面值，不会进行替换或解释</p>
+</blockquote>
+</blockquote>
+<h3 id="重定向">重定向</h3>
 <ol>
 <li>&gt; 和 &raquo;</li>
 </ol>
