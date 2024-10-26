@@ -7,7 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, zhangbdua.</copyright>
-    <lastBuildDate>Mon, 19 Aug 2024 22:35:14 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/%E9%9A%8F%E5%86%99/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 26 Oct 2024 23:35:23 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/%E9%9A%8F%E5%86%99/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Poco库学习&amp;近期随写</title>
+      <link>https://tutuwu2019.github.io/poco%E5%BA%93%E5%AD%A6%E4%B9%A0%E8%BF%91%E6%9C%9F%E9%9A%8F%E5%86%99/</link>
+      <pubDate>Sat, 26 Oct 2024 23:35:23 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/poco%E5%BA%93%E5%AD%A6%E4%B9%A0%E8%BF%91%E6%9C%9F%E9%9A%8F%E5%86%99/</guid>
+      <description>This is a page about »Poco库学习&amp;amp;近期随写«.
+Poco库学习&amp;amp;近期随写 poco 库
+. xxx.sh ./xxx.sh 和 xxx
+poco 库 这个一个c++ 的大一统库，从网络、到文件以及util
+让我最直观的感受就是，这是一个 大一统的库，甚至让我梦回学习 java
+总的来说，这个项目很大、很广、配置也多，也可以让我学一些新的配置
+就比如， bash 脚本 并不一定是 xxx.sh 格式的文件名，xxx 文件也可以是 shell 文件，也可以直接执行
+随写 工作上，有些许明显的 工业化 也就是 大家各忙个的 螺丝钉化 还有一个就是 毅力欠缺 不知道要忙啥 忙活 而且重要的是 时间 是实打实的花出去了
+还有 好久没有更新了 后面强度得上来，持续性，不能再三天打鱼两天晒网了。
+自己，感觉在陌生领域或者是不成熟的领域就容易稳不住阵脚。而且在这个条件下，容易情绪写在脸上，久之不散。</description>
+    </item>
+    
     <item>
       <title>随写_软实力</title>
       <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99_%E8%BD%AF%E5%AE%9E%E5%8A%9B/</link>
