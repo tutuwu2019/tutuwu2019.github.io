@@ -8,6 +8,16 @@
     <language>en-US</language>
     <copyright>Copyright © 2024, zhangbdua.</copyright><atom:link href="https://tutuwu2019.github.io/blog/c/c-/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>一些sql技巧</title>
+      <link>https://tutuwu2019.github.io/%E4%B8%80%E4%BA%9Bsql%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Tue, 19 Nov 2024 22:48:17 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E4%B8%80%E4%BA%9Bsql%E6%8A%80%E5%B7%A7/</guid>
+      <description>This is a page about »一些sql技巧«.
+sql 的一些技巧 sql 与时间相关的用法 获取当前时间 now() 返回当前的日期和时间 (YYYY-MM-DD HH:MM:SS) current_date() 返回当前的日期 (YYYY-MM-DD) current_time() 返回当前的时间(HH:MM:SS) curdate() 返回当前的日期 类似 current_date curtime() 返回当前的时间 类似 current_time SELECT NOW(); -- 获取当前时间 SELECT CURRENT_DATE; -- 获取当前日期 日期与时间运算 date_add() 或 date_sub() 分别用来加、减指定的时间间隔 SELECT DATE_ADD(NOW(), INTERVAL 5 DAY); -- 当前时间加 5 天 SELECT DATE_SUB(NOW(), INTERVAL 2 HOUR); -- 当前时间减去 2 小时 比较日期和时间 日期比较，直接比较date、datetime字段，比如运算符 =、&amp;lt;、&amp;gt;、&amp;lt;=、&amp;gt;= SELECT * FROM orders WHERE order_date &amp;gt; &amp;#39;2024-01-01&amp;#39;; 时间区间比较，通过 between 操作符在指定时间范围内查询记录</description>
+    </item>
+    
+    <item>
       <title>Poco库学习&amp;近期随写</title>
       <link>https://tutuwu2019.github.io/poco%E5%BA%93%E5%AD%A6%E4%B9%A0%E8%BF%91%E6%9C%9F%E9%9A%8F%E5%86%99/</link>
       <pubDate>Sat, 26 Oct 2024 23:35:23 +0800</pubDate>
