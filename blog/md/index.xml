@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, zhangbdua.</copyright>
-    <lastBuildDate>Tue, 07 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/md/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 08 Dec 2024 12:52:28 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/md/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>随写mysql</title>
+      <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99mysql/</link>
+      <pubDate>Sun, 08 Dec 2024 12:52:28 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99mysql/</guid>
+      <description>This is a page about »随写mysql«.
+关键字 mysql 主从复制 mysql 备份 sql优化 </description>
+    </item>
+    
     <item>
       <title>md 语法参考</title>
       <link>https://tutuwu2019.github.io/md-%E8%AF%AD%E6%B3%95%E5%8F%82%E8%80%83/</link>

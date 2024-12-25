@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>redis on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/blog/redis/</link>
+    <description>Recent content in redis on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Sun, 08 Dec 2024 12:54:50 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>随写redis</title>
+      <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99redis/</link>
+      <pubDate>Sun, 08 Dec 2024 12:54:50 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99redis/</guid>
+      <description>This is a page about »随写redis«.</description>
+    </item>
+    
+  </channel>
+</rss>
