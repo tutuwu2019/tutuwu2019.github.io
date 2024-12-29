@@ -8,6 +8,17 @@
     <language>en-US</language>
     <copyright>Copyright © 2024, zhangbdua.</copyright><atom:link href="https://tutuwu2019.github.io/blog/c/c-/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Redis手册(自用)</title>
+      <link>https://tutuwu2019.github.io/redis%E6%89%8B%E5%86%8C%E8%87%AA%E7%94%A8/</link>
+      <pubDate>Sun, 29 Dec 2024 23:57:55 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/redis%E6%89%8B%E5%86%8C%E8%87%AA%E7%94%A8/</guid>
+      <description>This is a page about »Redis手册(自用)«.
+redis操作手册&amp;ndash;自用 访问redis 服务器，并测试 redis-cli -h host -p port -a password # 如果是直接在本地访问 redis-cli 127.0.0.1:6379&amp;gt; ping PONG 127.0.0.1:6379&amp;gt; ping zhangbuda &amp;#34;zhangbuda&amp;#34; 127.0.0.1:6379&amp;gt; 数据类型&amp;amp;增删改查 字符串、哈希、列表、集合、有序集合
+字符串 127.0.0.1:6379&amp;gt; set zhangbuda 188 OK 127.0.0.1:6379&amp;gt; get zhangbuda &amp;#34;188&amp;#34; 127.0.0.1:6379&amp;gt; del zhangbuda (integer) 1 127.0.0.1:6379&amp;gt; get zhangbuda (nil) 127.0.0.1:6379&amp;gt; #######获取value 的长度(字符串) 、截取指定范围的内容(子字符串)、同时存储多个key、同时获取多个 key 的value、修改原来key的value，拼接字符串 set zhangbuda hello,world OK 127.0.0.1:6379&amp;gt; get zhangbuda &amp;#34;hello,world&amp;#34; 127.0.0.1:6379&amp;gt; getrange zhangbuda 2 4 &amp;#34;llo&amp;#34; 127.0.0.1:6379&amp;gt; getrange zhangbuda 0 4 &amp;#34;hello&amp;#34; 127.</description>
+    </item>
+    
+    <item>
       <title>随写redis</title>
       <link>https://tutuwu2019.github.io/%E9%9A%8F%E5%86%99redis/</link>
       <pubDate>Sun, 08 Dec 2024 12:54:50 +0800</pubDate>
