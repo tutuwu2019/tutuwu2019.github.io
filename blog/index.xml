@@ -7,7 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2024, zhangbdua.</copyright>
-    <lastBuildDate>Wed, 01 Jan 2025 22:12:07 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 02 Jan 2025 00:58:02 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Svn手册(自用)</title>
+      <link>https://tutuwu2019.github.io/svn%E6%89%8B%E5%86%8C%E8%87%AA%E7%94%A8/</link>
+      <pubDate>Thu, 02 Jan 2025 00:58:02 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/svn%E6%89%8B%E5%86%8C%E8%87%AA%E7%94%A8/</guid>
+      <description>This is a page about »Svn手册(自用)«.
+svn手册(自用) 老实说，之前用的svn gui版本，现在用svn终端版，所有关于svn的命令要用起来。老实说，用过git，再用svn应该会容易上手不少吧。
+常规操作 checkout(co) 使用 svn checkout path 把svn服务器上的代码down 下来
+注意啊，cppProject 替换成 svn://svnbucket.com/xxx/cppProject 如， svn checkout cppProject 或者 svn co cppProject 如果要 down 到指定目录，用 svn co cppProject zhangbuda/cppProject_ 如果要指定用户名和密码 svn co cppProject &amp;ndash;username xxx &amp;ndash;password yyy
+commit 提交 和 git 差不多的意思。 把本地代码，提交到 svn 服务器上 简单的如，svn commit -m &amp;lsquo;提交描述&amp;rsquo; 当然可以把 commit 替换成 ci 如，svn ci -m &amp;lsquo;提交描述&amp;rsquo; 提交指定的文件或者目录 svn ci /path/cppProject -m &amp;lsquo;提交指定的文件&amp;rsquo; 提交指定后缀的文件 svn ci *.</description>
+    </item>
+    
     <item>
       <title>2025 01 01,你好!</title>
       <link>https://tutuwu2019.github.io/2025-01-01%E4%BD%A0%E5%A5%BD/</link>

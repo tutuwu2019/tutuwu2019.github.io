@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
+<title>Svn手册(自用) | 张不大的博客</title>
+<meta name="title" content="Svn手册(自用)" />
+<meta name="description" content="This is a page about »Svn手册(自用)«.
+svn手册(自用) 老实说，之前用的svn gui版本，现在用svn终端版，所有关于svn的命令要用起来。老实说，用过git，再用svn应该会容易上手不少吧。
+常规操作 checkout(co) 使用 svn checkout path 把svn服务器上的代码down 下来
+注意啊，cppProject 替换成 svn://svnbucket.com/xxx/cppProject 如， svn checkout cppProject 或者 svn co cppProject 如果要 down 到指定目录，用 svn co cppProject zhangbuda/cppProject_ 如果要指定用户名和密码 svn co cppProject &ndash;username xxx &ndash;password yyy
+commit 提交 和 git 差不多的意思。 把本地代码，提交到 svn 服务器上 简单的如，svn commit -m &lsquo;提交描述&rsquo; 当然可以把 commit 替换成 ci 如，svn ci -m &lsquo;提交描述&rsquo; 提交指定的文件或者目录 svn ci /path/cppProject -m &lsquo;提交指定的文件&rsquo; 提交指定后缀的文件 svn ci *." />
+<meta name="keywords" content="c/c&#43;&#43;,git," />
+
+
+<meta property="og:title" content="Svn手册(自用)" />
+<meta property="og:description" content="This is a page about »Svn手册(自用)«.
+svn手册(自用) 老实说，之前用的svn gui版本，现在用svn终端版，所有关于svn的命令要用起来。老实说，用过git，再用svn应该会容易上手不少吧。
+常规操作 checkout(co) 使用 svn checkout path 把svn服务器上的代码down 下来
+注意啊，cppProject 替换成 svn://svnbucket.com/xxx/cppProject 如， svn checkout cppProject 或者 svn co cppProject 如果要 down 到指定目录，用 svn co cppProject zhangbuda/cppProject_ 如果要指定用户名和密码 svn co cppProject &ndash;username xxx &ndash;password yyy
+commit 提交 和 git 差不多的意思。 把本地代码，提交到 svn 服务器上 简单的如，svn commit -m &lsquo;提交描述&rsquo; 当然可以把 commit 替换成 ci 如，svn ci -m &lsquo;提交描述&rsquo; 提交指定的文件或者目录 svn ci /path/cppProject -m &lsquo;提交指定的文件&rsquo; 提交指定后缀的文件 svn ci *." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tutuwu2019.github.io/svn%E6%89%8B%E5%86%8C%E8%87%AA%E7%94%A8/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2025-01-02T00:58:02+08:00" />
+<meta property="article:modified_time" content="2025-01-02T00:58:02+08:00" /><meta property="og:site_name" content="张不大的博客" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
+
+<meta name="twitter:title" content="Svn手册(自用)"/>
+<meta name="twitter:description" content="This is a page about »Svn手册(自用)«.
+svn手册(自用) 老实说，之前用的svn gui版本，现在用svn终端版，所有关于svn的命令要用起来。老实说，用过git，再用svn应该会容易上手不少吧。
+常规操作 checkout(co) 使用 svn checkout path 把svn服务器上的代码down 下来
+注意啊，cppProject 替换成 svn://svnbucket.com/xxx/cppProject 如， svn checkout cppProject 或者 svn co cppProject 如果要 down 到指定目录，用 svn co cppProject zhangbuda/cppProject_ 如果要指定用户名和密码 svn co cppProject &ndash;username xxx &ndash;password yyy
+commit 提交 和 git 差不多的意思。 把本地代码，提交到 svn 服务器上 简单的如，svn commit -m &lsquo;提交描述&rsquo; 当然可以把 commit 替换成 ci 如，svn ci -m &lsquo;提交描述&rsquo; 提交指定的文件或者目录 svn ci /path/cppProject -m &lsquo;提交指定的文件&rsquo; 提交指定后缀的文件 svn ci *."/>
+
+
+
+<meta itemprop="name" content="Svn手册(自用)">
+<meta itemprop="description" content="This is a page about »Svn手册(自用)«.
+svn手册(自用) 老实说，之前用的svn gui版本，现在用svn终端版，所有关于svn的命令要用起来。老实说，用过git，再用svn应该会容易上手不少吧。
+常规操作 checkout(co) 使用 svn checkout path 把svn服务器上的代码down 下来
+注意啊，cppProject 替换成 svn://svnbucket.com/xxx/cppProject 如， svn checkout cppProject 或者 svn co cppProject 如果要 down 到指定目录，用 svn co cppProject zhangbuda/cppProject_ 如果要指定用户名和密码 svn co cppProject &ndash;username xxx &ndash;password yyy
+commit 提交 和 git 差不多的意思。 把本地代码，提交到 svn 服务器上 简单的如，svn commit -m &lsquo;提交描述&rsquo; 当然可以把 commit 替换成 ci 如，svn ci -m &lsquo;提交描述&rsquo; 提交指定的文件或者目录 svn ci /path/cppProject -m &lsquo;提交指定的文件&rsquo; 提交指定后缀的文件 svn ci *."><meta itemprop="datePublished" content="2025-01-02T00:58:02+08:00" />
+<meta itemprop="dateModified" content="2025-01-02T00:58:02+08:00" />
+<meta itemprop="wordCount" content="258"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="keywords" content="c/c&#43;&#43;,git," />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>张不大的博客</h2>
+</a>
+<nav><a href="/">Home</a>
+
+<a href="/about/">About</a>
+
+<a href="/archive/archive/">Archive</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>Svn手册(自用)</h1>
+<p>
+  <i>
+    <time datetime='2025-01-02' pubdate>
+      02 Jan, 2025
+    </time>
+  </i>
+</p>
+
+<content>
+  <p>This is a page about »Svn手册(自用)«.</p>
+<h1 id="svn手册自用">svn手册(自用)</h1>
+<blockquote>
+<p>老实说，之前用的svn gui版本，现在用svn终端版，所有关于svn的命令要用起来。老实说，用过git，再用svn应该会容易上手不少吧。</p>
+</blockquote>
+<h2 id="常规操作">常规操作</h2>
+<ol>
+<li>checkout(co)</li>
+</ol>
+<blockquote>
+<p>使用 svn checkout path 把svn服务器上的代码down 下来</p>
+<blockquote>
+<p>注意啊，cppProject 替换成  svn://svnbucket.com/xxx/cppProject
+如， svn checkout cppProject 或者 svn co cppProject
+如果要 down 到指定目录，用 svn co cppProject zhangbuda/cppProject_
+如果要指定用户名和密码
+svn co cppProject &ndash;username xxx &ndash;password yyy</p>
+</blockquote>
+</blockquote>
+<ol start="2">
+<li>
+<p>commit
+提交 和 git 差不多的意思。
+把本地代码，提交到 svn 服务器上
+简单的如，svn commit -m &lsquo;提交描述&rsquo;  当然可以把 commit 替换成 ci  如，svn ci -m &lsquo;提交描述&rsquo;
+提交指定的文件或者目录 svn ci /path/cppProject -m &lsquo;提交指定的文件&rsquo;
+提交指定后缀的文件 svn ci *.cpp -m &lsquo;提交指定文件&rsquo;       其实这也没啥好单独拎出来的</p>
+</li>
+<li>
+<p>更新 update
+执行命令，会把其他人提交的代码从svn 服务器更新到自己的电脑上
+svn update 可以简写为 svn up
+更新到指定的版本(场景：比如当前版本有问题，需要回退到上一个版本)
+svn update -r xxx
+仅更新指定文件或者目录
+svn update /path/cppProject</p>
+</li>
+<li>
+<p>添加文件
+svn add /path/xxx</p>
+</li>
+</ol>
+<p>或者添加 *.cpp 文件
+svn add *.cpp</p>
+<ol start="5">
+<li>
+<p>删除文件
+svn delete /path/xxx
+删除版本控制，但是本地依然保留文件
+svn delete /path/xxx &ndash;keep-local</p>
+</li>
+<li>
+<p>查看日志
+查看当前目录的日志
+svn -log
+查看指定文件或者目录的提交日志
+svn log /path/cppProject
+查看日志，并输出变动文件列表
+svn log -v
+限定输出日志条数
+svn log -l 5</p>
+</li>
+<li>
+<p>查看变动
+查看当前工作区的改动
+svn diff
+查看指定文件或者目录的改动
+svn diff /path/xxx
+本地文件或者指定版本号的差异
+svn diff /path/xxx -r yyy
+指定版号比较差异
+svn diff /path/xxx -r 1:2</p>
+</li>
+<li>
+<p>撤销修改
+撤销对指定文件的修改<br>
+svn revert xxx.cpp
+递归撤销目录中的本地修改<br>
+svn revert -R /path/xxx</p>
+</li>
+<li>
+<p>添加忽略
+忽略通过设置目录的属性 pro 来实现，添加后会有一个目录属性变动的修改需要提交</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>svn propset svn:ignore <span style="color:#e6db74">&#39;* .log&#39;</span>  .    <span style="color:#75715e"># 忽略所有log文件。</span>
+</span></span><span style="display:flex;"><span>svn propset svn:global-ignores <span style="color:#e6db74">&#39;*.log&#39;</span> . <span style="color:#75715e">#递归忽略</span>
+</span></span><span style="display:flex;"><span>svn proplist . -v <span style="color:#75715e"># 查看当前目录的属性配置</span>
+</span></span><span style="display:flex;"><span>svn prodel svn:ignore . <span style="color:#75715e">#删除当前目录的忽略配置</span>
+</span></span></code></pre></div><ol start="10">
+<li>查看状态</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>svn status  
+</span></span><span style="display:flex;"><span>svn status /path/xxx <span style="color:#75715e">#查看指定目录的svn 状态</span>
+</span></span></code></pre></div><ol start="11">
+<li>清理</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>svn cleanup     <span style="color:#75715e">#清理本地缓存</span>
+</span></span></code></pre></div><ol start="12">
+<li>查看信息</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>svn info
+</span></span></code></pre></div><ol start="13">
+<li>查看文件列表</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>svn ls 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>svn ls -r xxx <span style="color:#75715e"># 指定版本号</span>
+</span></span></code></pre></div><ol start="14">
+<li>查看blame</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>svn blame xxx.cpp   <span style="color:#75715e">#显示文件的每一行最后是谁修改的</span>
+</span></span></code></pre></div><ol start="15">
+<li>分支操作</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>svn cp -m <span style="color:#e6db74">&#39;描述内容&#39;</span> xxx yyy  <span style="color:#75715e"># 从 xxx 中传讲一个分支保存在 yyy 上   参考：svn cp -m &#34;描述内容&#34; http://svnbucket.com/repos/trunk http://svnbucket.com/repos/branches/online1.0  从主干 trunk 创建一个分支保存到 branches/online1.0</span>
+</span></span><span style="display:flex;"><span>cd yyy 
+</span></span><span style="display:flex;"><span>svn merge --reintegrate xxx  <span style="color:#75715e"># yyy合并到 xxx上</span>
+</span></span><span style="display:flex;"><span>svn  switch zzz     <span style="color:#75715e">#切换分支</span>
+</span></span><span style="display:flex;"><span>svn rm path    <span style="color:#75715e">#删除分支</span>
+</span></span></code></pre></div>
+</content>
+<p>
+  
+  <a href="https://tutuwu2019.github.io/blog/c/c-/">#c/c&#43;&#43;</a>
+  
+  <a href="https://tutuwu2019.github.io/blog/git/">#git</a>
+  
+</p>
+
+  </main>
+  <footer>contact me  <a href="https://github.com/tutuwu2019/">zhangbuda7788</a>
+</footer>
+
+    
+
+
+
+
+</body>
+
+</html>
