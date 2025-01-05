@@ -570,7 +570,7 @@ V2EX 上看到一个大哥说，GET 和 POST 的区别就是，一个的方法�
       
       <guid>https://tutuwu2019.github.io/blog/git_tips/</guid>
       <description>This is a page about »Git_tips«.
-git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
+git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了。
 本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
 大概率是本地的git 仓库被污染了。
 其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》
