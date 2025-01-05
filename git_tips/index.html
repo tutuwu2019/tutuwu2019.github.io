@@ -60,7 +60,7 @@ git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着�
 后来误打误撞的解决了
 # 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息"><meta itemprop="datePublished" content="2024-05-16T00:16:27+08:00" />
 <meta itemprop="dateModified" content="2024-05-16T00:16:27+08:00" />
-<meta itemprop="wordCount" content="503"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
+<meta itemprop="wordCount" content="850"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
 <meta itemprop="keywords" content="git," />
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -371,8 +371,29 @@ git push origin main     (推送至远程仓库)</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 自定义输出格式</span>
 </span></span><span style="display:flex;"><span>git log --pretty<span style="color:#f92672">=</span>format:<span style="color:#e6db74">&#34;%h - %an, %ar : %s&#34;</span>
-</span></span></code></pre></div><h3 id="git-场景">git 场景</h3>
-<h4 id="本地代码上传github">本地代码上传github</h4>
+</span></span></code></pre></div><h2 id="git-ls-files">git ls-files</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 查看 列出当前仓库中所有的已跟踪文件，不仅仅是暂存区的文件。</span>
+</span></span><span style="display:flex;"><span>git ls-files
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 查看已经删除的文件</span>
+</span></span><span style="display:flex;"><span>git ls-files --deleted
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 查看已经修改的文件</span>
+</span></span><span style="display:flex;"><span>git ls-files --modified
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 查看未跟踪的文件</span>
+</span></span><span style="display:flex;"><span>git ls-files --others
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 查看被 .gitignore 忽略的文件</span>
+</span></span><span style="display:flex;"><span>git ls-files --ignored
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git ls-files --stage
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100644</span> e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 <span style="color:#ae81ff">0</span>       .gitignore
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100644</span> c7cc7ecea78e60867a573e7b3fdb5cbd969496d4 <span style="color:#ae81ff">0</span>       zhangsan0105.md
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100644</span> ac3b6a483760aa04c26ddfcdc97f844fb90a33aa <span style="color:#ae81ff">0</span>       zhangsan2.md
+</span></span></code></pre></div><h2 id="git-场景">git 场景</h2>
+<h3 id="本地代码上传github">本地代码上传github</h3>
 <blockquote>
 <p>是这样的，我想把本地一份代码 push 到 github。</p>
 </blockquote>
@@ -443,7 +464,85 @@ git push origin main     (推送至远程仓库)</p>
 </span></span></code></pre></div><blockquote>
 <p>注意这个参数 &ndash;force 操作会强制推送更改远程仓库，会覆盖远程分支的历史记录，会影响其他协作者！！！</p>
 </blockquote>
-<hr>
+<h3 id="git-merge-和-git-rebase">git merge 和 git rebase</h3>
+<blockquote>
+<p>是的,经常push 会容易碰到 分支冲突和版本冲突</p>
+</blockquote>
+<h4 id="版本冲突">版本冲突</h4>
+<blockquote>
+<blockquote>
+<p>版本冲突：同一个文件的同一行或者相近的行在不同分支上被修改。当执行 git pull 或者 git merge 时，Git 无法自动合并文件内容。需要手动编辑本地文件。</p>
+<blockquote>
+<p>打开冲突文件，上面会有git 标记的冲突部分，你只需要编辑文件至你想要的结果。然后重新 提交一遍。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>场景复现：</p>
+<ol>
+<li>本地编辑文件 vim zhangsan2.md    远程仓库编辑 zhangsan2.md</li>
+<li>提交文件     git add zhangsan2.md   git commit -m &lsquo;zhangsan2 modify by local git&rsquo;  git push origin main:main  (在这一步报冲突错误)
+<img src="/images/tmp0105image-2.png" alt="alt text"></li>
+<li>拉远程仓库   git pull origin main</li>
+<li>合并 仓库    git merge &ndash;no-ff           报错：  fatal: No remote for the current branch.  表示当前分支没有绑定远程仓库的分支</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 此处还可以改成</span>
+</span></span><span style="display:flex;"><span>git merge --no-ff main
+</span></span></code></pre></div><ol start="5">
+<li>检查当前分支，然后绑定远程分支。(我记得是直接 git push origin main:main 提交了上一版)                 git branch &ndash;set-upstream-to=origin/main main</li>
+<li>然后重新执行步骤3. 拉远程仓库 git pull origin main    然后会提示：git merge &ndash;no-ff 或者 git rebase</li>
+<li>合并冲突文件 git merge &ndash;no-ff   注意哈，然后要编辑冲突文件，解决冲突。  解决完冲突后，可以使用命令 git status、git diff 检查冲突</li>
+</ol>
+<p><img src="/images/tmp0105image-1.png" alt="alt text">
+8. 然后重新提交文件。
+9. 检查 远程仓库内容
+<img src="/images/tmp0105image-3.png" alt="alt text"></p>
+<p>补充：
+合并策略：
+&ndash;no-ff 强制创建一个合并提交，即使合并是快进的
+&ndash;ff-only 只允许快进合并，如果无法快进合并则拒绝合并
+&ndash;squash 将所有变更合并为一个提交，而不保留历史</p>
+<h4 id="分支冲突">分支冲突</h4>
+<blockquote>
+<p>分支冲突：同一个文件不同部分在多个分支被修改，Git无法判断这些修改是否可以合并。文件删除与修改：一个分支删除了某个文件，而另一个文件对该文件进行了修改，Git无法判断是否该文件是否删除还是保留。多次并行开发：不同分支上独立开发了不同功能，合并时会出现冲突。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git pull origin main        <span style="color:#75715e">#### 我 pull 报分支冲突</span>
+</span></span><span style="display:flex;"><span>From github.com:tutuwu2019/tmp0105_remote
+</span></span><span style="display:flex;"><span> * branch            main       -&gt; FETCH_HEAD
+</span></span><span style="display:flex;"><span>hint: You have divergent branches and need to specify how to reconcile them.
+</span></span><span style="display:flex;"><span>hint: You can <span style="color:#66d9ef">do</span> so by running one of the following commands sometime before
+</span></span><span style="display:flex;"><span>hint: your next pull:
+</span></span><span style="display:flex;"><span>hint: 
+</span></span><span style="display:flex;"><span>hint:   git config pull.rebase false  <span style="color:#75715e"># merge</span>
+</span></span><span style="display:flex;"><span>hint:   git config pull.rebase true   <span style="color:#75715e"># rebase</span>
+</span></span><span style="display:flex;"><span>hint:   git config pull.ff only       <span style="color:#75715e"># fast-forward only</span>
+</span></span><span style="display:flex;"><span>hint: 
+</span></span><span style="display:flex;"><span>hint: You can replace <span style="color:#e6db74">&#34;git config&#34;</span> with <span style="color:#e6db74">&#34;git config --global&#34;</span> to set a default
+</span></span><span style="display:flex;"><span>hint: preference <span style="color:#66d9ef">for</span> all repositories. You can also pass --rebase, --no-rebase,
+</span></span><span style="display:flex;"><span>hint: or --ff-only on the command line to override the configured default per
+</span></span><span style="display:flex;"><span>hint: invocation.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 然后我就按照提示操作  先配置一下 </span>
+</span></span><span style="display:flex;"><span>git config pull.ff only
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 然后再 pull   </span>
+</span></span><span style="display:flex;"><span>git pull origin main
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 然后 又出了 提示</span>
+</span></span><span style="display:flex;"><span>From github.com:tutuwu2019/tmp0105_remote
+</span></span><span style="display:flex;"><span>* branch            main       -&gt; FETCH_HEAD
+</span></span><span style="display:flex;"><span>hint: Diverging branches can<span style="color:#960050;background-color:#1e0010">&#39;</span>t be fast-forwarded, you need to either:
+</span></span><span style="display:flex;"><span>hint: 
+</span></span><span style="display:flex;"><span>hint:   git merge --no-ff
+</span></span><span style="display:flex;"><span>hint: 
+</span></span><span style="display:flex;"><span>hint: or:
+</span></span><span style="display:flex;"><span>hint: 
+</span></span><span style="display:flex;"><span>hint:   git rebase
+</span></span><span style="display:flex;"><span>hint: 
+</span></span><span style="display:flex;"><span>hint: Disable this message with <span style="color:#e6db74">&#34;git config advice.diverging false&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 然后我就又按照上面的提示 合并</span>
+</span></span><span style="display:flex;"><span>git merge origin/main --no-ff
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 因为我之前已经  把文件 加载到 git cached 中，所以只需要再 push 一次就好</span>
+</span></span><span style="display:flex;"><span>git push origin main:main
+</span></span></code></pre></div><h2 id="至此大功告成">至此大功告成。</h2>
 
 </content>
 <p>
