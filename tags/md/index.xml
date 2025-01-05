@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>md on 张不大的博客</title>
+    <link>https://tutuwu2019.github.io/tags/md/</link>
+    <description>Recent content in md on 张不大的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2024, zhangbdua.</copyright>
+    <lastBuildDate>Sun, 08 Dec 2024 12:52:28 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/tags/md/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>随写mysql</title>
+      <link>https://tutuwu2019.github.io/blog/%E9%9A%8F%E5%86%99mysql/</link>
+      <pubDate>Sun, 08 Dec 2024 12:52:28 +0800</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/blog/%E9%9A%8F%E5%86%99mysql/</guid>
+      <description>This is a page about »随写mysql«.
+关键字 mysql 主从复制 mysql 备份 sql优化 </description>
+    </item>
+    
+    <item>
+      <title>md 语法参考</title>
+      <link>https://tutuwu2019.github.io/blog/markdown-syntax/</link>
+      <pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://tutuwu2019.github.io/blog/markdown-syntax/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://simplemde.com/markdown-guide&#34;&gt;更多玩法参考(markdown-guide)&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;主要讲讲用 md 语法 去构建 hugo 元素，同时也可以像html 一样使用css 对其进行装饰(基于某个hugo 主题)&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
