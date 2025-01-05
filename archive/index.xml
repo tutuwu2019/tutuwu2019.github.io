@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Archive on 张不大的博客</title>
+    <title>归档 on 张不大的博客</title>
     <link>https://tutuwu2019.github.io/archive/</link>
-    <description>Recent content in Archive on 张不大的博客</description>
+    <description>Recent content in 归档 on 张不大的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <copyright>Copyright © 2024, zhangbdua.</copyright>
-    <lastBuildDate>Wed, 08 May 2024 16:28:21 +0800</lastBuildDate><atom:link href="https://tutuwu2019.github.io/archive/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Copyright © 2024, zhangbdua.</copyright><atom:link href="https://tutuwu2019.github.io/archive/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Archive</title>
       <link>https://tutuwu2019.github.io/archive/archive/</link>
