@@ -1,0 +1,28 @@
+<style>
+/* Dark code blocks — override theme's white pre/code */
+pre {
+  background-color: #272822;
+  border-radius: 6px;
+  overflow: hidden;
+}
+pre code {
+  color: #f8f8f2;
+  background-color: transparent;
+  white-space: pre;
+  padding: 1.2rem 1.4rem;
+}
+/* Chroma-highlighted blocks: let inline styles from monokai take over */
+div.highlight {
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+div.highlight pre {
+  margin: 0;
+  padding: 0;
+}
+div.highlight pre code {
+  color: inherit;
+  padding: 1.2rem 1.4rem;
+}
+</style>

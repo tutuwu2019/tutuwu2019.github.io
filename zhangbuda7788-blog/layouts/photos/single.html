@@ -1,0 +1,112 @@
+{{ define "main" }}
+<style>
+  .album-header { margin-bottom: 1.2rem; }
+  .album-header h1 { margin-bottom: 0.2rem; }
+  .album-meta-line { font-size: 0.82rem; color: #999; display: flex; gap: 1rem; align-items: center; }
+  .album-back { font-size: 0.85rem; color: #3273dc; text-decoration: none; }
+  .album-back:hover { text-decoration: underline; }
+  .album-desc { color: #666; font-size: 0.9rem; margin: 0.5rem 0 1.2rem; font-style: italic; }
+
+  /* Photo grid */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.7rem;
+  }
+  .photo-thumb {
+    display: block;
+    border-radius: 4px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    cursor: zoom-in;
+  }
+  .photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .photo-thumb:hover img { transform: scale(1.04); opacity: 0.9; }
+
+  /* CSS-only lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .lightbox:target { display: flex; }
+  .lightbox img {
+    max-width: 92vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 3px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  }
+  .lb-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    color: #fff;
+    font-size: 1.8rem;
+    text-decoration: none;
+    line-height: 1;
+    opacity: 0.8;
+  }
+  .lb-close:hover { opacity: 1; }
+  .lb-counter { color: #aaa; font-size: 0.82rem; }
+
+  .no-photos { color: #aaa; font-size: 0.9rem; }
+
+  @media (prefers-color-scheme: dark) {
+    .album-desc { color: #aaa; }
+    .album-meta-line { color: #666; }
+  }
+</style>
+
+<div class="album-header">
+  <a href="{{ "/photos/" | relURL }}" class="album-back">← 所有相册</a>
+  <h1>{{ .Title }}</h1>
+  <div class="album-meta-line">
+    <span>{{ .Date.Format "2006-01-02" }}</span>
+    {{ with .Params.photos }}<span>{{ len . }} 张</span>{{ end }}
+  </div>
+  {{ with .Params.description }}<p class="album-desc">{{ . }}</p>{{ end }}
+</div>
+
+{{ with .Params.photos }}
+{{ $photos := . }}
+{{ $total := len . }}
+<div class="photo-grid">
+  {{ range $i, $src := $photos }}
+  {{ $id := printf "lb-%d" $i }}
+  <a href="#{{ $id }}" class="photo-thumb">
+    <img src="{{ $src }}" alt="Photo {{ add $i 1 }}" loading="lazy">
+  </a>
+  {{ end }}
+</div>
+
+<!-- Lightbox overlays (CSS-only, no JS) -->
+{{ range $i, $src := $photos }}
+{{ $id := printf "lb-%d" $i }}
+<div id="{{ $id }}" class="lightbox">
+  <a href="#" class="lb-close" title="关闭">✕</a>
+  <img src="{{ $src }}" alt="Photo {{ add $i 1 }}">
+  <span class="lb-counter">{{ add $i 1 }} / {{ $total }}</span>
+</div>
+{{ end }}
+
+{{ else }}
+<p class="no-photos">这个相册还没有图片。在 front matter 里添加 <code>photos = ["/photos/xxx.jpg"]</code> 即可。</p>
+{{ end }}
+
+{{ with .Content }}
+<div style="margin-top:1.5rem; color:#555; font-size:0.9rem; line-height:1.7">{{ . }}</div>
+{{ end }}
+{{ end }}

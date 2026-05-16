@@ -1,0 +1,78 @@
+{{ define "main" }}
+<style>
+  .photos-header { margin-bottom: 1.5rem; }
+  .photos-header p { color: #888; font-size: 0.85rem; margin: 0.2rem 0 0; }
+
+  .album-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .album-card {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .album-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .album-cover {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    background: #f0f0f0;
+  }
+  .album-cover-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #e8e8e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+  }
+  .album-info { padding: 0.6rem 0.8rem 0.8rem; }
+  .album-info h3 { margin: 0 0 0.2rem; font-size: 0.95rem; }
+  .album-meta { font-size: 0.75rem; color: #999; display: flex; justify-content: space-between; }
+
+  .empty-tip { color: #aaa; font-size: 0.9rem; margin-top: 2rem; }
+
+  @media (prefers-color-scheme: dark) {
+    .album-card { box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+    .album-cover-placeholder { background: #444; }
+  }
+</style>
+
+<div class="photos-header">
+  <h1>📷 Photos</h1>
+  <p>独立摄影 · {{ len .Pages }} 个相册</p>
+</div>
+
+{{ if .Pages }}
+<div class="album-grid">
+  {{ range .Pages.ByDate.Reverse }}
+  <a href="{{ .Permalink }}" class="album-card">
+    {{ if .Params.cover }}
+    <img class="album-cover" src="{{ .Params.cover }}" alt="{{ .Title }}" loading="lazy">
+    {{ else }}
+    <div class="album-cover-placeholder">🖼</div>
+    {{ end }}
+    <div class="album-info">
+      <h3>{{ .Title }}</h3>
+      <div class="album-meta">
+        <span>{{ .Date.Format "2006-01-02" }}</span>
+        <span>{{ len .Params.photos }} 张</span>
+      </div>
+      {{ with .Params.description }}<p style="font-size:0.78rem;color:#888;margin:0.3rem 0 0;line-height:1.4">{{ . }}</p>{{ end }}
+    </div>
+  </a>
+  {{ end }}
+</div>
+{{ else }}
+<p class="empty-tip">还没有相册，新建 <code>content/photos/相册名.md</code> 开始添加。</p>
+{{ end }}
+{{ end }}

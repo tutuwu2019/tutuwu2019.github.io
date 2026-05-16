@@ -1,0 +1,129 @@
+<!doctype html><html lang=en-US><head><meta http-equiv=x-clacks-overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://tutuwu2019.github.io/images/favicon.png><title>面试基础算法c&amp;#43;&amp;#43;_go | zhangbuda7788 blog</title><meta name=title content="面试基础算法c&amp;#43;&amp;#43;_go"><meta name=description content="列举一些算法 杂序（c++和go 实现） 链表反转 链表反转的核心思想就是每次遍历 head 链表的时候把当前节点充当newHead 的头节点，在把上轮的newHead 接到 newHead 的屁股上
+c++ `struct ListNode{ int val; struct ListNode* next; ListNode(int x):val(x),next(nullptr){}; };
+class solution{ ListNode* ReverseList(ListNode* head){ ListNode* nhead; while(head != nullptr){ ListNode* tmp; tmp = nhead; nhead = head; head = head->next; nhead->next = tmp; } return nHead; } } `
+go `package main
+import( &ldquo;fmt&rdquo; )
+type ListNode struct{ Val int Next *ListNode }
+func ReverseList(head *ListNode)*ListNode{ var newHead *ListNode = nil"><meta name=keywords content="面试,算法,"><meta property="og:title" content="面试基础算法c&amp;#43;&amp;#43;_go"><meta property="og:description" content="列举一些算法 杂序（c++和go 实现） 链表反转 链表反转的核心思想就是每次遍历 head 链表的时候把当前节点充当newHead 的头节点，在把上轮的newHead 接到 newHead 的屁股上
+c++ `struct ListNode{ int val; struct ListNode* next; ListNode(int x):val(x),next(nullptr){}; };
+class solution{ ListNode* ReverseList(ListNode* head){ ListNode* nhead; while(head != nullptr){ ListNode* tmp; tmp = nhead; nhead = head; head = head->next; nhead->next = tmp; } return nHead; } } `
+go `package main
+import( &ldquo;fmt&rdquo; )
+type ListNode struct{ Val int Next *ListNode }
+func ReverseList(head *ListNode)*ListNode{ var newHead *ListNode = nil"><meta property="og:type" content="article"><meta property="og:url" content="https://tutuwu2019.github.io/%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95c-_go/"><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"><meta property="article:section" content="blog"><meta property="article:published_time" content="2024-05-09T02:58:29+08:00"><meta property="article:modified_time" content="2024-05-09T02:58:29+08:00"><meta property="og:site_name" content="张不大的博客"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://tutuwu2019.github.io/images/share.png"><meta name=twitter:title content="面试基础算法c&amp;#43;&amp;#43;_go"><meta name=twitter:description content="列举一些算法 杂序（c++和go 实现） 链表反转 链表反转的核心思想就是每次遍历 head 链表的时候把当前节点充当newHead 的头节点，在把上轮的newHead 接到 newHead 的屁股上
+c++ `struct ListNode{ int val; struct ListNode* next; ListNode(int x):val(x),next(nullptr){}; };
+class solution{ ListNode* ReverseList(ListNode* head){ ListNode* nhead; while(head != nullptr){ ListNode* tmp; tmp = nhead; nhead = head; head = head->next; nhead->next = tmp; } return nHead; } } `
+go `package main
+import( &ldquo;fmt&rdquo; )
+type ListNode struct{ Val int Next *ListNode }
+func ReverseList(head *ListNode)*ListNode{ var newHead *ListNode = nil"><meta itemprop=name content="面试基础算法c&amp;#43;&amp;#43;_go"><meta itemprop=description content="列举一些算法 杂序（c++和go 实现） 链表反转 链表反转的核心思想就是每次遍历 head 链表的时候把当前节点充当newHead 的头节点，在把上轮的newHead 接到 newHead 的屁股上
+c++ `struct ListNode{ int val; struct ListNode* next; ListNode(int x):val(x),next(nullptr){}; };
+class solution{ ListNode* ReverseList(ListNode* head){ ListNode* nhead; while(head != nullptr){ ListNode* tmp; tmp = nhead; nhead = head; head = head->next; nhead->next = tmp; } return nHead; } } `
+go `package main
+import( &ldquo;fmt&rdquo; )
+type ListNode struct{ Val int Next *ListNode }
+func ReverseList(head *ListNode)*ListNode{ var newHead *ListNode = nil"><meta itemprop=datePublished content="2024-05-09T02:58:29+08:00"><meta itemprop=dateModified content="2024-05-09T02:58:29+08:00"><meta itemprop=wordCount content="252"><meta itemprop=image content="https://tutuwu2019.github.io/images/share.png"><meta itemprop=keywords content="面试,算法,"><meta name=referrer content="no-referrer-when-downgrade"><style>body{font-family:Verdana,sans-serif;margin:auto;padding:20px;max-width:720px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#444}h1,h2,h3,h4,h5,h6,strong,b{color:#222}a{color:#3273dc}.title{text-decoration:none;border:0}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:16px}input{font-size:16px}content{line-height:1.6}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#222;display:block;padding:20px;white-space:pre-wrap;font-size:14px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset}ul.blog-posts li{display:flex}ul.blog-posts li span{flex:0 0 130px}ul.blog-posts li a:visited{color:#8b6fcb}@media(prefers-color-scheme:dark){body{background-color:#333;color:#ddd}h1,h2,h3,h4,h5,h6,strong,b{color:#eee}a{color:#8cc2dd}code{background-color:#777}pre code{color:#ddd}blockquote{color:#ccc}textarea,input{background-color:#252525;color:#ddd}.helptext{color:#aaa}}</style></head><body><header><a href=/ class=title><h2>zhangbuda7788 blog</h2></a><nav><a href=/>Home</a>
+<a href=/blog/>Blog</a>
+<a href=/archive/>Archive</a>
+<a href=/about/>About</a>
+<a href=/blog>Blog</a></nav></header><main><h1>面试基础算法c&amp;#43;&amp;#43;_go</h1><p><i><time datetime=2024-05-09 pubdate>09 May, 2024</time></i></p><content><h1 id=列举一些算法>列举一些算法</h1><h2 id=杂序c和go-实现>杂序（c++和go 实现）</h2><ul><li>链表反转</li></ul><blockquote><p>链表反转的核心思想就是每次遍历 head 链表的时候把当前节点充当newHead 的头节点，在把上轮的newHead 接到 newHead 的屁股上</p></blockquote><ul><li>c++</li></ul><p>`struct ListNode{
+int val;
+struct ListNode* next;
+ListNode(int x):val(x),next(nullptr){};
+};</p><p>class solution{
+ListNode* ReverseList(ListNode* head){
+ListNode* nhead;
+while(head != nullptr){
+ListNode* tmp;
+tmp = nhead;
+nhead = head;
+head = head->next;
+nhead->next = tmp;
+}
+return nHead;
+}
+}
+`</p><ul><li>go</li></ul><p>`package main</p><p>import(
+&ldquo;fmt&rdquo;
+)</p><p>type ListNode struct{
+Val int
+Next *ListNode
+}</p><p>func ReverseList(head *ListNode)*ListNode{
+var newHead *ListNode = nil</p><pre><code>for head != nil{
+    tmp := head
+    newHead = head
+    head = head.Next
+    newHead.Next = tmp
+}
+return newHead
+</code></pre><p>}</p><p>func PrintList(head *ListNode){
+for head != nil{
+fmt.Print(head.Val, " &ldquo;)
+head = head.Next
+}
+fmt.Println()
+}</p><p>func main(){</p><pre><code>head := &amp;ListNode{Val:1}
+head.Next = &amp;ListNode{Val:2}
+head.Next.Next = &amp;ListNode{Val:3}
+head.Next.Next.Next = &amp;ListNode{Val:4}
+
+fmt.Print(&quot;the List before: &quot;)
+PrintList(head)
+
+reverseHead := ReverseList(head)
+fmtPrint(&quot;after reverse and the List: &quot;)
+PrintList(reverseHead)
+</code></pre><p>}
+`</p><ul><li>c++ 采用栈存链表</li></ul><p>`#include
+#include</p><p>struct ListNode{
+int val;
+ListNode* next;
+ListNode(int x):val(x), next(nullptr){};
+};</p><p>ListNode* reverseListNode(ListNode* head){
+if(head == nullptr){
+return nullptr;
+}</p><pre><code>std::stack&lt;ListNode*&gt; nodeStack;
+ListNode* current = head;
+
+while(current != nullptr){
+    nodeStack.push(current);
+    current = current-&gt;next;
+}
+
+ListNode* newHead = nodeStack.top();
+nodeStack.pop();
+current = newHead;
+
+while(!nodeStack.empty()){
+    current-&gt;next = nodeStack.top();
+    nodeStack.pop();
+    current = current-&gt;next;
+
+}
+
+current-&gt;next = nullptr;
+
+return newHead;
+</code></pre><p>}</p><p>//打印链表
+void printList(ListNode* head){
+while(head != nullptr){
+std::cout&#171;head->val&#171;&rdquo; &ldquo;;
+head = head->next;
+}</p><pre><code>std::cout&lt;&lt;std::endl;
+</code></pre><p>}</p><p>int main(){</p><pre><code>ListNode* head = new ListNode(1);
+head-&gt;next = new ListNode(2);
+head-&gt;next-&gt;next = new ListNode(3);
+head-&gt;next-&gt;next-&gt;next = new ListNode(4);
+
+std::cout&lt;&lt;&quot;Original List: &quot;;
+printList(head);
+
+ListNode* reverHead = reverseListNode(head);
+
+std::cout&lt;&lt;&quot;Reverse List: &quot;;
+printList(reverHead);
+
+return 0;
+</code></pre><h2 id=heading>}
+`</h2><ul><li>链表指定区间反转链表</li></ul><blockquote></blockquote></content><p><a href=https://tutuwu2019.github.io/blog/%E9%9D%A2%E8%AF%95/>#面试</a>
+<a href=https://tutuwu2019.github.io/blog/%E7%AE%97%E6%B3%95/>#算法</a></p></main><footer>Made with <a href=https://github.com/janraasch/hugo-bearblog/>Hugo ʕ•ᴥ•ʔ Bear</a></footer></body></html>

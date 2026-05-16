@@ -1,0 +1,41 @@
+baseURL = 'https://tutuwu2019.github.io/'
+publishDir = "../"
+languageCode = 'en-US'
+title = 'zhangbuda7788 blog'
+theme = 'hugo-bearblog'
+
+enableRobotsTXT = true
+
+[markup]
+  [markup.highlight]
+    style = "monokai"
+    noClasses = true
+    codeFences = true
+    lineNos = false
+
+[taxonomies]
+  tag = "tags"
+
+[permalinks]
+  blog = "/:slug/"
+  tags = "/tags/:slug/"
+
+[params]
+  title = "张不大的博客"
+  description = "Hugo + Bear = :heart:"
+  favicon = "images/favicon.png"
+  images = ["images/share.png"]
+
+[menu]
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 1
+  [[menu.main]]
+    name = "Archive"
+    url = "/archive/"
+    weight = 2
+  [[menu.main]]
+    name = "Photos"
+    url = "/photos/"
+    weight = 3

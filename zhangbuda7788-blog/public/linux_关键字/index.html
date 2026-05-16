@@ -1,0 +1,43 @@
+<!doctype html><html lang=en-US><head><meta http-equiv=x-clacks-overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://tutuwu2019.github.io/images/favicon.png><title>Linux_关键字 | zhangbuda7788 blog</title><meta name=title content="Linux_关键字"><meta name=description content="linux 关键字 主要讲讲，我的linux 的一些使用笔记&资料
+常用的命令 awk 命令 awk 常见变量
+ARGC 命令行参数个数 ARGV 命令行参数排列 ENVIRON 支持队列中系统环境变量的使用 FILENAME awk 浏览的文件名 FS 设置输入域分隔符，等价于命令行 -F选项 NF 浏览记录的区域的个数 NR 已读的记录数 OFS 输出域分隔符 ORS 输出记录分隔符 RS 控制记录分隔符
+{print $0} 整行打印 {print $1} 打印第一行 -F 'x' 根据 x 作为截断 BEGIN & END BEGIN {action}处理任何输入行之前执行 END {action}处理所有出入行之后执行 计算所有数字的总和 awk 'BEGIN {sum = 0} {sum += $1} END{print &#34;Total sum: sum}' numbers.txt 统计表格 data.csv name,age Alice,30 Bob,25 Carl,27 awk ‘BEGIN {FS=&#34;,&#34;; print&#34;Name\tAge&#34;} NR > 1 {print $1 “\t” $2}’ data."><meta name=keywords content="linux,"><meta property="og:title" content="Linux_关键字"><meta property="og:description" content="linux 关键字 主要讲讲，我的linux 的一些使用笔记&资料
+常用的命令 awk 命令 awk 常见变量
+ARGC 命令行参数个数 ARGV 命令行参数排列 ENVIRON 支持队列中系统环境变量的使用 FILENAME awk 浏览的文件名 FS 设置输入域分隔符，等价于命令行 -F选项 NF 浏览记录的区域的个数 NR 已读的记录数 OFS 输出域分隔符 ORS 输出记录分隔符 RS 控制记录分隔符
+{print $0} 整行打印 {print $1} 打印第一行 -F 'x' 根据 x 作为截断 BEGIN & END BEGIN {action}处理任何输入行之前执行 END {action}处理所有出入行之后执行 计算所有数字的总和 awk 'BEGIN {sum = 0} {sum += $1} END{print &#34;Total sum: sum}' numbers.txt 统计表格 data.csv name,age Alice,30 Bob,25 Carl,27 awk ‘BEGIN {FS=&#34;,&#34;; print&#34;Name\tAge&#34;} NR > 1 {print $1 “\t” $2}’ data."><meta property="og:type" content="article"><meta property="og:url" content="https://tutuwu2019.github.io/linux_%E5%85%B3%E9%94%AE%E5%AD%97/"><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"><meta property="article:section" content="blog"><meta property="article:published_time" content="2024-06-13T21:46:35+08:00"><meta property="article:modified_time" content="2024-06-13T21:46:35+08:00"><meta property="og:site_name" content="张不大的博客"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://tutuwu2019.github.io/images/share.png"><meta name=twitter:title content="Linux_关键字"><meta name=twitter:description content="linux 关键字 主要讲讲，我的linux 的一些使用笔记&资料
+常用的命令 awk 命令 awk 常见变量
+ARGC 命令行参数个数 ARGV 命令行参数排列 ENVIRON 支持队列中系统环境变量的使用 FILENAME awk 浏览的文件名 FS 设置输入域分隔符，等价于命令行 -F选项 NF 浏览记录的区域的个数 NR 已读的记录数 OFS 输出域分隔符 ORS 输出记录分隔符 RS 控制记录分隔符
+{print $0} 整行打印 {print $1} 打印第一行 -F 'x' 根据 x 作为截断 BEGIN & END BEGIN {action}处理任何输入行之前执行 END {action}处理所有出入行之后执行 计算所有数字的总和 awk 'BEGIN {sum = 0} {sum += $1} END{print &#34;Total sum: sum}' numbers.txt 统计表格 data.csv name,age Alice,30 Bob,25 Carl,27 awk ‘BEGIN {FS=&#34;,&#34;; print&#34;Name\tAge&#34;} NR > 1 {print $1 “\t” $2}’ data."><meta itemprop=name content="Linux_关键字"><meta itemprop=description content="linux 关键字 主要讲讲，我的linux 的一些使用笔记&资料
+常用的命令 awk 命令 awk 常见变量
+ARGC 命令行参数个数 ARGV 命令行参数排列 ENVIRON 支持队列中系统环境变量的使用 FILENAME awk 浏览的文件名 FS 设置输入域分隔符，等价于命令行 -F选项 NF 浏览记录的区域的个数 NR 已读的记录数 OFS 输出域分隔符 ORS 输出记录分隔符 RS 控制记录分隔符
+{print $0} 整行打印 {print $1} 打印第一行 -F 'x' 根据 x 作为截断 BEGIN & END BEGIN {action}处理任何输入行之前执行 END {action}处理所有出入行之后执行 计算所有数字的总和 awk 'BEGIN {sum = 0} {sum += $1} END{print &#34;Total sum: sum}' numbers.txt 统计表格 data.csv name,age Alice,30 Bob,25 Carl,27 awk ‘BEGIN {FS=&#34;,&#34;; print&#34;Name\tAge&#34;} NR > 1 {print $1 “\t” $2}’ data."><meta itemprop=datePublished content="2024-06-13T21:46:35+08:00"><meta itemprop=dateModified content="2024-06-13T21:46:35+08:00"><meta itemprop=wordCount content="192"><meta itemprop=image content="https://tutuwu2019.github.io/images/share.png"><meta itemprop=keywords content="linux,"><meta name=referrer content="no-referrer-when-downgrade"><style>body{font-family:Verdana,sans-serif;margin:auto;padding:20px;max-width:720px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#444}h1,h2,h3,h4,h5,h6,strong,b{color:#222}a{color:#3273dc}.title{text-decoration:none;border:0}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:16px}input{font-size:16px}content{line-height:1.6}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#222;display:block;padding:20px;white-space:pre-wrap;font-size:14px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset}ul.blog-posts li{display:flex}ul.blog-posts li span{flex:0 0 130px}ul.blog-posts li a:visited{color:#8b6fcb}@media(prefers-color-scheme:dark){body{background-color:#333;color:#ddd}h1,h2,h3,h4,h5,h6,strong,b{color:#eee}a{color:#8cc2dd}code{background-color:#777}pre code{color:#ddd}blockquote{color:#ccc}textarea,input{background-color:#252525;color:#ddd}.helptext{color:#aaa}}</style></head><body><header><a href=/ class=title><h2>zhangbuda7788 blog</h2></a><nav><a href=/>Home</a>
+<a href=/blog/>Blog</a>
+<a href=/archive/>Archive</a>
+<a href=/about/>About</a>
+<a href=/blog>Blog</a></nav></header><main><h1>Linux_关键字</h1><p><i><time datetime=2024-06-13 pubdate>13 Jun, 2024</time></i></p><content><h1 id=linux-关键字>linux 关键字</h1><blockquote><p>主要讲讲，我的linux 的一些使用笔记&资料</p></blockquote><h2 id=常用的命令>常用的命令</h2><h3 id=awk-命令>awk 命令</h3><blockquote><p>awk 常见变量</p><p>ARGC 命令行参数个数
+ARGV 命令行参数排列
+ENVIRON 支持队列中系统环境变量的使用
+FILENAME awk 浏览的文件名
+FS 设置输入域分隔符，等价于命令行 -F选项
+NF 浏览记录的区域的个数
+NR 已读的记录数
+OFS 输出域分隔符
+ORS 输出记录分隔符
+RS 控制记录分隔符</p></blockquote><p><code>{print $0} 整行打印 {print $1} 打印第一行 -F 'x' 根据 x 作为截断</code></p><ul><li>BEGIN & END
+BEGIN {action}处理任何输入行之前执行
+END {action}处理所有出入行之后执行
+<code>计算所有数字的总和 awk 'BEGIN {sum = 0} {sum += $1} END{print "Total sum: sum}' numbers.txt</code>
+统计表格
+data.csv
+name,age
+Alice,30
+Bob,25
+Carl,27
+awk ‘BEGIN {FS=","; print"Name\tAge"} NR > 1 {print $1 “\t” $2}’ data.csv</li><li>查看指定目录有多少个文件
+ls -l path | awk ‘BEGIN {count = 0} {count++} END {print “files:\t”, count}’
+或者：awk ‘{count++} END{print “user count is “, count}’ /etc/passwd</li><li>查看输入了什么命令
+awk -F ‘:’ ‘{printf(“content-> one:%d,two:%s\n”,ARGC, ARGV[1])}’ /etc/passwd
+content-> one:2,two:/etc/passwd</li><li>查看文件大小
+ls -l /home/tudong/projects/ |awk ‘BEGIN {size=0;} {size=size+$5;} END{print “[end]size is “, size/1024/1024,“M”}’<br>awk 脚本</li></ul><p>printf 和 print<br>awk -F ‘:’ ‘{printf(“content-> one:%d,two:%s\n”,ARGC, ARGV[1])}’ /etc/passwd</p><ul><li>do、while、for</li></ul><p>查询last ip-num</p><p><code>last | awk '{\ if($3 == "" || $3 ~ /^(tty.*|login|reboot|boot|[A-Za-z0-9]{3})$/){\ next\ }\ S[$3]++ \ } \ END { \ for(s in S){ \ print "account: ", s, "\tsize: ", S[s] \ } \ }'</code></p><p><a href=https://www.gnu.org/software/gawk/manual/gawk.html>awk 官方手册</a></p><h2 id=参考资料>参考资料</h2><p>linux 三剑客
+<a href=https://www.cnblogs.com/ggjucheng/archive/2013/01/13/2856901.html>sed 命令</a></p><p><a href=https://www.cnblogs.com/ggjucheng/archive/2013/01/13/2858470.html>awk 命令</a>
+<a href=https://www.google.com>vi & vim</a></p><p><a href=https://www.cnblogs.com/ggjucheng/archive/2012/01/14/2322659.html>tcpdump 抓包</a></p></content><p><a href=https://tutuwu2019.github.io/blog/linux/>#linux</a></p></main><footer>Made with <a href=https://github.com/janraasch/hugo-bearblog/>Hugo ʕ•ᴥ•ʔ Bear</a></footer></body></html>

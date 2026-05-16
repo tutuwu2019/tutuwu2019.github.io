@@ -1,0 +1,2 @@
+<link rel="icon" type="image/x-icon" href="{{ "/favicon.ico" | relURL }}?v=2">
+{{ with .Site.Params.favicon }}<link rel="icon" type="image/png" href="{{ . | relURL }}?v=2">{{ end }}

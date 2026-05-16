@@ -1,0 +1,171 @@
+<!doctype html><html lang=en-US><head><meta http-equiv=x-clacks-overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://tutuwu2019.github.io/images/favicon.png><title>Redis手册(自用) | zhangbuda7788 blog</title><meta name=title content="Redis手册(自用)"><meta name=description content="redis操作手册–自用 访问redis 服务器，并测试 ` redis-cli -h host -p port -a password
+如果是直接在本地访问 redis-cli
+127.0.0.1:6379> ping PONG 127.0.0.1:6379> ping zhangbuda &ldquo;zhangbuda&rdquo; 127.0.0.1:6379> `
+数据类型&增删改查 字符串、哈希、列表、集合、有序集合
+字符串 `127.0.0.1:6379> set zhangbuda 188 OK 127.0.0.1:6379> get zhangbuda &ldquo;188&rdquo; 127.0.0.1:6379> del zhangbuda (integer) 1 127.0.0.1:6379> get zhangbuda (nil) 127.0.0.1:6379>
+#######获取value 的长度(字符串) 、截取指定范围的内容(子字符串)、同时存储多个key、同时获取多个 key 的value、修改原来key的value，拼接字符串 set zhangbuda hello,world OK 127.0.0.1:6379> get zhangbuda &ldquo;hello,world&rdquo; 127.0.0.1:6379> getrange zhangbuda 2 4 &ldquo;llo&rdquo; 127.0.0.1:6379> getrange zhangbuda 0 4 &ldquo;hello&rdquo; 127.0.0.1:6379> strlen zhangbuda (integer) 11 127."><meta name=keywords content="c/c&amp;#43;&amp;#43;,mysql,redis,数据库,"><meta property="og:title" content="Redis手册(自用)"><meta property="og:description" content="redis操作手册–自用 访问redis 服务器，并测试 ` redis-cli -h host -p port -a password
+如果是直接在本地访问 redis-cli
+127.0.0.1:6379> ping PONG 127.0.0.1:6379> ping zhangbuda &ldquo;zhangbuda&rdquo; 127.0.0.1:6379> `
+数据类型&增删改查 字符串、哈希、列表、集合、有序集合
+字符串 `127.0.0.1:6379> set zhangbuda 188 OK 127.0.0.1:6379> get zhangbuda &ldquo;188&rdquo; 127.0.0.1:6379> del zhangbuda (integer) 1 127.0.0.1:6379> get zhangbuda (nil) 127.0.0.1:6379>
+#######获取value 的长度(字符串) 、截取指定范围的内容(子字符串)、同时存储多个key、同时获取多个 key 的value、修改原来key的value，拼接字符串 set zhangbuda hello,world OK 127.0.0.1:6379> get zhangbuda &ldquo;hello,world&rdquo; 127.0.0.1:6379> getrange zhangbuda 2 4 &ldquo;llo&rdquo; 127.0.0.1:6379> getrange zhangbuda 0 4 &ldquo;hello&rdquo; 127.0.0.1:6379> strlen zhangbuda (integer) 11 127."><meta property="og:type" content="article"><meta property="og:url" content="https://tutuwu2019.github.io/redis%E6%89%8B%E5%86%8C%E8%87%AA%E7%94%A8/"><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"><meta property="article:section" content="blog"><meta property="article:published_time" content="2024-12-29T23:57:55+08:00"><meta property="article:modified_time" content="2024-12-29T23:57:55+08:00"><meta property="og:site_name" content="张不大的博客"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://tutuwu2019.github.io/images/share.png"><meta name=twitter:title content="Redis手册(自用)"><meta name=twitter:description content="redis操作手册–自用 访问redis 服务器，并测试 ` redis-cli -h host -p port -a password
+如果是直接在本地访问 redis-cli
+127.0.0.1:6379> ping PONG 127.0.0.1:6379> ping zhangbuda &ldquo;zhangbuda&rdquo; 127.0.0.1:6379> `
+数据类型&增删改查 字符串、哈希、列表、集合、有序集合
+字符串 `127.0.0.1:6379> set zhangbuda 188 OK 127.0.0.1:6379> get zhangbuda &ldquo;188&rdquo; 127.0.0.1:6379> del zhangbuda (integer) 1 127.0.0.1:6379> get zhangbuda (nil) 127.0.0.1:6379>
+#######获取value 的长度(字符串) 、截取指定范围的内容(子字符串)、同时存储多个key、同时获取多个 key 的value、修改原来key的value，拼接字符串 set zhangbuda hello,world OK 127.0.0.1:6379> get zhangbuda &ldquo;hello,world&rdquo; 127.0.0.1:6379> getrange zhangbuda 2 4 &ldquo;llo&rdquo; 127.0.0.1:6379> getrange zhangbuda 0 4 &ldquo;hello&rdquo; 127.0.0.1:6379> strlen zhangbuda (integer) 11 127."><meta itemprop=name content="Redis手册(自用)"><meta itemprop=description content="redis操作手册–自用 访问redis 服务器，并测试 ` redis-cli -h host -p port -a password
+如果是直接在本地访问 redis-cli
+127.0.0.1:6379> ping PONG 127.0.0.1:6379> ping zhangbuda &ldquo;zhangbuda&rdquo; 127.0.0.1:6379> `
+数据类型&增删改查 字符串、哈希、列表、集合、有序集合
+字符串 `127.0.0.1:6379> set zhangbuda 188 OK 127.0.0.1:6379> get zhangbuda &ldquo;188&rdquo; 127.0.0.1:6379> del zhangbuda (integer) 1 127.0.0.1:6379> get zhangbuda (nil) 127.0.0.1:6379>
+#######获取value 的长度(字符串) 、截取指定范围的内容(子字符串)、同时存储多个key、同时获取多个 key 的value、修改原来key的value，拼接字符串 set zhangbuda hello,world OK 127.0.0.1:6379> get zhangbuda &ldquo;hello,world&rdquo; 127.0.0.1:6379> getrange zhangbuda 2 4 &ldquo;llo&rdquo; 127.0.0.1:6379> getrange zhangbuda 0 4 &ldquo;hello&rdquo; 127.0.0.1:6379> strlen zhangbuda (integer) 11 127."><meta itemprop=datePublished content="2024-12-29T23:57:55+08:00"><meta itemprop=dateModified content="2024-12-29T23:57:55+08:00"><meta itemprop=wordCount content="753"><meta itemprop=image content="https://tutuwu2019.github.io/images/share.png"><meta itemprop=keywords content="c/c&amp;#43;&amp;#43;,mysql,redis,数据库,"><meta name=referrer content="no-referrer-when-downgrade"><style>body{font-family:Verdana,sans-serif;margin:auto;padding:20px;max-width:720px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#444}h1,h2,h3,h4,h5,h6,strong,b{color:#222}a{color:#3273dc}.title{text-decoration:none;border:0}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:16px}input{font-size:16px}content{line-height:1.6}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#222;display:block;padding:20px;white-space:pre-wrap;font-size:14px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset}ul.blog-posts li{display:flex}ul.blog-posts li span{flex:0 0 130px}ul.blog-posts li a:visited{color:#8b6fcb}@media(prefers-color-scheme:dark){body{background-color:#333;color:#ddd}h1,h2,h3,h4,h5,h6,strong,b{color:#eee}a{color:#8cc2dd}code{background-color:#777}pre code{color:#ddd}blockquote{color:#ccc}textarea,input{background-color:#252525;color:#ddd}.helptext{color:#aaa}}</style></head><body><header><a href=/ class=title><h2>zhangbuda7788 blog</h2></a><nav><a href=/>Home</a>
+<a href=/blog/>Blog</a>
+<a href=/archive/>Archive</a>
+<a href=/about/>About</a>
+<a href=/blog>Blog</a></nav></header><main><h1>Redis手册(自用)</h1><p><i><time datetime=2024-12-29 pubdate>29 Dec, 2024</time></i></p><content><h1 id=redis操作手册自用>redis操作手册–自用</h1><h2 id=访问redis-服务器并测试>访问redis 服务器，并测试</h2><p>`
+redis-cli -h host -p port -a password</p><h1 id=如果是直接在本地访问>如果是直接在本地访问</h1><p>redis-cli</p><p>127.0.0.1:6379> ping
+PONG
+127.0.0.1:6379> ping zhangbuda
+&ldquo;zhangbuda&rdquo;
+127.0.0.1:6379>
+`</p><h2 id=数据类型增删改查>数据类型&增删改查</h2><blockquote><p>字符串、哈希、列表、集合、有序集合</p></blockquote><h3 id=字符串>字符串</h3><p>`127.0.0.1:6379> set zhangbuda 188
+OK
+127.0.0.1:6379> get zhangbuda
+&ldquo;188&rdquo;
+127.0.0.1:6379> del zhangbuda
+(integer) 1
+127.0.0.1:6379> get zhangbuda
+(nil)
+127.0.0.1:6379></p><p>#######获取value 的长度(字符串) 、截取指定范围的内容(子字符串)、同时存储多个key、同时获取多个 key 的value、修改原来key的value，拼接字符串
+set zhangbuda hello,world
+OK
+127.0.0.1:6379> get zhangbuda
+&ldquo;hello,world&rdquo;
+127.0.0.1:6379> getrange zhangbuda 2 4
+&ldquo;llo&rdquo;
+127.0.0.1:6379> getrange zhangbuda 0 4
+&ldquo;hello&rdquo;
+127.0.0.1:6379> strlen zhangbuda
+(integer) 11
+127.0.0.1:6379> mset zhangsan1 aaaaaa zhangsan2 bbbbbb zhangsan3 cccccc
+OK
+127.0.0.1:6379> mget zhangsan1 zhangsan2 zhangsan3</p><ol><li>&ldquo;aaaaaa&rdquo;</li><li>&ldquo;bbbbbb&rdquo;</li><li>&ldquo;cccccc&rdquo;
+127.0.0.1:6379> getset zhangsan1 dddddd
+&ldquo;aaaaaa&rdquo;
+127.0.0.1:6379> get zhangsan1
+&ldquo;dddddd&rdquo;
+127.0.0.1:6379> append zhangsan1 fffff
+(integer) 11
+127.0.0.1:6379> get zhangsan1
+&ldquo;ddddddfffff&rdquo;
+127.0.0.1:6379> strlen zhangsan1
+(integer) 11
+`为key 设置生效时间</li></ol><p>`#在 Redis 中，EXPIRE 命令用于设置键（key）的生存时间（TTL，Time-to-Live），即指定键值对在指定的秒数后过期并自动删除。除了基本的过期时间设置，EXPIRE 命令也支持一些附加选项，如 NX、XX、GT 和 LT，用于在特定条件下设置过期时间。</p><h1 id=比如在-300s-后失效>比如在 300s 后失效</h1><p>EXPIRE mykey 300</p><h1 id=不存在300而如果存在则不进行任何操作>不存在，300，而如果存在则不进行任何操作</h1><p>EXPIRE key 300 NX</p><h1 id=仅仅存在是设置失效时间300s后失效>仅仅存在是设置失效时间，300s后失效</h1><p>EXPIRE key 300 XX</p><h3 id=更新过期时间>更新过期时间</h3><h1 id=gt仅当过期时间大于当前过期时间时才设置过期时间>GT（仅当过期时间大于当前过期时间时才设置过期时间）</h1><p>EXPIRE key 300 GT # 如果key 的过期时间是10s，此时设置的300s 大于过期已有的过期时间，会更新过期时间</p><h1 id=lt仅当过期时间小于当前过期时间时才设置过期时间>LT（仅当过期时间小于当前过期时间时才设置过期时间）</h1><p>EXPIRE key 300 LT # 如果当前 的过期时间是 600s 此时设置的过期时间300s 小于已经设置的过期时间，会更新过期时间，执行命令后，key 的过期时间为300s
+`其他操作</p><p>`检查key 是否存在
+EXISTS key ##检查给定 key 是否存在。
+##序列化给定 key
+DUMP key ##序列化给定 key ，并返回被序列化的值。</p><p>PEXPIRE key milliseconds ##设置 key 的过期时间亿以毫秒计</p><p>MOVE key db ##将当前数据库的 key 移动到给定的数据库 db 当中</p><p>PERSIST key ##移除 key 的过期时间，key 将持久保持。</p><h2 id=heading>set zhangbuda 188
+OK
+127.0.0.1:6379> expire zhangbuda 200 # 设置过期时间为 200s
+(integer) 1
+127.0.0.1:6379> pttl zhangbuda # 显示还有多少时间过期，单位毫秒
+(integer) 191951
+127.0.0.1:6379> ttl zhangbuda # 显示还有多少时间过期，单位秒
+(integer) 180
+127.0.0.1:6379> persist zhangbuda # 永久有效
+(integer) 1
+127.0.0.1:6379> ttl zhangbuda
+(integer) -1
+127.0.0.1:6379> type zhangbuda # 返回key 的类型
+string
+127.0.0.1:6379> get zhangbuda
+&ldquo;188&rdquo;
+127.0.0.1:6379>
+`</h2><h3 id=哈希>哈希</h3><blockquote><p>注意 主键key 必须唯一，比如，string 的key 与 hash 的 key 不能重复</p></blockquote><p>`### hmset 、hgetall
+hmset zhangbuda2 name &ldquo;tt is a tt&rdquo; description &ldquo;he is a worker&rdquo; age &ldquo;24 26&rdquo;
+OK
+127.0.0.1:6379> hget zhangbuda2
+(error) ERR wrong number of arguments for &lsquo;hget&rsquo; command
+127.0.0.1:6379> hgetall zhangbuda2</p><ol><li>&ldquo;name&rdquo;</li><li>&ldquo;tt is a tt&rdquo;</li><li>&ldquo;description&rdquo;</li><li>&ldquo;he is a worker&rdquo;</li><li>&ldquo;age&rdquo;</li><li>&ldquo;24 26&rdquo;</li></ol><p>hexists zhangbuda2 name
+(integer) 1
+127.0.0.1:6379> hexists zhangbuda2 age
+(integer) 1
+127.0.0.1:6379> hdel zhangbuda2 age
+(integer) 1
+127.0.0.1:6379> hgetall zhangbuda2</p><ol><li>&ldquo;name&rdquo;</li><li>&ldquo;tt is a tt&rdquo;</li><li>&ldquo;description&rdquo;</li><li>&ldquo;he is a worker&rdquo;
+127.0.0.1:6379> hkeys zhangbuda2</li><li>&ldquo;name&rdquo;</li><li>&ldquo;description&rdquo;
+127.0.0.1:6379> hlen zhangbuda2
+(integer) 2
+127.0.0.1:6379> hset zhangbuda2 name &ldquo;zhangbuda&rdquo;
+(integer) 0
+127.0.0.1:6379> hgetall zhangbuda2</li><li>&ldquo;name&rdquo;</li><li>&ldquo;zhangbuda&rdquo;</li><li>&ldquo;description&rdquo;</li><li>&ldquo;he is a worker&rdquo;
+127.0.0.1:6379> hvals zhangbuda2</li><li>&ldquo;zhangbuda&rdquo;</li><li>&ldquo;he is a worker&rdquo;
+127.0.0.1:6379>
+`</li></ol><h3 id=链表>链表</h3><p>`# 分批次插入链表中 lpush 就是不断往头部插入 rpush 就是不断往尾部插入
+27.0.0.1:6379> lpush zhangbuda1229 zhang
+(integer) 1
+127.0.0.1:6379> lpush zhangbuda1229 zhang2
+(integer) 2
+127.0.0.1:6379> lpush zhangbuda1229 zhang2
+(integer) 3
+127.0.0.1:6379> lpush zhangbuda1229 zhang3
+(integer) 4
+127.0.0.1:6379> lpush zhangbuda1229 zhang4</p><h2 id=查看插入结果后插入的排在前面--从0开始到n-1-----如果要打印所有元素--lrange-zhangbuda1229-0--1>查看插入结果，后插入的排在前面 从0开始到n-1 如果要打印所有元素 lrange zhangbuda1229 0 -1</h2><p>127.0.0.1:6379> lrange zhangbuda1229 0 10</p><ol><li>&ldquo;zhang4&rdquo;</li><li>&ldquo;zhang3&rdquo;</li><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhang&rdquo;</li></ol><h2 id=删除首个元素>删除首个元素</h2><p>127.0.0.1:6379> blpop zhangbuda1229 1</p><ol><li>&ldquo;zhangbuda1229&rdquo;</li><li>&ldquo;zhang4&rdquo;</li></ol><h2 id=删除末尾元素>删除末尾元素</h2><p>brpop zhangbuda1229 1</p><ol><li>&ldquo;zhangbuda1229&rdquo;</li><li>&ldquo;zhang&rdquo;</li></ol><h2 id=往尾部继续插入元素>往尾部继续插入元素</h2><p>RPUSH zhangbuda1229 zhanbuda1 zhanbuda2 zhanbuda3</p><h2 id=再往-zhangbuda2-后面插入一个元素-zhangbuda5>再往 zhangbuda2 后面插入一个元素 zhangbuda5</h2><p>LINSERT zhangbuda1229 AFTER zhanbuda2 zhangbuda5
+127.0.0.1:6379> LRANGE zhangbuda1229 0 -1</p><ol><li>&ldquo;zhang3&rdquo;</li><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhanbuda1&rdquo;</li><li>&ldquo;zhanbuda2&rdquo;</li><li>&ldquo;zhangbuda5&rdquo;</li><li>&ldquo;zhanbuda3&rdquo;</li></ol><h1 id=往-zhangbuda5-后面插入-zhangbuda6>往 zhangbuda5 后面插入 zhangbuda6</h1><p>linsert zhangbuda1229 after zhangbuda5 zhangbuda6</p><h1 id=往zhangbuda5-前面插入-zhangbuda4>往zhangbuda5 前面插入 zhangbuda4</h1><p>linsert zhangbuda1229 before zhangbuda5 zhangbuda4
+LRANGE zhangbuda1229 0 -1</p><ol><li>&ldquo;zhang3&rdquo;</li><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhanbuda1&rdquo;</li><li>&ldquo;zhanbuda2&rdquo;</li><li>&ldquo;zhangbuda4&rdquo;</li><li>&ldquo;zhangbuda5&rdquo;</li><li>&ldquo;zhangbuda6&rdquo;</li><li>&ldquo;zhanbuda3&rdquo;
+`</li></ol><h3 id=集合>集合</h3><p>`### 单个插入或者插入多个、插入重复的元素、查看插入后的所有元素、插入后的元素个数
+127.0.0.1:6379> sadd zhangbuda1229_2 zhang1
+(integer) 1
+127.0.0.1:6379> sadd zhangbuda1229_2 zhang2
+(integer) 1
+127.0.0.1:6379> sadd zhangbuda1229_2 zhang3
+(integer) 1
+127.0.0.1:6379> sadd zhangbuda1229_2 zhang4
+(integer) 1
+127.0.0.1:6379> sadd zhangbuda1229_2 zhang5 zhang6
+(integer) 2
+127.0.0.1:6379> sadd zhangbuda1229_2 zhang1
+(integer) 0
+127.0.0.1:6379> smembers zhangbuda1229_2</p><ol><li>&ldquo;zhang4&rdquo;</li><li>&ldquo;zhang1&rdquo;</li><li>&ldquo;zhang5&rdquo;</li><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhang6&rdquo;</li><li>&ldquo;zhang3&rdquo;
+127.0.0.1:6379> scard zhangbuda1229_2
+(integer) 6</li></ol><h3 id=比较-另一个-set-不同的元素有哪些>比较 另一个 set 不同的元素有哪些</h3><p>sadd zhangbuda1229_3 zhang1 zhang2 zhangbuda1 zhangbuda2
+(integer) 4
+127.0.0.1:6379> sdiff zhangbuda1229_2 zhangbuda1229_3</p><ol><li>&ldquo;zhang5&rdquo;</li><li>&ldquo;zhang3&rdquo;</li><li>&ldquo;zhang6&rdquo;</li><li>&ldquo;zhang4&rdquo;</li></ol><h3 id=把两个-set-中相同的元素-复制到-新的set-中>把两个 set 中相同的元素 复制到 新的set 中</h3><p>sinterstore zhangbuda1229_4 zhangbuda1229_2 zhangbuda1229_3
+(integer) 2
+127.0.0.1:6379> smembers zhangbuda1229_4</p><ol><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhang1&rdquo;</li></ol><h3 id=删除指定元素>删除指定元素</h3><p>127.0.0.1:6379> smembers zhangbuda1229_2</p><ol><li>&ldquo;zhang5&rdquo;</li><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhang6&rdquo;</li><li>&ldquo;zhang3&rdquo;</li><li>&ldquo;zhang1&rdquo;</li><li>&ldquo;zhang4&rdquo;
+127.0.0.1:6379> srem zhangbuda1229_2 zhang5
+(integer) 1
+127.0.0.1:6379> smembers zhangbuda1229_2</li><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhang6&rdquo;</li><li>&ldquo;zhang3&rdquo;</li><li>&ldquo;zhang1&rdquo;</li><li>&ldquo;zhang4&rdquo;</li></ol><h3 id=随机删除-x-个元素>随机删除 x 个元素</h3><p>127.0.0.1:6379> smembers zhangbuda1229_2</p><ol><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhang6&rdquo;</li><li>&ldquo;zhang3&rdquo;</li><li>&ldquo;zhang1&rdquo;</li><li>&ldquo;zhang4&rdquo;
+127.0.0.1:6379> scard zhangbuda1229_2
+(integer) 5
+127.0.0.1:6379> spop zhangbuda1229_2 2</li><li>&ldquo;zhang3&rdquo;</li><li>&ldquo;zhang1&rdquo;
+127.0.0.1:6379> smembers zhangbuda1229_2</li><li>&ldquo;zhang2&rdquo;</li><li>&ldquo;zhang6&rdquo;</li><li>&ldquo;zhang4&rdquo;
+`</li></ol><h3 id=有序集合>有序集合</h3><p>`### 有序集合的增删改查
+127.0.0.1:6379> zadd zhangbdua1229_6 1 &lsquo;zhang&rsquo; 2 &lsquo;zhang2&rsquo; 3 &lsquo;zhang3&rsquo; # 同时插入多个有序元素 有序 == 分数
+(integer) 3
+127.0.0.1:6379> zcard zhangbuda1229_6
+(integer) 0
+127.0.0.1:6379> zcard zhangbdua1229_6 # 查 zhangbdua1229_6 有多少个元素个数
+(integer) 3
+127.0.0.1:6379> zrem zhangbdua1229_6 zhang2 # 删除 指定元素
+(integer) 1
+127.0.0.1:6379> zincrby zhangbdua1229_6 5 zhang3 # 改 修改该元素的 分数 其实就是 执行加法
+&ldquo;8&rdquo;
+127.0.0.1:6379> zrangebyscore zhangbdua1229_6 1 10 # 查指定范围内(根据分数)的元素</p><ol><li>&ldquo;zhang&rdquo;</li><li>&ldquo;zhang3&rdquo;
+127.0.0.1:6379> zscore zhangdua1229_6 zhang3
+(nil)
+127.0.0.1:6379> zscore zhangbdua1229_6 zhang3
+&ldquo;8&rdquo;
+127.0.0.1:6379> zincrby zhangbdua1229_6 10 zhang3
+&ldquo;18&rdquo;
+127.0.0.1:6379> zscore zhangbdua1229_6 zhang3
+&ldquo;18&rdquo;
+127.0.0.1:6379> zrangebyscore zhangbdua1229_6 1 10</li><li>&ldquo;zhang&rdquo;
+127.0.0.1:6379> zrangebyscore zhangbdua1229_6 1 20</li><li>&ldquo;zhang&rdquo;</li><li>&ldquo;zhang3&rdquo;
+127.0.0.1:6379> zincrby zhangbdua1229_6 -5 zhang3
+&ldquo;13&rdquo;
+127.0.0.1:6379> zrangebyscore zhangbdua1229_6 1 20</li><li>&ldquo;zhang&rdquo;</li><li>&ldquo;zhang3&rdquo;
+`</li></ol><hr><p>后续更新2024.12.29</p></content><p><a href=https://tutuwu2019.github.io/blog/c/c#43%2343/>#c/c&amp;#43;&amp;#43;</a>
+<a href=https://tutuwu2019.github.io/blog/mysql/>#mysql</a>
+<a href=https://tutuwu2019.github.io/blog/redis/>#redis</a>
+<a href=https://tutuwu2019.github.io/blog/%E6%95%B0%E6%8D%AE%E5%BA%93/>#数据库</a></p></main><footer>Made with <a href=https://github.com/janraasch/hugo-bearblog/>Hugo ʕ•ᴥ•ʔ Bear</a></footer></body></html>

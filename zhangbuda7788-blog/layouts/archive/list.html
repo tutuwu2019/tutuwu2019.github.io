@@ -1,0 +1,84 @@
+{{ define "main" }}
+  <h1>博客归档</h1>
+
+  <!-- 按年份归档 -->
+  <h2>年份</h2>
+  <ul>
+    {{ $years := .Site.RegularPages }}
+    {{ $groupedByYear := dict }}
+    {{ range $years }}
+      {{ $year := .Date.Year | string }}  <!-- 将年份转换为字符串 -->
+      {{ if not (index $groupedByYear $year) }}
+        {{ $groupedByYear = merge $groupedByYear (dict $year (slice .)) }}
+      {{ else }}
+        {{ $existingPages := index $groupedByYear $year }}
+        {{ $groupedByYear = merge $groupedByYear (dict $year (append $existingPages (slice .))) }}  <!-- 修正这里 -->
+      {{ end }}
+    {{ end }}
+    
+    {{ if gt (len $groupedByYear) 0 }}
+      {{ range $year, $pages := $groupedByYear }}
+        <li>
+          <h3>{{ $year }}</h3>
+          <ul>
+            {{ range $pages }}
+              <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+            {{ end }}
+          </ul>
+        </li>
+      {{ end }}
+    {{ else }}
+      <p>No posts found.</p>
+    {{ end }}
+  </ul>
+
+  <!-- 按月归档 -->
+  <h2>月份</h2>
+  <ul>
+    {{ $months := dict }}
+    {{ range .Site.RegularPages }}
+      {{ $month := .Date.Format "2006-01" }}  <!-- 格式化为 "年-月" -->
+      {{ if not (index $months $month) }}
+        {{ $months = merge $months (dict $month (slice .)) }}
+      {{ else }}
+        {{ $existingPages := index $months $month }}
+        {{ $months = merge $months (dict $month (append $existingPages (slice .))) }}  <!-- 修正这里 -->
+      {{ end }}
+    {{ end }}
+
+    {{ if gt (len $months) 0 }}
+      {{ range $month, $pages := $months }}
+        <li>
+          <h3>{{ $month }}</h3>
+          <ul>
+            {{ range $pages }}
+              <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+            {{ end }}
+          </ul>
+        </li>
+      {{ end }}
+    {{ else }}
+      <p>No posts found.</p>
+    {{ end }}
+  </ul>
+
+  <h2>标签</h2>
+  <ul>
+    {{ range .Site.Taxonomies.tag }}
+      <li>
+        <h3>{{ .Page.Title }}</h3> <!-- 标签名称 -->
+        <ul>
+          {{ range .Pages }} <!-- 遍历标签下的文章 -->
+            <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+          {{ else }}
+            <li>没有相关文章</li>
+          {{ end }}
+        </ul>
+      </li>
+    {{ else }}
+      <li>没有标签</li> <!-- 如果没有标签，则显示此消息 -->
+    {{ end }}
+  </ul>
+
+
+{{ end }}

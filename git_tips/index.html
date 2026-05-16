@@ -1,570 +1,271 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="shortcut icon" href="https://tutuwu2019.github.io/images/favicon.png" />
-<title>Git_tips | 张不大的博客</title>
-<meta name="title" content="Git_tips" />
-<meta name="description" content="This is a page about »Git_tips«.
-git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
+<!doctype html><html lang=en-US><head><meta http-equiv=x-clacks-overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon type=image/x-icon href="/favicon.ico?v=2"><link rel=icon type=image/png href="/images/favicon.png?v=2"><title>Git_tips | zhangbuda7788 blog</title><meta name=title content="Git_tips"><meta name=description content="git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
 本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
-大概率是本地的git 仓库被污染了。
+大概率是本地的git 仓库被污染了。 其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》 我甚至想暴力把github 仓库删除，重新创建。 后来误打误撞的解决了
+# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force `注： git remote -v 查看远程远程仓库信息 --- ## 出现 Name or service not known - 网络问题，重新操作一次, (例如，我是执行 git push origin main 出现，那我就再执行一边) - 查看 DNS 解析过程 dig github."><meta name=keywords content="git,"><meta property="og:title" content="Git_tips"><meta property="og:description" content="git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
+本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
+大概率是本地的git 仓库被污染了。 其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》 我甚至想暴力把github 仓库删除，重新创建。 后来误打误撞的解决了
+# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force `注： git remote -v 查看远程远程仓库信息 --- ## 出现 Name or service not known - 网络问题，重新操作一次, (例如，我是执行 git push origin main 出现，那我就再执行一边) - 查看 DNS 解析过程 dig github."><meta property="og:type" content="article"><meta property="og:url" content="https://tutuwu2019.github.io/git_tips/"><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"><meta property="article:section" content="blog"><meta property="article:published_time" content="2024-05-16T00:16:27+08:00"><meta property="article:modified_time" content="2024-05-16T00:16:27+08:00"><meta property="og:site_name" content="张不大的博客"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://tutuwu2019.github.io/images/share.png"><meta name=twitter:title content="Git_tips"><meta name=twitter:description content="git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
+本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
+大概率是本地的git 仓库被污染了。 其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》 我甚至想暴力把github 仓库删除，重新创建。 后来误打误撞的解决了
+# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force `注： git remote -v 查看远程远程仓库信息 --- ## 出现 Name or service not known - 网络问题，重新操作一次, (例如，我是执行 git push origin main 出现，那我就再执行一边) - 查看 DNS 解析过程 dig github."><meta itemprop=name content="Git_tips"><meta itemprop=description content="git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
+本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
+大概率是本地的git 仓库被污染了。 其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》 我甚至想暴力把github 仓库删除，重新创建。 后来误打误撞的解决了
+# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force `注： git remote -v 查看远程远程仓库信息 --- ## 出现 Name or service not known - 网络问题，重新操作一次, (例如，我是执行 git push origin main 出现，那我就再执行一边) - 查看 DNS 解析过程 dig github."><meta itemprop=datePublished content="2024-05-16T00:16:27+08:00"><meta itemprop=dateModified content="2024-05-16T00:16:27+08:00"><meta itemprop=wordCount content="890"><meta itemprop=image content="https://tutuwu2019.github.io/images/share.png"><meta itemprop=keywords content="git,"><meta name=referrer content="no-referrer-when-downgrade"><style>body{font-family:Verdana,sans-serif;margin:auto;padding:20px;max-width:720px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#444}h1,h2,h3,h4,h5,h6,strong,b{color:#222}a{color:#3273dc}.title{text-decoration:none;border:0}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:16px}input{font-size:16px}content{line-height:1.6}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#222;display:block;padding:20px;white-space:pre-wrap;font-size:14px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset}ul.blog-posts li{display:flex}ul.blog-posts li span{flex:0 0 130px}ul.blog-posts li a:visited{color:#8b6fcb}@media(prefers-color-scheme:dark){body{background-color:#333;color:#ddd}h1,h2,h3,h4,h5,h6,strong,b{color:#eee}a{color:#8cc2dd}code{background-color:#777}pre code{color:#ddd}blockquote{color:#ccc}textarea,input{background-color:#252525;color:#ddd}.helptext{color:#aaa}}</style><style>pre{background-color:#272822;border-radius:6px;overflow:hidden}pre code{color:#f8f8f2;background-color:transparent;white-space:pre;padding:1.2rem 1.4rem}div.highlight{border-radius:6px;overflow:hidden;margin:1rem 0}div.highlight pre{margin:0;padding:0}div.highlight pre code{color:inherit;padding:1.2rem 1.4rem}</style></head><body><header><a href=/ class=title><h2>zhangbuda7788 blog</h2></a><nav><a href=/>Home</a>
+<a href=/about/>About</a>
+<a href=/archive/>Archive</a>
+<a href=/photos/>Photos</a>
+<a href=/blog>Blog</a></nav></header><main><h1>Git_tips</h1><p><i><time datetime=2024-05-16 pubdate>16 May, 2024</time></i></p><content><h1 id=git-tips>git tips</h1><blockquote><p>老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了</p></blockquote><h2 id=本地git仓库被污染了>本地git仓库被污染了</h2><blockquote><p>是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新</p></blockquote><blockquote><p>大概率是本地的git 仓库被污染了。
 其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》
 我甚至想暴力把github 仓库删除，重新创建。
-后来误打误撞的解决了
-# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息" />
-<meta name="keywords" content="git," />
+后来误打误撞的解决了</p></blockquote><hr><pre tabindex=0><code># 先创建一个
+git checkout --orphan temp  # 创建一个新的孤立分支
+
+# 创建一个空的提交      什么是空的提交？空的提交就是什么也没有改变，和原来的一样。  默认git 是不允许的，但是可以采用  --allow-empty  强制空提交
+# 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。
+git commit --allow-empty -m &#34;Clear remote repository&#34;
+
+# 删除本地的  main 分之
+git branch -D main  # 删除本地的 main 分支
+
+# 将新的孤立分支重命名为 main
+git branch -m temp main  
 
 
-<meta property="og:title" content="Git_tips" />
-<meta property="og:description" content="This is a page about »Git_tips«.
-git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
-本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
-大概率是本地的git 仓库被污染了。
-其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》
-我甚至想暴力把github 仓库删除，重新创建。
-后来误打误撞的解决了
-# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://tutuwu2019.github.io/git_tips/" /><meta property="og:image" content="https://tutuwu2019.github.io/images/share.png"/><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2024-05-16T00:16:27+08:00" />
-<meta property="article:modified_time" content="2024-05-16T00:16:27+08:00" /><meta property="og:site_name" content="张不大的博客" />
+git push origin main --force
+`注：  git remote -v 查看远程远程仓库信息
 
 
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://tutuwu2019.github.io/images/share.png"/>
-
-<meta name="twitter:title" content="Git_tips"/>
-<meta name="twitter:description" content="This is a page about »Git_tips«.
-git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
-本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
-大概率是本地的git 仓库被污染了。
-其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》
-我甚至想暴力把github 仓库删除，重新创建。
-后来误打误撞的解决了
-# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息"/>
+---
 
 
-
-<meta itemprop="name" content="Git_tips">
-<meta itemprop="description" content="This is a page about »Git_tips«.
-git tips 老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了
-本地git仓库被污染了 是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo server 正常，但是 git push 迟迟没有更新
-大概率是本地的git 仓库被污染了。
-其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》
-我甚至想暴力把github 仓库删除，重新创建。
-后来误打误撞的解决了
-# 先创建一个 git checkout --orphan temp # 创建一个新的孤立分支 # 创建一个空的提交 什么是空的提交？空的提交就是什么也没有改变，和原来的一样。 默认git 是不允许的，但是可以采用 --allow-empty 强制空提交 # 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。 git commit --allow-empty -m &#34;Clear remote repository&#34; # 删除本地的 main 分之 git branch -D main # 删除本地的 main 分支 # 将新的孤立分支重命名为 main git branch -m temp main git push origin main --force 注： git remote -v 查看远程远程仓库信息"><meta itemprop="datePublished" content="2024-05-16T00:16:27+08:00" />
-<meta itemprop="dateModified" content="2024-05-16T00:16:27+08:00" />
-<meta itemprop="wordCount" content="863"><meta itemprop="image" content="https://tutuwu2019.github.io/images/share.png"/>
-<meta itemprop="keywords" content="git," />
-<meta name="referrer" content="no-referrer-when-downgrade" />
-
-  <style>
-  body {
-    font-family: Verdana, sans-serif;
-    margin: auto;
-    padding: 20px;
-    max-width: 720px;
-    text-align: left;
-    background-color: #fff;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    line-height: 1.5;
-    color: #444;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  strong,
-  b {
-    color: #222;
-  }
-
-  a {
-    color: #3273dc;
-     
-  }
-
-  .title {
-    text-decoration: none;
-    border: 0;
-  }
-
-  .title span {
-    font-weight: 400;
-  }
-
-  nav a {
-    margin-right: 10px;
-  }
-
-  textarea {
-    width: 100%;
-    font-size: 16px;
-  }
-
-  input {
-    font-size: 16px;
-  }
-
-  content {
-    line-height: 1.6;
-  }
-
-  table {
-    width: 100%;
-  }
-
-  img {
-    max-width: 100%;
-  }
-
-  code {
-    padding: 2px 5px;
-    background-color: #f2f2f2;
-  }
-
-  pre code {
-    color: #222;
-    display: block;
-    padding: 20px;
-    white-space: pre-wrap;
-    font-size: 14px;
-    overflow-x: auto;
-  }
-
-  div.highlight pre {
-    background-color: initial;
-    color: initial;
-  }
-
-  div.highlight code {
-    background-color: unset;
-    color: unset;
-  }
-
-  blockquote {
-    border-left: 1px solid #999;
-    color: #222;
-    padding-left: 20px;
-    font-style: italic;
-  }
-
-  footer {
-    padding: 25px;
-    text-align: center;
-  }
-
-  .helptext {
-    color: #777;
-    font-size: small;
-  }
-
-  .errorlist {
-    color: #eba613;
-    font-size: small;
-  }
-
-   
-  ul.blog-posts {
-    list-style-type: none;
-    padding: unset;
-  }
-
-  ul.blog-posts li {
-    display: flex;
-  }
-
-  ul.blog-posts li span {
-    flex: 0 0 130px;
-  }
-
-  ul.blog-posts li a:visited {
-    color: #8b6fcb;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    body {
-      background-color: #333;
-      color: #ddd;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    strong,
-    b {
-      color: #eee;
-    }
-
-    a {
-      color: #8cc2dd;
-    }
-
-    code {
-      background-color: #777;
-    }
-
-    pre code {
-      color: #ddd;
-    }
-
-    blockquote {
-      color: #ccc;
-    }
-
-    textarea,
-    input {
-      background-color: #252525;
-      color: #ddd;
-    }
-
-    .helptext {
-      color: #aaa;
-    }
-  }
-
-</style>
-
-</head>
-
-<body>
-  <header><a href="/" class="title">
-  <h2>张不大的博客</h2>
-</a>
-<nav><a href="/">Home</a>
-
-<a href="/about/">About</a>
-
-<a href="/archive/archive/">Archive</a>
+## 出现 Name or service not known
 
 
-<a href="/blog">Blog</a>
+- 网络问题，重新操作一次, (例如，我是执行 git push origin main 出现，那我就再执行一边)
+- 查看 DNS 解析过程 dig github.com 或者 nslookup github.com
+- 测试 ssh 连接情况 ssh -T [git@github.com](mailto:git@github.com)
 
-</nav>
-</header>
-  <main>
 
-<h1>Git_tips</h1>
-<p>
-  <i>
-    <time datetime='2024-05-16' pubdate>
-      16 May, 2024
-    </time>
-  </i>
-</p>
+## git check 命令
 
-<content>
-  <p>This is a page about »Git_tips«.</p>
-<h1 id="git-tips">git tips</h1>
-<blockquote>
-<p>老实讲，git 的很多功能我还不是很熟，常用吧，用着用着就熟悉了</p>
-</blockquote>
-<h2 id="本地git仓库被污染了">本地git仓库被污染了</h2>
-<blockquote>
-<p>是这样的，hugo 博客在编写完了，然后hugo 生成静态页，hugo  server 正常，但是 git push 迟迟没有更新</p>
-</blockquote>
-<blockquote>
-<p>大概率是本地的git 仓库被污染了。</p>
-<p>其实环境被污染，挺难处理的，尤其是《新手》、《对这个环境不熟》</p>
-<p>我甚至想暴力把github 仓库删除，重新创建。</p>
-<p>后来误打误撞的解决了</p>
-</blockquote>
-<hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 先创建一个</span>
-</span></span><span style="display:flex;"><span>git checkout --orphan temp  <span style="color:#75715e"># 创建一个新的孤立分支</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建一个空的提交      什么是空的提交？空的提交就是什么也没有改变，和原来的一样。  默认git 是不允许的，但是可以采用  --allow-empty  强制空提交</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在这个特定的情况下，你使用这个命令的目的是为了在远程仓库中创建一个空的提交，以便清空远程仓库的内容。这个空的提交并没有任何实际的更改，但是它会在提交历史中留下一个标记，表示远程仓库在某个特定时间点被清空了。</span>
-</span></span><span style="display:flex;"><span>git commit --allow-empty -m <span style="color:#e6db74">&#34;Clear remote repository&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除本地的  main 分之</span>
-</span></span><span style="display:flex;"><span>git branch -D main  <span style="color:#75715e"># 删除本地的 main 分支</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 将新的孤立分支重命名为 main</span>
-</span></span><span style="display:flex;"><span>git branch -m temp main  
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>git push origin main --force
-</span></span></code></pre></div><p>注：  git remote -v 查看远程远程仓库信息</p>
-<hr>
-<h2 id="出现-name-or-service-not-known">出现 Name or service not known</h2>
-<ol>
-<li>网络问题，重新操作一次, (例如，我是执行 git push origin main 出现，那我就再执行一边)</li>
-<li>查看 DNS 解析过程 dig github.com 或者 nslookup github.com</li>
-<li>测试 ssh 连接情况 ssh -T <a href="mailto:git@github.com">git@github.com</a></li>
-</ol>
-<h2 id="git-check-命令">git check 命令</h2>
-<h3 id="分支">分支</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 进入某个分支  -b 表示如果没有该分支就创建一个分支</span>
-</span></span><span style="display:flex;"><span>git checkout -b xxx 
-</span></span></code></pre></div><h3 id="回退指定文件">回退指定文件</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 比如说回退到上一次提交的状态的 xxx.txt文件</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>git checkout &lt;commit_hash&gt; -- xxx.txt
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 详细操作</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#先查看历史记录，找到提交的 hash 值   -- 用于区分哈希值 和 文件路径</span>
-</span></span><span style="display:flex;"><span>git log -- &lt;file_path&gt;
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 知道 某次提交的 hash 值为 abc1234 </span>
-</span></span><span style="display:flex;"><span>git checkout abc1234 -- xxx.txt 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 git diff 查看变化</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看文件是否已经恢复</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果想永久保留这个修改</span>
-</span></span><span style="display:flex;"><span>git add xxx.txt 
-</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;Revert file.txt to the state of commit abc1234&#34;</span>
-</span></span></code></pre></div><blockquote>
-<p>假设 file.txt 经历了以下三个提交：</p>
-<blockquote>
-<p>提交 A：文件内容是 &ldquo;Hello&rdquo;
-提交 B：文件内容是 &ldquo;Hello, World&rdquo;
-提交 C：文件内容是 &ldquo;Hello, Universe&rdquo;</p>
-<blockquote>
-<p>git checkout B &ndash; file.txt</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<blockquote>
-<p>项目中的 file.txt 会恢复至 提交B 版本，而项目的其他文件不发生修改</p>
-</blockquote>
-<p>注意，也可以使用 git restore 做同等操作
-举例说明：假设你在 main 分支上，不小心删除了 src/app.js 文件并提交了更改，现在你想恢复这个文件到 commit_hash 为 d4e5f6g 时的状态。</p>
-<blockquote>
-<p>git restore d4e5f6g &ndash; src/app.js<br>
-git add src/app.js<br>
-git commit -m &ldquo;恢复 src/app.js 到 d4e5f6g 提交时的状态&rdquo;<br>
-git push origin main     (推送至远程仓库)</p>
-</blockquote>
-<h2 id="git-log-命令">git log 命令</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 基本用法</span>
-</span></span><span style="display:flex;"><span>git log --oneline
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 图形化显示所有分支的提交历史</span>
-</span></span><span style="display:flex;"><span>git log --oneline --graph --decorate --all
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看最近 5 个提交</span>
-</span></span><span style="display:flex;"><span>git log --oneline -n <span style="color:#ae81ff">5</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看特定作者的提交</span>
-</span></span><span style="display:flex;"><span>git log --oneline --author<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Author Name&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看包含特定关键词的提交</span>
-</span></span><span style="display:flex;"><span>git log --oneline --grep<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;keyword&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看特定文件的修改历史</span>
-</span></span><span style="display:flex;"><span>git log --oneline -- path/to/file.txt
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看特定时间段的提交</span>
-</span></span><span style="display:flex;"><span>git log --oneline --since<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2024-08-01&#34;</span> --until<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2024-09-01&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 自定义输出格式</span>
-</span></span><span style="display:flex;"><span>git log --pretty<span style="color:#f92672">=</span>format:<span style="color:#e6db74">&#34;%h - %an, %ar : %s&#34;</span>
-</span></span></code></pre></div><h2 id="git-ls-files">git ls-files</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 查看 列出当前仓库中所有的已跟踪文件，不仅仅是暂存区的文件。</span>
-</span></span><span style="display:flex;"><span>git ls-files
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 查看已经删除的文件</span>
-</span></span><span style="display:flex;"><span>git ls-files --deleted
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 查看已经修改的文件</span>
-</span></span><span style="display:flex;"><span>git ls-files --modified
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 查看未跟踪的文件</span>
-</span></span><span style="display:flex;"><span>git ls-files --others
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 查看被 .gitignore 忽略的文件</span>
-</span></span><span style="display:flex;"><span>git ls-files --ignored
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>git ls-files --stage
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100644</span> e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 <span style="color:#ae81ff">0</span>       .gitignore
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100644</span> c7cc7ecea78e60867a573e7b3fdb5cbd969496d4 <span style="color:#ae81ff">0</span>       zhangsan0105.md
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100644</span> ac3b6a483760aa04c26ddfcdc97f844fb90a33aa <span style="color:#ae81ff">0</span>       zhangsan2.md
-</span></span></code></pre></div><h2 id="git-场景">git 场景</h2>
-<h3 id="本地代码上传github">本地代码上传github</h3>
-<blockquote>
-<p>是这样的，我想把本地一份代码 push 到 github。</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#1.本地初始化       当前目录作为本地仓库</span>
-</span></span><span style="display:flex;"><span>git init
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#2.关联远程仓库     关联远程仓库 main </span>
-</span></span><span style="display:flex;"><span>git remote add main git@github.com:tutuwu2019/xxxx.git
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#3.把本地仓库要 push 的文件加入 缓存</span>
-</span></span><span style="display:flex;"><span>git add xxx             <span style="color:#75715e"># 如果是所有文件则  git add .</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4. 提交</span>
-</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#39;note&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#5. push 注意啊，这里是把本地的 main  分支 push 到 远程仓库github 的 master 仓库，注意啊，在github中默认主仓库是main            git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### 注意啊，如果本地没有 master分支，本地也会自动创建master分支</span>
-</span></span><span style="display:flex;"><span>git push -u main master                    <span style="color:#75715e"># 也有 git push origin master:main 把本地 master 分支 推送到远程仓库 main分支</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 查看 remote 信息</span>
-</span></span><span style="display:flex;"><span>git remote -v
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 给远程仓库名命名为 origin</span>
-</span></span><span style="display:flex;"><span>git remote rename main origin
-</span></span></code></pre></div><h4 id="如果想撤销-git-add-git-commit-操作">如果想撤销 git add 、git commit 操作</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 回退</span>
-</span></span><span style="display:flex;"><span>git restore record.log
-</span></span></code></pre></div><p>当然，如果想忽略指定文件，或者目录，可以在 .gitignore  中添加。如果项目根目录没有，则手动创建，并在文件中添加要忽略文件、或者指定目录</p>
-<p>如果想忽略已经跟踪的文件，需要 git rm &ndash;cached  来从 git 的索引中移除</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">##比如</span>
-</span></span><span style="display:flex;"><span>git rm --cached record.log
-</span></span><span style="display:flex;"><span>git rm --cached -r .vscode/
-</span></span></code></pre></div><p>配置好本地变更，还要提交记录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git add .gitignore
-</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;Add record.log and .vscode/ to .gitignore and remove from tracking&#34;</span>
-</span></span></code></pre></div><p>最后查看 状态</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git status
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">##会看到如下内容</span>
-</span></span><span style="display:flex;"><span>git status
-</span></span><span style="display:flex;"><span>On branch main
-</span></span><span style="display:flex;"><span>nothing to commit, working tree clean
-</span></span></code></pre></div><h4 id="push-回退">push 回退</h4>
-<ol>
-<li>提交一个新提交来撤销上一次的提交</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git revert HEAD
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### 然后再次push </span>
-</span></span><span style="display:flex;"><span>git push origin main
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### 注意这会把本地的上次操作的文件给清空，比如你上一次新建一个文件，这次回退，那么这次的操作会把上次新建的文件删掉。同理如果上次是在已有文件操作，则回退到上一编辑之前的状态</span>
-</span></span></code></pre></div><ol start="2">
-<li>回退至指定版本</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">### 使用 git log 查看要回退到哪个版本</span>
-</span></span><span style="display:flex;"><span>git log 
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### 然后回退到特定提交</span>
-</span></span><span style="display:flex;"><span>git reset --hard xxxx
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### 强行推送到远程仓库</span>
-</span></span><span style="display:flex;"><span>git push --force origin main
-</span></span></code></pre></div><ol start="3">
-<li>软重置和应重置</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">### 硬重置：彻底删除上一次的提交</span>
-</span></span><span style="display:flex;"><span>git reset --hard HEAD~1
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">### 软重置：撤销推送的提交，但是保留了删除本地工作去的所有更改</span>
-</span></span><span style="display:flex;"><span>git reset --soft HEAD~1
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">### 然后都是强行推送到远程仓库</span>
-</span></span><span style="display:flex;"><span>git push --force origin main
-</span></span></code></pre></div><blockquote>
-<p>注意这个参数 &ndash;force 操作会强制推送更改远程仓库，会覆盖远程分支的历史记录，会影响其他协作者！！！</p>
-</blockquote>
-<h3 id="git-merge-和-git-rebase">git merge 和 git rebase</h3>
-<blockquote>
-<p>是的,经常push 会容易碰到 分支冲突和版本冲突</p>
-</blockquote>
-<h4 id="版本冲突">版本冲突</h4>
-<blockquote>
-<blockquote>
-<p>版本冲突：同一个文件的同一行或者相近的行在不同分支上被修改。当执行 git pull 或者 git merge 时，Git 无法自动合并文件内容。需要手动编辑本地文件。</p>
-<blockquote>
-<p>打开冲突文件，上面会有git 标记的冲突部分，你只需要编辑文件至你想要的结果。然后重新 提交一遍。</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>场景复现：</p>
-<ol>
-<li>本地编辑文件 vim zhangsan2.md    远程仓库编辑 zhangsan2.md</li>
-<li>提交文件     git add zhangsan2.md   git commit -m &lsquo;zhangsan2 modify by local git&rsquo;  git push origin main:main  (在这一步报冲突错误)
-<img src="/images/tmp0105image-2.png" alt="alt text"></li>
-<li>拉远程仓库   git pull origin main</li>
-<li>合并 仓库    git merge &ndash;no-ff           报错：  fatal: No remote for the current branch.  表示当前分支没有绑定远程仓库的分支</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 此处还可以改成</span>
-</span></span><span style="display:flex;"><span>git merge --no-ff main
-</span></span></code></pre></div><ol start="5">
-<li>检查当前分支，然后绑定远程分支。(我记得是直接 git push origin main:main 提交了上一版)                 git branch &ndash;set-upstream-to=origin/main main</li>
-<li>然后重新执行步骤3. 拉远程仓库 git pull origin main    然后会提示：git merge &ndash;no-ff 或者 git rebase</li>
-<li>合并冲突文件 git merge &ndash;no-ff   注意哈，然后要编辑冲突文件，解决冲突。  解决完冲突后，可以使用命令 git status、git diff 检查冲突</li>
-</ol>
-<p><img src="/images/tmp0105image-1.png" alt="alt text">
+
+### 分支
+
+`# 进入某个分支  -b 表示如果没有该分支就创建一个分支
+git checkout -b xxx 
+</code></pre><h3 id=回退指定文件>回退指定文件</h3><pre tabindex=0><code># 比如说回退到上一次提交的状态的 xxx.txt文件
+
+git checkout &lt;commit_hash&gt; -- xxx.txt
+
+# 详细操作
+#先查看历史记录，找到提交的 hash 值   -- 用于区分哈希值 和 文件路径
+git log -- &lt;file_path&gt;
+# 知道 某次提交的 hash 值为 abc1234 
+git checkout abc1234 -- xxx.txt 
+# 使用 git diff 查看变化
+# 查看文件是否已经恢复
+# 如果想永久保留这个修改
+git add xxx.txt 
+git commit -m &#34;Revert file.txt to the state of commit abc1234&#34;
+`&gt; 假设 file.txt 经历了以下三个提交：
+&gt; 
+&gt; 提交 A：文件内容是 “Hello”
+&gt; 提交 B：文件内容是 “Hello, World”
+&gt; 提交 C：文件内容是 “Hello, Universe”
+&gt; 
+&gt; git checkout B – file.txt
+
+
+&gt; 项目中的 file.txt 会恢复至 提交B 版本，而项目的其他文件不发生修改
+
+注意，也可以使用 git restore 做同等操作
+举例说明：假设你在 main 分支上，不小心删除了 src/app.js 文件并提交了更改，现在你想恢复这个文件到 commit_hash 为 d4e5f6g 时的状态。
+
+&gt; git restore d4e5f6g – src/app.js
+&gt; git add src/app.js
+&gt; git commit -m “恢复 src/app.js 到 d4e5f6g 提交时的状态”
+&gt; git push origin main     (推送至远程仓库)
+
+
+## git log 命令
+
+`# 基本用法
+git log --oneline
+
+# 图形化显示所有分支的提交历史
+git log --oneline --graph --decorate --all
+
+# 查看最近 5 个提交
+git log --oneline -n 5
+
+# 查看特定作者的提交
+git log --oneline --author=&#34;Author Name&#34;
+
+# 查看包含特定关键词的提交
+git log --oneline --grep=&#34;keyword&#34;
+
+# 查看特定文件的修改历史
+git log --oneline -- path/to/file.txt
+
+# 查看特定时间段的提交
+git log --oneline --since=&#34;2024-08-01&#34; --until=&#34;2024-09-01&#34;
+
+# 自定义输出格式
+git log --pretty=format:&#34;%h - %an, %ar : %s&#34;
+</code></pre><h2 id=git-ls-files>git ls-files</h2><pre tabindex=0><code>## 查看 列出当前仓库中所有的已跟踪文件，不仅仅是暂存区的文件。
+git ls-files
+
+## 查看已经删除的文件
+git ls-files --deleted
+
+## 查看已经修改的文件
+git ls-files --modified
+
+## 查看未跟踪的文件
+git ls-files --others
+
+## 查看被 .gitignore 忽略的文件
+git ls-files --ignored
+
+
+git ls-files --stage
+100644 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 0       .gitignore
+100644 c7cc7ecea78e60867a573e7b3fdb5cbd969496d4 0       zhangsan0105.md
+100644 ac3b6a483760aa04c26ddfcdc97f844fb90a33aa 0       zhangsan2.md
+</code></pre><h2 id=git-场景>git 场景</h2><h3 id=本地代码上传github>本地代码上传github</h3><blockquote><p>是这样的，我想把本地一份代码 push 到 github。</p></blockquote><pre tabindex=0><code>#1.本地初始化       当前目录作为本地仓库
+git init
+#2.关联远程仓库     关联远程仓库 main 
+git remote add main git@github.com:tutuwu2019/xxxx.git
+#3.把本地仓库要 push 的文件加入 缓存
+git add xxx             # 如果是所有文件则  git add .
+# 4. 提交
+git commit -m &#39;note&#39;
+#5. push 注意啊，这里是把本地的 main  分支 push 到 远程仓库github 的 master 仓库，注意啊，在github中默认主仓库是main            git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;
+#### 注意啊，如果本地没有 master分支，本地也会自动创建master分支
+git push -u main master                    # 也有 git push origin master:main 把本地 master 分支 推送到远程仓库 main分支
+``## 查看 remote 信息
+git remote -v
+
+## 给远程仓库名命名为 origin
+git remote rename main origin
+</code></pre><h4 id=如果想撤销-git-add-git-commit-操作>如果想撤销 git add 、git commit 操作</h4><pre tabindex=0><code>## 回退
+git restore record.log
+`当然，如果想忽略指定文件，或者目录，可以在 .gitignore  中添加。如果项目根目录没有，则手动创建，并在文件中添加要忽略文件、或者指定目录
+
+如果想忽略已经跟踪的文件，需要 git rm –cached  来从 git 的索引中移除
+
+`##比如
+git rm --cached record.log
+git rm --cached -r .vscode/
+`配置好本地变更，还要提交记录
+
+`git add .gitignore
+git commit -m &#34;Add record.log and .vscode/ to .gitignore and remove from tracking&#34;
+`最后查看 状态
+
+`git status
+
+##会看到如下内容
+git status
+On branch main
+nothing to commit, working tree clean
+</code></pre><h4 id=push-回退>push 回退</h4><ul><li>提交一个新提交来撤销上一次的提交</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git revert HEAD
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### 然后再次push </span>
+</span></span><span style=display:flex><span>git push origin main
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### 注意这会把本地的上次操作的文件给清空，比如你上一次新建一个文件，这次回退，那么这次的操作会把上次新建的文件删掉。同理如果上次是在已有文件操作，则回退到上一编辑之前的状态</span>
+</span></span></code></pre></div><ul><li>回退至指定版本</li></ul><pre tabindex=0><code>### 使用 git log 查看要回退到哪个版本
+git log 
+
+### 然后回退到特定提交
+git reset --hard xxxx
+
+### 强行推送到远程仓库
+git push --force origin main
+</code></pre><ul><li>软重置和应重置</li></ul><pre tabindex=0><code>### 硬重置：彻底删除上一次的提交
+git reset --hard HEAD~1
+``### 软重置：撤销推送的提交，但是保留了删除本地工作去的所有更改
+git reset --soft HEAD~1
+``### 然后都是强行推送到远程仓库
+git push --force origin main
+`&gt; 注意这个参数 –force 操作会强制推送更改远程仓库，会覆盖远程分支的历史记录，会影响其他协作者！！！
+
+
+### git merge 和 git rebase
+
+&gt; 是的,经常push 会容易碰到 分支冲突和版本冲突
+
+
+#### 版本冲突
+
+&gt; 版本冲突：同一个文件的同一行或者相近的行在不同分支上被修改。当执行 git pull 或者 git merge 时，Git 无法自动合并文件内容。需要手动编辑本地文件。
+&gt; 
+&gt; 打开冲突文件，上面会有git 标记的冲突部分，你只需要编辑文件至你想要的结果。然后重新 提交一遍。
+
+
+场景复现：
+
+
+- 本地编辑文件 vim zhangsan2.md    远程仓库编辑 zhangsan2.md
+- 提交文件     git add zhangsan2.md   git commit -m ‘zhangsan2 modify by local git’  git push origin main:main  (在这一步报冲突错误)
+![alt text](/images/tmp0105image-2.png)
+- 拉远程仓库   git pull origin main
+- 合并 仓库    git merge –no-ff           报错：  fatal: No remote for the current branch.  表示当前分支没有绑定远程仓库的分支
+
+
+`# 此处还可以改成
+git merge --no-ff main
+</code></pre><ul><li>检查当前分支，然后绑定远程分支。(我记得是直接 git push origin main:main 提交了上一版) git branch –set-upstream-to=origin/main main</li><li>然后重新执行步骤3. 拉远程仓库 git pull origin main 然后会提示：git merge –no-ff 或者 git rebase</li><li>合并冲突文件 git merge –no-ff 注意哈，然后要编辑冲突文件，解决冲突。 解决完冲突后，可以使用命令 git status、git diff 检查冲突</li></ul><p><img src=/images/tmp0105image-1.png alt="alt text">
 8. 然后重新提交文件。
 9. 检查 远程仓库内容
-<img src="/images/tmp0105image-3.png" alt="alt text"></p>
-<p>补充：
+<img src=/images/tmp0105image-3.png alt="alt text"></p><p>补充：
 合并策略：
-&ndash;no-ff 强制创建一个合并提交，即使合并是快进的
-&ndash;ff-only 只允许快进合并，如果无法快进合并则拒绝合并
-&ndash;squash 将所有变更合并为一个提交，而不保留历史</p>
-<h4 id="分支冲突">分支冲突</h4>
-<blockquote>
-<p>分支冲突：同一个文件不同部分在多个分支被修改，Git无法判断这些修改是否可以合并。文件删除与修改：一个分支删除了某个文件，而另一个文件对该文件进行了修改，Git无法判断是否该文件是否删除还是保留。多次并行开发：不同分支上独立开发了不同功能，合并时会出现冲突。</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git pull origin main        <span style="color:#75715e">#### 我 pull 报分支冲突</span>
-</span></span><span style="display:flex;"><span>From github.com:tutuwu2019/tmp0105_remote
-</span></span><span style="display:flex;"><span> * branch            main       -&gt; FETCH_HEAD
-</span></span><span style="display:flex;"><span>hint: You have divergent branches and need to specify how to reconcile them.
-</span></span><span style="display:flex;"><span>hint: You can <span style="color:#66d9ef">do</span> so by running one of the following commands sometime before
-</span></span><span style="display:flex;"><span>hint: your next pull:
-</span></span><span style="display:flex;"><span>hint: 
-</span></span><span style="display:flex;"><span>hint:   git config pull.rebase false  <span style="color:#75715e"># merge</span>
-</span></span><span style="display:flex;"><span>hint:   git config pull.rebase true   <span style="color:#75715e"># rebase</span>
-</span></span><span style="display:flex;"><span>hint:   git config pull.ff only       <span style="color:#75715e"># fast-forward only</span>
-</span></span><span style="display:flex;"><span>hint: 
-</span></span><span style="display:flex;"><span>hint: You can replace <span style="color:#e6db74">&#34;git config&#34;</span> with <span style="color:#e6db74">&#34;git config --global&#34;</span> to set a default
-</span></span><span style="display:flex;"><span>hint: preference <span style="color:#66d9ef">for</span> all repositories. You can also pass --rebase, --no-rebase,
-</span></span><span style="display:flex;"><span>hint: or --ff-only on the command line to override the configured default per
-</span></span><span style="display:flex;"><span>hint: invocation.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 然后我就按照提示操作  先配置一下 </span>
-</span></span><span style="display:flex;"><span>git config pull.ff only
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 然后再 pull   </span>
-</span></span><span style="display:flex;"><span>git pull origin main
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 然后 又出了 提示</span>
-</span></span><span style="display:flex;"><span>From github.com:tutuwu2019/tmp0105_remote
-</span></span><span style="display:flex;"><span>* branch            main       -&gt; FETCH_HEAD
-</span></span><span style="display:flex;"><span>hint: Diverging branches can<span style="color:#960050;background-color:#1e0010">&#39;</span>t be fast-forwarded, you need to either:
-</span></span><span style="display:flex;"><span>hint: 
-</span></span><span style="display:flex;"><span>hint:   git merge --no-ff
-</span></span><span style="display:flex;"><span>hint: 
-</span></span><span style="display:flex;"><span>hint: or:
-</span></span><span style="display:flex;"><span>hint: 
-</span></span><span style="display:flex;"><span>hint:   git rebase
-</span></span><span style="display:flex;"><span>hint: 
-</span></span><span style="display:flex;"><span>hint: Disable this message with <span style="color:#e6db74">&#34;git config advice.diverging false&#34;</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 然后我就又按照上面的提示 合并</span>
-</span></span><span style="display:flex;"><span>git merge origin/main --no-ff
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">## 因为我之前已经  把文件 加载到 git cached 中，所以只需要再 push 一次就好</span>
-</span></span><span style="display:flex;"><span>git push origin main:main
-</span></span></code></pre></div><p>注意：如果想看手册，</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git push --help
-</span></span><span style="display:flex;"><span>git merge --help
-</span></span><span style="display:flex;"><span>git rebase --help
-</span></span><span style="display:flex;"><span>git pull --help
-</span></span></code></pre></div><h2 id="至此大功告成">至此大功告成。</h2>
-
-</content>
-<p>
-  
-  <a href="https://tutuwu2019.github.io/blog/git/">#git</a>
-  
-</p>
-
-  </main>
-  <footer>contact me  <a href="https://github.com/tutuwu2019/">zhangbuda7788</a>
-</footer>
-
-    
-
-
-
-
-</body>
-
-</html>
+–no-ff 强制创建一个合并提交，即使合并是快进的
+–ff-only 只允许快进合并，如果无法快进合并则拒绝合并
+–squash 将所有变更合并为一个提交，而不保留历史</p><h4 id=分支冲突>分支冲突</h4><blockquote><p>分支冲突：同一个文件不同部分在多个分支被修改，Git无法判断这些修改是否可以合并。文件删除与修改：一个分支删除了某个文件，而另一个文件对该文件进行了修改，Git无法判断是否该文件是否删除还是保留。多次并行开发：不同分支上独立开发了不同功能，合并时会出现冲突。</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git pull origin main        <span style=color:#75715e>#### 我 pull 报分支冲突</span>
+</span></span><span style=display:flex><span>From github.com:tutuwu2019/tmp0105_remote
+</span></span><span style=display:flex><span> * branch            main       -&gt; FETCH_HEAD
+</span></span><span style=display:flex><span>hint: You have divergent branches and need to specify how to reconcile them.
+</span></span><span style=display:flex><span>hint: You can <span style=color:#66d9ef>do</span> so by running one of the following commands sometime before
+</span></span><span style=display:flex><span>hint: your next pull:
+</span></span><span style=display:flex><span>hint: 
+</span></span><span style=display:flex><span>hint:   git config pull.rebase false  <span style=color:#75715e># merge</span>
+</span></span><span style=display:flex><span>hint:   git config pull.rebase true   <span style=color:#75715e># rebase</span>
+</span></span><span style=display:flex><span>hint:   git config pull.ff only       <span style=color:#75715e># fast-forward only</span>
+</span></span><span style=display:flex><span>hint: 
+</span></span><span style=display:flex><span>hint: You can replace <span style=color:#e6db74>&#34;git config&#34;</span> with <span style=color:#e6db74>&#34;git config --global&#34;</span> to set a default
+</span></span><span style=display:flex><span>hint: preference <span style=color:#66d9ef>for</span> all repositories. You can also pass --rebase, --no-rebase,
+</span></span><span style=display:flex><span>hint: or --ff-only on the command line to override the configured default per
+</span></span><span style=display:flex><span>hint: invocation.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 然后我就按照提示操作  先配置一下 </span>
+</span></span><span style=display:flex><span>git config pull.ff only
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 然后再 pull   </span>
+</span></span><span style=display:flex><span>git pull origin main
+</span></span><span style=display:flex><span><span style=color:#e6db74>``</span><span style=color:#75715e>## 然后 又出了 提示</span>
+</span></span><span style=display:flex><span>From github.com:tutuwu2019/tmp0105_remote
+</span></span><span style=display:flex><span>* branch            main       -&gt; FETCH_HEAD
+</span></span><span style=display:flex><span>hint: Diverging branches can<span style=color:#960050;background-color:#1e0010>&#39;</span>t be fast-forwarded, you need to either:
+</span></span><span style=display:flex><span>hint: 
+</span></span><span style=display:flex><span>hint:   git merge --no-ff
+</span></span><span style=display:flex><span>hint: 
+</span></span><span style=display:flex><span>hint: or:
+</span></span><span style=display:flex><span>hint: 
+</span></span><span style=display:flex><span>hint:   git rebase
+</span></span><span style=display:flex><span>hint: 
+</span></span><span style=display:flex><span>hint: Disable this message with <span style=color:#e6db74>&#34;git config advice.diverging false&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>``</span><span style=color:#75715e>## 然后我就又按照上面的提示 合并</span>
+</span></span><span style=display:flex><span>git merge origin/main --no-ff
+</span></span><span style=display:flex><span><span style=color:#e6db74>``</span><span style=color:#75715e>## 因为我之前已经  把文件 加载到 git cached 中，所以只需要再 push 一次就好</span>
+</span></span><span style=display:flex><span>git push origin main:main
+</span></span><span style=display:flex><span><span style=color:#e6db74>`</span>注意：如果想看手册，
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>`</span>git push --help
+</span></span><span style=display:flex><span>git merge --help
+</span></span><span style=display:flex><span>git rebase --help
+</span></span><span style=display:flex><span>git pull --help
+</span></span></code></pre></div><h2 id=至此大功告成>至此大功告成。</h2></content><p><a href=https://tutuwu2019.github.io/tags/git/>#git</a></p></main><footer><style>.footer-links{display:flex;justify-content:center;align-items:center;gap:1.4rem;flex-wrap:wrap}.footer-links a{display:inline-flex;align-items:center;gap:.35rem;color:#888;text-decoration:none;font-size:.85rem;transition:color .15s}.footer-links a:hover{color:#3273dc}.footer-links svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}@media(prefers-color-scheme:dark){.footer-links a{color:#666}.footer-links a:hover{color:#8cc2dd}}</style><div class=footer-links><a href=https://github.com/tutuwu2019 target=_blank rel=noopener><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63.0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577.0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93.0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176.0.0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22.0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22.0 1.606-.015 2.896-.015 3.286.0.315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+<a href=mailto:zhangbuda7788@gmail.com><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636.0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>Gmail</a>
+<a href=https://x.com/zhangbuda_23 target=_blank rel=noopener><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932zM17.61 20.644h2.039L6.486 3.24H4.298z"/></svg>X</a></div></footer></body></html>
