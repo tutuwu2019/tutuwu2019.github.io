@@ -1,0 +1,233 @@
+{{ $posts := where .Site.RegularPages "Type" "blog" }}
+
+{{/* Build date → count map, baked into page at build time */}}
+{{ $dateCount := dict }}
+{{ range $posts }}
+  {{ $d := .Date.Format "2006-01-02" }}
+  {{ $dateCount = merge $dateCount (dict $d (add (index $dateCount $d | default 0) 1)) }}
+{{ end }}
+
+<style>
+.heatmap-section { margin: 2.5rem 0 1.5rem; }
+
+.heatmap-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; gap:1rem; }
+.heatmap-header strong { font-size:0.95rem; white-space:nowrap; }
+
+/* stepper selector */
+.hm-stepper { display:flex; align-items:center; gap:6px; }
+.hm-arrow {
+  background:none; border:none; cursor:pointer; color:#aaa;
+  font-size:1rem; line-height:1; padding:0 2px;
+  transition:color 0.15s; user-select:none;
+}
+.hm-arrow:hover  { color:#40c463; }
+.hm-arrow:disabled { color:#ddd; cursor:default; }
+.hm-sel-label { font-size:0.82rem; color:#555; min-width:52px; text-align:center; }
+
+.heatmap-outer { overflow-x:auto; }
+
+/* weekday + grid side by side */
+.hm-main { display:flex; gap:4px; align-items:flex-start; }
+
+.hm-weekday-col {
+  display:flex; flex-direction:column; gap:2px;
+  padding-top:19px; /* months row height 16px + margin-bottom 3px */
+  flex-shrink:0;
+}
+.hm-wday {
+  height:11px; line-height:11px; font-size:0.62rem;
+  color:#bbb; text-align:right; width:14px; user-select:none;
+}
+
+.hm-months { position:relative; height:16px; margin-bottom:3px; font-size:0.68rem; color:#aaa; }
+.hm-month-label { position:absolute; white-space:nowrap; }
+
+.hm-grid {
+  display:grid;
+  grid-template-rows:repeat(7, 11px);
+  grid-auto-flow:column;
+  grid-auto-columns:11px;
+  gap:2px;
+}
+.hm-cell  { width:11px; height:11px; border-radius:2px; background:#ebedf0; cursor:default; }
+.hm-out   { background:#f3f3f3; }   /* out-of-year padding cells */
+.hm-1 { background:#9be9a8; }
+.hm-2 { background:#40c463; }
+.hm-3 { background:#30a14e; }
+.hm-4 { background:#216e39; }
+
+.hm-stat   { font-size:0.78rem; color:#aaa; margin-top:0.4rem; }
+.hm-legend { display:flex; align-items:center; gap:3px; margin-top:0.4rem; font-size:0.72rem; color:#aaa; }
+.hm-legend .hm-cell { flex-shrink:0; cursor:default; }
+
+@media (prefers-color-scheme: dark) {
+  .hm-cell   { background:#21262d; }
+  .hm-out    { background:#1a1f24; }
+  .hm-tab    { border-color:#444; color:#666; }
+  .hm-tab:hover  { border-color:#40c463; color:#40c463; }
+  .hm-wday, .hm-months, .hm-legend, .hm-stat { color:#555; }
+}
+</style>
+
+<div class="heatmap-section">
+  <div class="heatmap-header">
+    <strong>博客记录</strong>
+    <div class="hm-stepper">
+      <button id="hm-prev" class="hm-arrow" title="上一个">&#8249;</button>
+      <span   id="hm-label" class="hm-sel-label"></span>
+      <button id="hm-next" class="hm-arrow" title="下一个">&#8250;</button>
+    </div>
+  </div>
+  <div class="heatmap-outer">
+    <div class="hm-main">
+      <div class="hm-weekday-col" id="hm-wdays"></div>
+      <div>
+        <div id="hm-months" class="hm-months"></div>
+        <div id="hm-grid"   class="hm-grid"></div>
+      </div>
+    </div>
+  </div>
+  <div id="hm-stat" class="hm-stat"></div>
+  <div class="hm-legend">
+    少
+    <div class="hm-cell"></div>
+    <div class="hm-cell hm-1"></div>
+    <div class="hm-cell hm-2"></div>
+    <div class="hm-cell hm-3"></div>
+    <div class="hm-cell hm-4"></div>
+    多
+  </div>
+</div>
+
+<script>
+(function () {
+  const data   = {{ $dateCount | jsonify | safeJS }};
+  const MO     = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  /* show Mon / Wed / Fri labels only, rest empty */
+  const WDAYS  = ['', '一', '', '三', '', '五', ''];
+  const CELL   = 13; // 11px cell + 2px gap
+
+  const today  = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayWD = today.getDay(); // 0=Sun … 6=Sat
+
+  /* Local YYYY-MM-DD — avoids toISOString() UTC timezone off-by-one */
+  function fmt(d) {
+    return d.getFullYear() + '-' +
+      String(d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getDate()).padStart(2, '0');
+  }
+
+  /* Compute start / end dates for a view */
+  function range(view) {
+    if (view === 'recent') {
+      // 53 columns anchored to today's week
+      const sun = new Date(today);
+      sun.setDate(sun.getDate() - todayWD);        // this week's Sunday
+      const start = new Date(sun);
+      start.setDate(start.getDate() - 52 * 7);    // 52 weeks back
+      const end = new Date(sun);
+      end.setDate(end.getDate() + 6);              // this week's Saturday
+      return { start, end, year: null };
+    }
+    const yr    = view; // number
+    const jan1  = new Date(yr, 0, 1);
+    const start = new Date(jan1);
+    start.setDate(start.getDate() - start.getDay());   // back to Sunday
+    const dec31 = new Date(yr, 11, 31);
+    const end   = new Date(dec31);
+    if (end.getDay() < 6) end.setDate(end.getDate() + (6 - end.getDay()));
+    return { start, end, year: yr };
+  }
+
+  function render(view) {
+    const { start, end, year } = range(view);
+    const totalDays = Math.round((end - start) / 86400000) + 1;
+    const totalCols = Math.ceil(totalDays / 7);
+
+    /* weekday labels */
+    const wdEl = document.getElementById('hm-wdays');
+    wdEl.innerHTML = '';
+    WDAYS.forEach(lbl => {
+      const d = document.createElement('div');
+      d.className = 'hm-wday';
+      d.textContent = lbl;
+      wdEl.appendChild(d);
+    });
+
+    /* grid cells */
+    const grid = document.getElementById('hm-grid');
+    grid.innerHTML = '';
+    let count = 0, prevMo = -1;
+    const moMarks = [];
+
+    for (let i = 0; i < totalDays; i++) {
+      const d  = new Date(start);
+      d.setDate(d.getDate() + i);
+      const ds       = fmt(d);
+      const isFuture = d > today;
+      const outOfYr  = year !== null && d.getFullYear() !== year;
+
+      const n   = (!isFuture && !outOfYr && data[ds]) ? +data[ds] : 0;
+      if (!isFuture && !outOfYr) count += n;
+      const lvl = n >= 4 ? 4 : n >= 3 ? 3 : n >= 2 ? 2 : n >= 1 ? 1 : 0;
+
+      const cell = document.createElement('div');
+      cell.className = 'hm-cell' +
+        (lvl    ? ' hm-' + lvl : '') +
+        (outOfYr ? ' hm-out'   : '');
+      if (!isFuture && !outOfYr && n > 0)
+        cell.title = ds + ' · ' + n + ' 篇';
+      else if (!isFuture && !outOfYr)
+        cell.title = ds;
+      grid.appendChild(cell);
+
+      const col = Math.floor(i / 7);
+      const mo  = d.getMonth();
+      if (mo !== prevMo && !outOfYr) {
+        moMarks.push({ col, lbl: MO[mo] });
+        prevMo = mo;
+      }
+    }
+
+    /* month labels */
+    const moEl = document.getElementById('hm-months');
+    moEl.innerHTML = '';
+    moEl.style.width = (totalCols * CELL) + 'px';
+    moMarks.forEach(m => {
+      const sp = document.createElement('span');
+      sp.className = 'hm-month-label';
+      sp.style.left = (m.col * CELL) + 'px';
+      sp.textContent = m.lbl;
+      moEl.appendChild(sp);
+    });
+
+    /* stat */
+    const label = view === 'recent' ? '近一年' : view + ' 年';
+    document.getElementById('hm-stat').textContent =
+      label + '共发布 ' + count + ' 篇';
+  }
+
+  /* stepper: [近一年, ...years ascending] */
+  const years   = [...new Set(Object.keys(data).map(d => +d.slice(0, 4)))].sort();
+  const options = [{ key: 'recent', lbl: '近一年' },
+                   ...years.map(y => ({ key: y, lbl: String(y) }))];
+  let idx = 0; // default: 近一年
+
+  const labelEl = document.getElementById('hm-label');
+  const prevBtn = document.getElementById('hm-prev');
+  const nextBtn = document.getElementById('hm-next');
+
+  function updateStepper() {
+    labelEl.textContent    = options[idx].lbl;
+    prevBtn.disabled       = idx === 0;
+    nextBtn.disabled       = idx === options.length - 1;
+    render(options[idx].key);
+  }
+
+  prevBtn.addEventListener('click', () => { if (idx > 0) { idx--; updateStepper(); } });
+  nextBtn.addEventListener('click', () => { if (idx < options.length - 1) { idx++; updateStepper(); } });
+
+  updateStepper();
+})();
+</script>

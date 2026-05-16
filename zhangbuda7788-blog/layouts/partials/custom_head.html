@@ -1,4 +1,14 @@
 <style>
+/* Sticky footer: body fills viewport, main stretches to push footer down */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+}
+main {
+  flex: 1;
+}
+
 /* Dark code blocks — override theme's white pre/code */
 pre {
   background-color: #272822;
